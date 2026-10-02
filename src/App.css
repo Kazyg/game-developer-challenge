@@ -1,0 +1,169 @@
+﻿.app {
+  min-height: 100svh;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+}
+
+.screen {
+  width: min(100%, 560px);
+  padding: clamp(24px, 5vw, 48px);
+  border: 1px solid #334155;
+  border-radius: 16px;
+  background: #1e293b;
+  text-align: center;
+}
+
+.screen h1 {
+  margin: 0 0 16px;
+  font-size: clamp(28px, 5vw, 40px);
+}
+
+.screen p {
+  color: #cbd5e1;
+  line-height: 1.6;
+}
+
+.menu-container { width: min(100%, 760px); }
+.pending-registrations, .network-controls { margin-top: 20px; padding: 20px; background: #1e293b; border-radius: 12px; }
+.pending-registrations h2 { font-size: 20px; }
+.pending-registrations > div + div { margin-top: 16px; border-top: 1px solid #64748b; }
+.network-controls summary { cursor: pointer; }
+.network-controls label { display: block; margin: 16px 0; }
+.network-controls select { max-width: 100%; padding: 8px; }
+.network-controls button { margin: 8px 8px 0 0; }
+
+.screen-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 28px;
+}
+
+button {
+  padding: 12px 20px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background: #a5b4fc;
+  color: #0f172a;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #c7d2fe;
+}
+
+button.secondary {
+  border-color: #64748b;
+  background: transparent;
+  color: #f8fafc;
+}
+
+button.secondary:hover {
+  background: #334155;
+}
+
+button:focus-visible,
+input:focus-visible {
+  outline: 3px solid #a5b4fc;
+  outline-offset: 4px;
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.option input {
+  width: 20px;
+  height: 20px;
+  accent-color: #a5b4fc;
+}
+
+.game-area {
+  display: grid;
+  place-items: center;
+  min-height: 180px;
+  margin-top: 24px;
+  border: 1px dashed #64748b;
+  border-radius: 8px;
+  color: #cbd5e1;
+}
+/* Existing menu artwork provides the frame and button surfaces. */
+.app { padding: clamp(12px, 3vw, 32px); }
+.screen {
+  width: min(100%, 760px);
+  padding: clamp(32px, 7vw, 64px);
+  border: 0;
+  border-radius: 0;
+  background: #1e293b;
+  border-image-source: url('../assets/png/retina/ui/menu/panel_menu.png');
+  border-image-slice: 76 fill;
+  border-image-width: 28px;
+  border-image-repeat: stretch;
+}
+.screen > h1 { font-size: clamp(26px, 5vw, 40px); }
+.menu-title { width: min(100%, 460px); height: auto; display: block; margin: 0 auto; }
+.screen:has(.menu-title) > h1 { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+button { min-height: 48px; }
+.screen-actions > button:not(.secondary) {
+  min-height: 64px;
+  padding: 18px 36px;
+  border-radius: 0;
+  background: url('../assets/png/retina/ui/menu/button_primary_normal.png') center / 100% 100% no-repeat;
+  color: #35230e;
+}
+.screen-actions > button:not(.secondary):hover { background-image: url('../assets/png/retina/ui/menu/button_primary_hover.png'); }
+.screen-actions > button:not(.secondary):active { background-image: url('../assets/png/retina/ui/menu/button_primary_pressed.png'); }
+.screen-actions > button.options-save {
+  align-self: center;
+  width: min(100%, 240px);
+  aspect-ratio: 3 / 1;
+  min-height: 48px;
+  padding: 12px 24px;
+  background-size: contain;
+}
+button:disabled { opacity: .45; cursor: not-allowed; }
+button:focus-visible, input:focus-visible, [role='tabpanel']:focus-visible { outline: 3px solid #ffd166; outline-offset: 4px; }
+.menu-actions { flex-direction: row; justify-content: center; margin-top: 20px; }
+.menu-actions button { flex: 1; }
+.instructions { margin: 24px 0; }
+.instructions h2 { font-size: 20px; }
+.controls-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 24px; text-align: left; }
+.controls-list div { display: flex; gap: 12px; align-items: baseline; }
+.controls-list dt { font-weight: 700; min-width: 60px; color: #ffd166; }
+.controls-list dd { margin: 0; }
+.menu-tabs { display: flex; gap: 8px; margin-top: 28px; }
+.menu-tabs button { flex: 1; background: #334155; color: #fff; }
+.menu-tabs button[aria-selected='true'] { background: #ffd166; color: #1e293b; }
+[role='tabpanel'] { margin-top: 20px; min-width: 0; }
+table { width: 100%; border-collapse: collapse; table-layout: fixed; text-align: left; font-size: clamp(12px, 2vw, 15px); }
+th, td { padding: 12px 6px; border-bottom: 1px solid #64748b; overflow-wrap: anywhere; }
+.pagination { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: 20px; }
+.pagination button { padding: 10px 12px; }
+.setting-field { text-align: left; margin: 28px 0; }
+.setting-field > label:not(.sr-only) { display: block; font-size: 18px; margin-bottom: 12px; }
+.setting-field strong { color: #ffd166; font-size: 24px; }
+.setting-field input[type='range'] { display: block; width: 100%; min-height: 48px; margin: 8px 0 16px; appearance: none; background: transparent; cursor: pointer; }
+.setting-field input[type='range']::-webkit-slider-runnable-track { height: 12px; background: #64748b; border-radius: 8px; }
+.setting-field input[type='range']::-webkit-slider-thumb { appearance: none; width: 32px; height: 32px; margin-top: -10px; border: 2px solid #fff; border-radius: 50%; background: #ffd166; }
+.setting-field input[type='range']::-moz-range-track { height: 12px; background: #64748b; border-radius: 8px; }
+.setting-field input[type='range']::-moz-range-thumb { width: 30px; height: 30px; border: 2px solid #fff; border-radius: 50%; background: #ffd166; }
+.setting-field input[type='number'] { min-height: 48px; width: 120px; padding: 8px 12px; border: 1px solid #94a3b8; border-radius: 8px; background: #0f172a; color: #fff; }
+.setting-field p { font-size: 14px; }
+.validation-error { color: #fda4af !important; }
+.result-details { text-align: left; }
+.result-details div { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 16px; padding: 16px 0; border-bottom: 1px solid #64748b; }
+.result-details dt { color: #cbd5e1; }
+.result-details dd { margin: 0; font-weight: 700; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+@media (max-width: 480px) {
+  .screen { padding: 32px 24px; border-image-width: 18px; }
+  .controls-list { grid-template-columns: 1fr; }
+  .menu-actions { flex-direction: column; }
+  .pagination { font-size: 13px; }
+  .pagination button { padding: 8px; }
+}
