@@ -3,22 +3,28 @@ const match = { matchId: 'named-result', seed: 42, playerId: 'named-player', pla
   date: '2026-10-02T12:00:00Z', score: 4, effectiveDuration: 70, endReason: 'playerDestroyed',
   gameConfig: { gameSessionTime: 120, enemySpawnTime: 5 } }
 for (const name of ['Anne!@#$ 123', '']) {
-  test(`optional result name saves once with sanitized name: ${name || 'default'}`, async ({ page }) => {
-    await page.addInitScript(match => {
-      localStorage.setItem('pirate-battle-lastCompletedMatch-v1', JSON.stringify({ match, seed: 42, status: 'Pending', awaitingName: true }))
-    }, match)
-    await page.goto('/result')
+  test(`optional player name persists from Options: ${name || 'default'}`, async ({ page }) => {
+    await page.goto('/options')
     await expect(page.getByLabel('Player name (optional)')).toBeVisible()
     expect(await page.evaluate(() => JSON.parse(localStorage.getItem('pirate-battle-confirmed-v1') ?? '[]'))).toEqual([])
-    await page.reload()
     await page.getByLabel('Player name (optional)').fill(name)
     await expect(page.getByLabel('Player name (optional)')).toHaveValue(name ? 'Anne 123' : '')
-    await page.getByRole('button', { name: 'Main Menu', exact: true }).click()
-    await expect.poll(() => page.evaluate(() => JSON.parse(localStorage.getItem('pirate-battle-confirmed-v1') ?? '[]'))).toEqual([{ ...match, playerName: name ? 'Anne 123' : 'Captain' }])
-    await expect(page.getByText('Match Registration Status')).toHaveCount(0)
-    await expect(page.getByRole('button', { name: 'Retry Registration' })).toHaveCount(0)
+    await page.getByRole('button', { name: 'Save', exact: true }).click()
+    await page.goto('/options')
+    await expect(page.getByLabel('Player name (optional)')).toHaveValue(name ? 'Anne 123' : 'Captain')
   })
 }
+
+test('legacy awaiting-name result registers automatically once across refresh', async ({ page }) => {
+  await page.goto('/')
+  await page.evaluate(match => localStorage.setItem('pirate-battle-lastCompletedMatch-v1',
+    JSON.stringify({ match, seed: 42, status: 'Pending', awaitingName: true })), match)
+  await page.goto('/result')
+  await expect(page.getByRole('status')).toHaveText('Saved')
+  await page.reload()
+  await expect(page.getByRole('status')).toHaveText('Saved')
+  expect(await page.evaluate(() => JSON.parse(localStorage.getItem('pirate-battle-confirmed-v1') ?? '[]'))).toEqual([match])
+})
 test('in-game Options has one scroll owner in mobile landscape', async ({ page }) => {
   test.setTimeout(60000)
   await page.setViewportSize({ width: 844, height: 390 })

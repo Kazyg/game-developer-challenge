@@ -114,7 +114,7 @@ test('record panels accept data, paginate and render all states without an API',
 
 
 
-test('mobile results show supplied values, optional name and Save Result', async ({ page }) => {
+test('mobile results show supplied values and every registration state', async ({ page }) => {
   await page.setViewportSize({ width: 375, height: 812 })
   await page.goto('/')
   await page.evaluate(async () => {
@@ -129,7 +129,7 @@ test('mobile results show supplied values, optional name and Save Result', async
     const root = createRoot(host)
     const render = (registrationStatus: string) => root.render(createElement(Result, {
       result: { score: 17, elapsedSeconds: 83.5, seed: 42, reason: 'playerDestroyed', outcome: 'defeat' },
-      canName: registrationStatus !== 'Saved', onSaveName: () => render('Saved'), onRestart: () => {}, onBack: () => {},
+      registrationStatus, onRetry: () => render('Saved'), onRestart: () => {}, onBack: () => {},
     }))
     window.addEventListener('test-registration', event => render((event as CustomEvent<string>).detail))
     render('Pending')
@@ -139,12 +139,12 @@ test('mobile results show supplied values, optional name and Save Result', async
   await expect(page.getByText('Player Destroyed', { exact: true })).toBeVisible()
   for (const value of ['Pending', 'Saving', 'Saved', 'Failed']) {
     await page.evaluate(status => window.dispatchEvent(new CustomEvent('test-registration', { detail: status })), value)
-    await expect(page.getByRole('status')).toHaveCount(0)
-    await expect(page.getByRole('textbox', { name: 'Player name (optional)' })).toHaveCount(value === 'Saved' ? 0 : 1)
+    await expect(page.getByRole('status')).toHaveText(value)
+    await expect(page.getByRole('button', { name: 'Retry Registration' })).toHaveCount(value === 'Saved' ? 0 : 1)
+    if (value === 'Saving') await expect(page.getByRole('button', { name: 'Retry Registration' })).toBeDisabled()
   }
-  await page.getByRole('textbox', { name: 'Player name (optional)' }).fill('Captain Test')
-  await page.getByRole('button', { name: 'Save Result' }).click()
-  await expect(page.getByRole('textbox')).toHaveCount(0)
+  await page.getByRole('button', { name: 'Retry Registration' }).click()
+  await expect(page.getByRole('status')).toHaveText('Saved')
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
   await page.screenshot({ path: 'test-results/result-375.png', fullPage: true })
 })

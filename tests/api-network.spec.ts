@@ -36,7 +36,7 @@ async function completeMatch(page: Page) {
   await expect(page.locator('.game-canvas')).toHaveAttribute('data-ready', 'true')
   await page.evaluate(() => window.dispatchEvent(new Event('test-complete')))
   await expect(page).toHaveURL(/\/result$/)
-  await page.getByRole('button', { name: 'Save Result' }).click()
+  await expect(page.getByRole('region', { name: 'Match registration', exact: true })).toBeVisible()
 }
 async function stored(page: Page, key: string): Promise<MatchRecord[]> {
   return page.evaluate(key => JSON.parse(localStorage.getItem(key) ?? '[]'), key)
@@ -69,7 +69,7 @@ test('POST is idempotent, survives refresh and updates both paginated endpoints'
   expect(await stored(page, STORAGE_KEYS.confirmed)).toEqual([match])
 })
 
-test('timeout after commit preserves the private result and deadline across refresh', async ({ page }) => {
+test('timeout after commit preserves the result and deadline across refresh', async ({ page }) => {
   await scenario(page, 'timeout-after-register')
   await installFinishControl(page)
   await completeMatch(page)
@@ -82,7 +82,7 @@ test('timeout after commit preserves the private result and deadline across refr
   const deadline = (await queue())[0].nextAttemptAt
   await page.reload()
   expect((await queue())[0].nextAttemptAt).toBe(deadline)
-  await expect(page.getByRole('status')).toHaveCount(0)
+  await expect(page.getByRole('region', { name: 'Match registration', exact: true }).getByRole('status')).toHaveText('Failed')
   await scenario(page, 'success')
   await page.clock.install()
   await page.clock.fastForward(Math.max(1, deadline - Date.now() + 1))
@@ -103,7 +103,7 @@ test('multiple unavailable registrations never block games and recover on their 
   await expect.poll(() => stored(page, STORAGE_KEYS.pending)).toHaveLength(2)
   expect(await stored(page, STORAGE_KEYS.confirmed)).toHaveLength(0)
   await page.getByRole('button', { name: 'Main Menu', exact: true }).click()
-  await expect(page.getByRole('complementary', { name: 'Pending registrations' })).toHaveCount(0)
+  await expect(page.getByRole('complementary', { name: 'Pending registrations' })).toBeVisible()
   await scenario(page, 'success')
   await page.clock.install()
   await page.clock.fastForward(10_001)
@@ -111,6 +111,42 @@ test('multiple unavailable registrations never block games and recover on their 
   await expect.poll(() => stored(page, STORAGE_KEYS.pending)).toEqual([])
   await page.getByRole('tab', { name: 'Match History' }).click()
   await expect(page.getByRole('tabpanel').filter({ visible: true }).locator('tbody tr')).toHaveCount(2)
+})
+
+test('browser Back and refresh preserve every automatically queued completion', async ({ page }) => {
+  await scenario(page, 'unavailable-on-match-end')
+  await page.getByRole('button', { name: 'Options', exact: true }).click()
+  await page.getByLabel('Player name (optional)').fill('Anne')
+  await page.getByRole('button', { name: 'Save', exact: true }).click()
+  await installFinishControl(page)
+  await completeMatch(page)
+  await expect(page.getByRole('status')).toHaveText('Failed')
+  const first = (await stored(page, STORAGE_KEYS.pending))[0]
+  expect(first.playerName).toBe('Anne')
+  await page.goBack()
+  await expect(page.locator('.game-canvas')).toHaveAttribute('data-ready', 'true')
+  await page.evaluate(() => window.dispatchEvent(new Event('test-complete')))
+  await expect(page.getByRole('status')).toHaveText('Failed')
+  const pending = await stored(page, STORAGE_KEYS.pending)
+  expect(pending).toHaveLength(2)
+  expect(new Set(pending.map(item => item.matchId)).size).toBe(2)
+  expect(pending[0]).toEqual(first)
+  const mutations = await page.evaluate(async () => {
+    const path = '/src/testing/api.ts'
+    const { queryClient } = await import(path)
+    return queryClient.getMutationCache().getAll().map((mutation: { options: { mutationKey?: string[] }; state: { status: string } }) =>
+      ({ key: mutation.options.mutationKey, status: mutation.state.status }))
+  })
+  expect(mutations).toEqual([{ key: ['registerMatch'], status: 'error' }, { key: ['registerMatch'], status: 'error' }])
+  await page.reload()
+  expect(await stored(page, STORAGE_KEYS.pending)).toEqual(pending)
+  await scenario(page, 'success')
+  await page.getByRole('button', { name: 'Retry Registration' }).click()
+  await expect(page.getByRole('status')).toHaveText('Saved')
+  await page.getByRole('button', { name: 'Main Menu', exact: true }).click()
+  await page.getByRole('button', { name: 'Retry Registration' }).click()
+  await expect.poll(() => stored(page, STORAGE_KEYS.confirmed)).toHaveLength(2)
+  expect(await stored(page, STORAGE_KEYS.pending)).toEqual([])
 })
 
 test('snapshot matches actual gameplay settings; refresh during combat registers nothing', async ({ page }) => {
@@ -123,7 +159,7 @@ test('snapshot matches actual gameplay settings; refresh during combat registers
   await page.getByRole('spinbutton', { name: 'Enemy Spawn Time in seconds' }).fill('9')
   await page.getByRole('button', { name: 'Save', exact: true }).click()
   await page.evaluate(() => window.dispatchEvent(new Event('test-complete')))
-  await page.getByRole('button', { name: 'Save Result' }).click()
+  await expect(page.getByRole('region', { name: 'Match registration', exact: true })).toBeVisible()
   await expect.poll(() => stored(page, STORAGE_KEYS.confirmed)).toHaveLength(1)
   const confirmed = await stored(page, STORAGE_KEYS.confirmed)
   expect(confirmed[0].gameConfig).toEqual({ gameSessionTime: 120, enemySpawnTime: 5 })

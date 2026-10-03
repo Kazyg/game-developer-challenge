@@ -23,13 +23,7 @@ export function loadCompleted(): CompletedMatch | null {
       const next = { ...value, error: typeof value.error === 'string' ? value.error : undefined }
       if (JSON.stringify(next) !== JSON.stringify(memory)) { memory = next; publish() }
       // An interrupted request is retryable; no request remains in flight after refresh.
-      if (firstRead && memory?.status === 'Saving' && memory.match) {
-  saveCompleted({
-    ...memory,
-    match: memory.match,
-    status: 'Pending',
-  })
-}
+      if (firstRead && next.status === 'Saving') saveCompleted({ ...next, status: 'Pending' })
     } else if (memory) { memory = null; publish() }
   } catch { /* Keep the in-memory result when storage is inaccessible. */ }
   firstRead = false
