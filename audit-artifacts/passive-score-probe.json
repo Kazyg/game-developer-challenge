@@ -1,0 +1,10 @@
+{
+  "score": 1,
+  "enemyAlive": false,
+  "playerHp": 97.9895104895105,
+  "playerVelocity": {
+    "x": 0,
+    "y": 0
+  },
+  "playerProjectiles": 0
+}

@@ -1,3 +1,4 @@
+import { removeMissing, destroyDisplay } from './collections'
 import { Assets, Container, Graphics, Sprite } from 'pixi.js'
 import type { Texture } from 'pixi.js'
 import { GAME_CONFIG } from '../config/GameConfig'
@@ -15,6 +16,7 @@ export class HealthBarRenderer {
   private readonly bars = new Map<string, HealthBar>()
   private textures: Texture[] = []
   private disposed = false
+  observe() { return [...this.bars].map(([id, bar]) => ({ id, visible: bar.container.visible })) }
 
   async initialize() {
     const textures = await Promise.all([playerFrame, playerFill, enemyFrame, enemyFill].map(url => Assets.load<Texture>(url)))
@@ -24,9 +26,7 @@ export class HealthBarRenderer {
   render(world: World, camera: Camera, width: number, height: number) {
     const ships = [world.player, ...world.enemies].filter(ship => ship.alive)
     const ids = new Set(ships.map(ship => ship.id))
-    for (const [id, bar] of this.bars) {
-      if (!ids.has(id)) { bar.container.destroy({ children: true }); this.bars.delete(id) }
-    }
+    removeMissing(this.bars, ids, item => destroyDisplay(item.container))
     for (const ship of ships) {
       let bar = this.bars.get(ship.id)
       const visible = inViewport(ship.position, 80, { x: camera.position.x, y: camera.position.y, width, height })
@@ -53,7 +53,7 @@ export class HealthBarRenderer {
         bar.ratio = ratio
       }
       const displayWidth = bar.width * bar.container.scale.x
-      bar.container.position.set(ship.position.x - displayWidth / 2, ship.position.y - 84 * GAME_CONFIG.playerSpriteScale)
+      bar.container.position.set(ship.position.x - displayWidth / 2, ship.position.y - 84 * (ship.team === 'player' ? GAME_CONFIG.playerSpriteScale : GAME_CONFIG.enemySpriteScale))
       bar.container.visible = true
     }
   }

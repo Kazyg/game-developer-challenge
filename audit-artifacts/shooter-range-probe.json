@@ -1,0 +1,11 @@
+{
+  "distance": 300,
+  "configuredRange": 220,
+  "state": "APPROACH",
+  "shots": [
+    {
+      "team": "enemy",
+      "range": 345
+    }
+  ]
+}

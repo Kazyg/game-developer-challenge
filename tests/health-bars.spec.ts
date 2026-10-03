@@ -1,4 +1,5 @@
-﻿import { test, expect } from '@playwright/test'
+import { GAME_CONFIG } from '../src/game/config/GameConfig'
+import { test, expect } from '@playwright/test'
 
 test('health bars crop HP, follow ships without rotation, heal, cull and disappear on death', async ({ page }) => {
   await page.goto('/')
@@ -70,7 +71,7 @@ test('health bars crop HP, follow ships without rotation, heal, cull and disappe
   expect(result.damaged.map(bar => bar.fill)).toEqual([0.7, 0.75, 0.5])
   expect(result.damaged.every(bar => bar.rotation === 0)).toBe(true)
   expect(result.healed.fill).toBeCloseTo(0.8)
-  expect(result.healed.y).toBe(result.playerPosition.y - 50.4)
+  expect(result.healed.y).toBeCloseTo(result.playerPosition.y - 84 * GAME_CONFIG.playerSpriteScale)
   expect(result.offscreen).toBe(false)
   expect(result.removed).toBe(true)
   expect(result.lightDamage).toBe(false)

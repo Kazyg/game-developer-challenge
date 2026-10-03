@@ -1,8 +1,15 @@
+import { validMatch, validPage, validRankingItem } from './contracts'
 import axios from 'axios'
 import type { ApiErrorKind, ApiErrorResponse, HistoryRequest, HistoryResponse, RankingRequest, RankingResponse, RegisterMatchRequest, RegisterMatchResponse } from './contracts'
 
 export const API_TIMEOUT = 2500
 export const httpClient = axios.create({ baseURL: `${import.meta.env.BASE_URL}api`, timeout: API_TIMEOUT })
+// Never send an API request to the static host when mock startup failed.
+httpClient.interceptors.request.use(async request => {
+  try { const { startMockApi } = await import('../mocks/browser'); await startMockApi() }
+  catch { throw new ApiError('client', 'Mock API could not start. Check the service worker URL and scope, then reload.') }
+  return request
+})
 export class ApiError extends Error {
   readonly kind: ApiErrorKind
   readonly status?: number
@@ -21,12 +28,21 @@ export function normalizeError(error: unknown): ApiError {
   return new ApiError('network', error instanceof Error ? error.message : 'Request failed.')
 }
 httpClient.interceptors.response.use(response => response, error => Promise.reject(normalizeError(error)))
+function invalidApiResponse() {
+  return new ApiError('client', 'API returned an invalid response. Check mock API startup, worker scope and deployment base URL.')
+}
 export async function getRanking(request: RankingRequest, signal?: AbortSignal): Promise<RankingResponse> {
-  return (await httpClient.get<RankingResponse>('/ranking', { signal, params: { ...request.gameConfig, page: request.page, pageSize: request.pageSize } })).data
+  const { data } = await httpClient.get<unknown>('/ranking', { signal, params: { ...request.gameConfig, page: request.page, pageSize: request.pageSize } })
+  if (!validPage(data, validRankingItem)) throw invalidApiResponse()
+  return data
 }
 export async function getHistory(request: HistoryRequest, signal?: AbortSignal): Promise<HistoryResponse> {
-  return (await httpClient.get<HistoryResponse>('/matches', { signal, params: request })).data
+  const { data } = await httpClient.get<unknown>('/matches', { signal, params: request })
+  if (!validPage(data, validMatch)) throw invalidApiResponse()
+  return data
 }
 export async function registerMatch(request: RegisterMatchRequest): Promise<RegisterMatchResponse> {
-  return (await httpClient.post<RegisterMatchResponse>('/matches', request, { headers: { 'Idempotency-Key': request.matchId } })).data
+  const { data } = await httpClient.post<Partial<RegisterMatchResponse>>('/matches', request, { headers: { 'Idempotency-Key': request.matchId } })
+  if (!validMatch(data?.match) || data.match.matchId !== request.matchId) throw invalidApiResponse()
+  return { match: data.match }
 }

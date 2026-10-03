@@ -4,12 +4,22 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
+    "assets:prepare": "node scripts/prepare-cutouts.mjs",
+    "assets:check": "node scripts/prepare-cutouts.mjs --check",
+    "predev": "npm run assets:prepare",
+    "prebuild": "npm run assets:prepare",
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "typecheck": "tsc -b",
     "test": "playwright test --workers=2",
     "test:production": "playwright test --config playwright.production.config.ts",
+    "profile:combat": "node scripts/profile-combat.mjs",
+    "profile:reference": "node scripts/profile-reference.mjs",
+    "profile:cpu": "node scripts/profile-reference.mjs --cpu",
+    "profile:memory": "node scripts/profile-reference.mjs --memory",
+    "profile:summarize": "node scripts/summarize-performance.mjs",
+    "profile:calibrate": "node scripts/calibrate-performance.mjs",
     "preview": "vite preview"
   },
   "dependencies": {

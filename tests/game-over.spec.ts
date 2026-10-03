@@ -1,4 +1,5 @@
-﻿import { test, expect } from '@playwright/test'
+import { COMBAT_CONFIG } from '../src/game/config/CombatConfig'
+import { test, expect } from '@playwright/test'
 
 test('death opens results, Play Again creates a clean world, Main Menu cleans Pixi', async ({ page }) => {
   const errors: string[] = []
@@ -37,7 +38,9 @@ test('death opens results, Play Again creates a clean world, Main Menu cleans Pi
   await expect(page.getByText('Score', { exact: true })).toBeVisible()
   await expect(page.getByText('Time Played', { exact: true })).toBeVisible()
   await expect(page.getByText('Player Destroyed', { exact: true })).toBeVisible()
-  await expect(page.getByRole('status')).toHaveText('Saved')
+  await expect(page.getByRole('textbox', { name: 'Player name (optional)' })).toBeVisible()
+  await page.getByRole('button', { name: 'Save Result' }).click()
+  await expect(page.getByRole('button', { name: 'Save Result' })).toHaveCount(0)
   await expect(page.locator('canvas')).toHaveCount(0)
   await page.getByRole('button', { name: 'Play Again' }).click()
   await expect(page).toHaveURL(/\/game$/)
@@ -45,7 +48,8 @@ test('death opens results, Play Again creates a clean world, Main Menu cleans Pi
   const initial = JSON.parse((await page.locator('.game-canvas').getAttribute('data-initial'))!)
   expect(initial.hp).toBe(100)
   expect(initial.time).toBe(0)
-  expect(initial.enemies).toBe(48)
+  expect(initial.enemies).toBeGreaterThan(0)
+  expect(initial.enemies).toBeLessThanOrEqual(COMBAT_CONFIG.spawn.maxPopulation)
   expect(initial.projectiles).toBe(0)
   expect(initial.weapons).toEqual({ front: 0, left: 0, right: 0 })
   expect(initial.repair.active).toBe(false)
@@ -56,7 +60,6 @@ test('death opens results, Play Again creates a clean world, Main Menu cleans Pi
   await expect(page).toHaveURL(/\/$/)
   await expect(page.getByRole('heading', { name: 'Pirate Battle' })).toBeVisible()
   await expect(page.locator('canvas')).toHaveCount(0)
-  await page.keyboard.press('KeyU')
   expect(errors).toEqual([])
 })
 

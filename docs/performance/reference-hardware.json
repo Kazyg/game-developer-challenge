@@ -1,0 +1,11 @@
+{
+  "collectedDate": "2026-10-03",
+  "source": "Read-only Get-CimInstance outside sandbox; powercfg /getactivescheme",
+  "cpu": "12th Gen Intel(R) Core(TM) i3-12100F",
+  "physicalMemoryBytes": 17010458624,
+  "gpu": "NVIDIA GeForce RTX 3060",
+  "driver": "32.0.15.9579",
+  "windowsDisplayMode": { "width": 1366, "height": 768, "refreshHz": 59 },
+  "powerScheme": "Balanced (381b4222-f694-41f0-9685-ff5bb260df2e)",
+  "limitations": "OS-reported display mode differs from Chromium screen API (1280x720). Physical presentation cadence, thermal/power throttling and other process load were not confirmed. Initial sandbox CIM access was denied; successful elevated read-only query confirmed these values."
+}

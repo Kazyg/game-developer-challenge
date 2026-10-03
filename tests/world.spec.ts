@@ -1,5 +1,7 @@
-﻿import { expect, test } from '@playwright/test'
+import { expect, test } from '@playwright/test'
 import { GAME_CONFIG as config } from '../src/game/config/GameConfig'
+import { FixedStep } from '../src/game/FixedStep'
+import { generateIslands } from '../src/game/world/MapGenerator'
 import { World } from '../src/game/world/World'
 import { Camera } from '../src/game/camera/Camera'
 import { canOccupyWithCircles, overlapsCollider, circleOverlapsPolygon } from '../src/game/collision/CollisionSystem'
@@ -13,7 +15,8 @@ const hullBoundingRadius = Math.max(...config.playerHullCircles.map((circle) => 
 const idle: InputState = { up: false, down: false, left: false, right: false }
 
 function advance(world: World, input: InputState, frames = 60) {
-  for (let frame = 0; frame < frames; frame++) world.update(input, 1 / frames)
+  const clock = new FixedStep()
+  for (let frame = 0; frame < frames; frame++) clock.advance(1 / frames, dt => world.update(input, dt))
 }
 
 test('same seed reproduces shapes, scale, orientation and colliders; placement is safe', () => {
@@ -21,7 +24,11 @@ test('same seed reproduces shapes, scale, orientation and colliders; placement i
   expect(new World(1234, { combatEnabled: false }).islands).not.toEqual(new World(1235, { combatEnabled: false }).islands)
   const variants = new Set<number>()
   for (let seed = 0; seed < 100; seed++) {
-    const world = new World(seed, { combatEnabled: false })
+    // These assertions concern map geometry, not enemy route planning. Avoid
+    // constructing an unrelated SpawnSystem for every one of the 100 maps.
+    const player = createPlayer()
+    const world = { width: config.worldWidth, height: config.worldHeight, player,
+      islands: generateIslands(seed, player.position) }
     const checks: boolean[] = []
     expect(world.islands.length).toBeGreaterThanOrEqual(config.islandMinCount)
     expect(world.islands.length).toBeLessThanOrEqual(config.islandMaxCount)
@@ -58,7 +65,9 @@ test('forward movement follows the bow at the same speed independent of FPS', ()
     advance(b, input, 30)
     expect(a.player.position.x).toBeCloseTo(b.player.position.x, 8)
     expect(a.player.position.y).toBeCloseTo(b.player.position.y, 8)
-    expect(Math.hypot(a.player.position.x - 2000, a.player.position.y - 2000)).toBeCloseTo(config.playerSpeed, 8)
+    const distance = Math.hypot(a.player.position.x - 2000, a.player.position.y - 2000)
+    expect(distance).toBeGreaterThan(config.playerSpeed)
+    expect(distance).toBeLessThan(config.playerSpeed * (1 + config.straightSailing.maxBoost))
     expect(Math.sign(a.player.position.x - 2000)).toBe(x)
     expect(Math.sign(a.player.position.y - 2000)).toBe(y)
   }

@@ -26,11 +26,11 @@ for (const size of [100, 220, 340]) test(`adjusts circles near a ${size}px islan
   if (next) for (const a of next) for (const b of lanes!) expect(routeDistance(a, b)).toBeGreaterThanOrEqual(LANE_GAP)
 })
 
-test('rejects unavailable routes and keeps clearance separate from land', () => {
+test('rejects unavailable routes and uses physical land clearance', () => {
   const coast = island(2000)
   const physical = JSON.stringify(coast.colliders)
   expect(planLanes(area, [coast])).toBeNull()
-  expect(navigationClearance(coast).length).toBeGreaterThan(coast.colliders.length)
+  expect(navigationClearance(coast)).toEqual(coast.colliders)
   expect(JSON.stringify(coast.colliders)).toBe(physical)
   expect(() => createEnemy('invalid', 'chaser', area, { x: 1120, y: 1120 }, 42, () => false)).toThrow()
 })
@@ -62,7 +62,7 @@ test('two lanes complete repeated patrol cycles without entering land or collidi
   for (const visited of sectors) expect(visited.size).toBeGreaterThanOrEqual(4)
 })
 
- test('coast avoidance uses hull look-ahead and releases its waypoint in open water', () => {
+ test('coast avoidance routes across land and releases its waypoint in open water', () => {
   const world = new World(42, { combatEnabled: false })
   const coast = island(220)
   world.islands.splice(0, world.islands.length, coast)
@@ -70,7 +70,7 @@ test('two lanes complete repeated patrol cycles without entering land or collidi
   const enemy = createEnemy('probe', 'chaser', area, { x: 1100, y: 1120 }, 42)
   enemy.position = { x: 1040, y: 1120 }
   enemy.rotation = -Math.PI / 2
-  avoidIslands(world, enemy, { x: 1400, y: 1120 })
+  avoidIslands(world, enemy, { x: 600, y: 1120 })
   expect(enemy.navigation.islandId).toBe(coast.id)
   expect(enemy.navigation.waypoint).not.toBeNull()
   enemy.position = { x: 1400, y: 1400 }

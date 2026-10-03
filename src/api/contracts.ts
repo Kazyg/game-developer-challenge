@@ -1,7 +1,9 @@
 export interface GameConfigSnapshot { gameSessionTime: number; enemySpawnTime: number }
 export type EndReason = 'timeExpired' | 'playerDestroyed'
+export type RegistrationStatus = 'Pending' | 'Saving' | 'Saved' | 'Failed'
 export interface MatchRecord {
   matchId: string
+  seed?: number
   playerId: string
   playerName: string
   date: string
@@ -39,6 +41,7 @@ export function validMatch(value: unknown): value is MatchRecord {
   if (!value || typeof value !== 'object') return false
   const match = value as MatchRecord
   return [match.matchId, match.playerId, match.playerName].every(item => typeof item === 'string' && item.trim().length > 0 && item.length <= 120)
+    && (match.seed === undefined || Number.isInteger(match.seed) && match.seed >= 0 && match.seed <= 0xffffffff)
     && typeof match.date === 'string' && Number.isFinite(Date.parse(match.date))
     && Number.isInteger(match.score) && match.score >= 0
     && Number.isFinite(match.effectiveDuration) && match.effectiveDuration >= 0
@@ -47,4 +50,17 @@ export function validMatch(value: unknown): value is MatchRecord {
 }
 export function sameConfig(a: GameConfigSnapshot, b: GameConfigSnapshot) {
   return a.gameSessionTime === b.gameSessionTime && a.enemySpawnTime === b.enemySpawnTime
+}
+
+export function validPage<T>(value: unknown, validItem: (item: unknown) => item is T): value is PageResponse<T> {
+  if (!value || typeof value !== 'object') return false
+  const page = value as PageResponse<unknown>
+  return Array.isArray(page.items) && page.items.every(validItem)
+    && Number.isInteger(page.page) && page.page >= 1
+    && Number.isInteger(page.pageSize) && page.pageSize >= 1
+    && Number.isInteger(page.totalItems) && page.totalItems >= 0
+    && Number.isInteger(page.totalPages) && page.totalPages >= 0
+}
+export function validRankingItem(value: unknown): value is RankingItem {
+  return validMatch(value) && Number.isInteger((value as RankingItem).rank) && (value as RankingItem).rank >= 1
 }

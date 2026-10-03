@@ -1,6 +1,9 @@
+import { pauseAudio, playSound, startAmbience, stopAudio } from './audio/AudioManager'
 import { FixedStep } from './FixedStep'
+import { playWorldEvents } from './audio/WorldAudio'
 import { Application } from 'pixi.js'
 import { Camera } from './camera/Camera'
+import { isMobileViewport } from './viewport'
 import { InputManager } from './input/InputManager'
 import { World } from './world/World'
 import { WorldRenderer } from './rendering/WorldRenderer'
@@ -29,6 +32,7 @@ export class Game {
   private resizeObserver: ResizeObserver | undefined
   private disposed = false
   private initialized = false
+  private loadingView = false
   private released = false
   private host: HTMLElement | undefined
   private readonly onHudUpdate: ((state: GameHudState) => void) | undefined
@@ -39,8 +43,44 @@ export class Game {
   private lastTickTime = 0
   private resultElapsed = 0
   private readonly simulationClock = new FixedStep()
+  private startTask: Promise<void> | undefined
   cancelPointer(id: number) { this.input?.cancelPointer(id); this.publishHud() }
   setPointer(id: number, code: string, down: boolean) { this.input?.setPointer(id, code, down); this.publishHud() }
+
+  /** Development-only test facade. Gameplay tests still use real DOM input. */
+  testController() {
+    if (!import.meta.env.DEV) throw new Error('Game instrumentation is only available in development.')
+    return {
+      world: this.world,
+      stopClock: () => this.app.stop(),
+      advance: (seconds: number) => {
+        const steps = Math.round(seconds / this.simulationClock.step)
+        for (let step = 0; step < steps; step++) {
+          this.world.update(this.input?.read() ?? { up: false, down: false, left: false, right: false }, this.simulationClock.step)
+          playWorldEvents(this.world.drainEvents())
+        }
+        this.render()
+        this.app.render()
+        this.publishHud()
+      },
+      render: () => { this.render(); this.app.render() },
+      renderAt: (x: number, y: number, width: number, height: number) => {
+        Object.assign(this.camera.position, { x, y })
+        this.view.render(this.world, this.camera, width, height)
+        this.app.render()
+      },
+      toggleDebug: () => { this.view.toggleDebugColliders(); this.render() },
+      observe: () => ({ disposed: this.disposed, ...this.view.observe(),
+        seed: this.world.seed, time: this.world.time, hp: this.world.player.hp, score: this.world.score,
+        paused: this.world.paused, gameOver: this.world.gameOver }),
+      finish: (reason: 'timeExpired' | 'playerDestroyed' = 'timeExpired') => {
+        this.world.paused = false
+        this.world.finish(reason)
+        this.lastTickTime = performance.now() - COMBAT_CONFIG.effects.sinkingDuration * 1000
+        this.tick()
+      },
+    }
+  }
 
   constructor(seed: number, debugColliders: boolean = GAME_CONFIG.debugColliders,
     onHudUpdate?: (state: GameHudState) => void, onGameOver?: (result: MatchResult) => void,
@@ -52,7 +92,12 @@ export class Game {
     this.onGameOver = onGameOver
   }
 
-  async start(host: HTMLElement): Promise<void> {
+  start(host: HTMLElement): Promise<void> {
+    this.startTask ??= this.startInternal(host)
+    return this.startTask
+  }
+
+  private async startInternal(host: HTMLElement): Promise<void> {
     this.host = host
     await this.app.init({
       width: Math.max(1, Math.min(host.clientWidth, this.world.width)),
@@ -65,8 +110,10 @@ export class Game {
     })
     this.initialized = true
     if (this.disposed) { this.release(); return }
-    await this.view.initialize(this.app, this.world)
-    if (this.disposed) return
+    this.loadingView = true
+    try { await this.view.initialize(this.app, this.world) }
+    finally { this.loadingView = false; if (this.disposed) this.release() }
+    if (this.disposed) { this.release(); return }
 
     this.app.canvas.setAttribute('aria-label', 'Pirate Battle ocean')
     host.appendChild(this.app.canvas)
@@ -79,18 +126,27 @@ export class Game {
     window.addEventListener('keydown', this.onPauseKey)
     window.addEventListener('blur', this.onAutoPause)
     document.addEventListener('visibilitychange', this.onVisibility)
+    if (document.visibilityState === 'hidden') this.pause()
     this.resize()
     this.publishHud()
     this.app.ticker.add(this.tick)
     this.lastTickTime = performance.now()
     this.app.start()
+    if (!this.world.paused) startAmbience(this)
+    playSound('game_start')
   }
 
   private resize = () => {
     if (this.disposed || !this.host) return
+    const width = Math.max(1, Math.min(this.host.clientWidth, this.world.width))
+    const height = Math.max(1, Math.min(this.host.clientHeight, this.world.height))
+    if (width !== this.app.screen.width || height !== this.app.screen.height) {
+      this.input?.clear()
+      this.publishHud()
+    }
     this.app.renderer.resize(
-      Math.max(1, Math.min(this.host.clientWidth, this.world.width)),
-      Math.max(1, Math.min(this.host.clientHeight, this.world.height)),
+      width,
+      height,
       window.devicePixelRatio || 1,
     )
     this.render()
@@ -112,6 +168,7 @@ export class Game {
     if (this.world.paused) return
     this.simulationClock.advance(frameDelta, dt => {
       if (this.input) this.world.update(this.input.read(), dt)
+      playWorldEvents(this.world.drainEvents())
       return !this.world.gameOver
     })
     if (this.world.gameOver) {
@@ -122,6 +179,8 @@ export class Game {
       this.render()
       this.view.renderEnding(this.world, frameDelta)
       if (this.world.endReason === 'playerDestroyed' && this.resultElapsed < COMBAT_CONFIG.effects.sinkingDuration) return
+      stopAudio(this)
+      playSound(this.world.endReason === 'playerDestroyed' ? 'game_over' : 'game_complete')
       this.gameOverNotified = true
       this.app.stop()
       this.app.ticker.remove(this.tick)
@@ -149,11 +208,16 @@ export class Game {
 
   private render() {
     const { width, height } = this.app.screen
-    this.camera.follow(this.world.player.position, width, height, this.world.width, this.world.height)
-    this.view.render(this.world, this.camera, width, height)
+    const mobile = isMobileViewport()
+    // Camera and culling use world units; DOM controls retain their native touch size.
+    this.camera.zoom = Math.max(mobile ? GAME_CONFIG.camera.mobileZoom : 1, width / this.world.width, height / this.world.height)
+    const visibleWidth = width / this.camera.zoom, visibleHeight = height / this.camera.zoom
+    this.camera.follow(this.world.player.position, visibleWidth, visibleHeight, this.world.width, this.world.height)
+    this.view.render(this.world, this.camera, visibleWidth, visibleHeight)
   }
 
   destroy() {
+    stopAudio(this)
     this.disposed = true
     this.input?.destroy()
     this.resizeObserver?.disconnect()
@@ -168,6 +232,7 @@ export class Game {
   pause() {
     if (this.disposed || this.world.gameOver) return
     this.lastTickTime = performance.now()
+    if (!this.world.paused) { pauseAudio(this); playSound('game_pause') }
     this.world.paused = true
     this.input?.setEnabled(false)
     this.onPause?.()
@@ -178,6 +243,8 @@ export class Game {
     this.input?.setEnabled(true)
     this.lastTickTime = performance.now()
     this.world.paused = false
+    startAmbience(this)
+    playSound('game_resume')
   }
 
   private onPauseKey = (event: KeyboardEvent) => {
@@ -187,11 +254,13 @@ export class Game {
   private onVisibility = () => { if (document.visibilityState === 'hidden') this.pause() }
 
   private release() {
-    if (!this.initialized || this.released) return
+    if (!this.initialized || this.loadingView || this.released) return
     this.released = true
     this.app.stop()
     this.app.ticker.remove(this.tick)
     this.view.destroy()
-    this.app.destroy(true, { children: true })
+    const canvas = this.app.canvas
+    if (canvas.parentElement === this.host) canvas.remove()
+    this.app.destroy(false, { children: true })
   }
 }

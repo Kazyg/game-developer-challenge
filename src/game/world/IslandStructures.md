@@ -20,8 +20,7 @@ Asset inspection (default 64 × 64 PNGs)
 
 Only compatible subsets are used by the presets. Intact and ruined forts use
 contiguous wall grids, with whole-composition quarter-turn rotations. Boat and
-debris are kept together; their baked terrain backgrounds are keyed out at load
-time. No new collision or navigation geometry is created.
+debris are kept together; their baked terrain backgrounds are keyed out by the reproducible prebuild cutout script. No new collision or navigation geometry is created.
 
 Placement samples the full footprint against the existing polygon. Forts have
 a shoreline setback, an empty courtyard, and a surrounding vegetation/rock
@@ -39,8 +38,7 @@ quarter turns vary orientation, without loose or incompatible wall fragments.
 Land area determines capacity (up to 1/2/3/5 interests); occupied footprints
 never exceed 36% of the land. Larger islands can group secondary outposts near
 the primary fort, with ruins and wrecks in other regions. Full rotated bounds
-maintain a 28px minimum gap. Forts have a 16px shoreline setback. Wrecks use the
-beach band and shallow-water polygon, favoring recessed coastline candidates.
+maintain a 28px minimum gap. Forts have a 16px shoreline setback. Wrecks use the beach band and require their whole footprint to fit physical land.
 Trees/rocks use several seeded regions and world-space density/clearance.
 
 Size profiles generate independent coastlines with 32/48/72/96 vertices.

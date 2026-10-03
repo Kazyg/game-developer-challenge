@@ -1,0 +1,15 @@
+{
+  "description": "Final workspace hashes; earlier measurement runs used observer revisions described in PERFORMANCE.md. These are not historical-build hashes.",
+  "files": {
+    "src/game/Game.ts": "2cccf3b5df3a9449bc3da759b061b59abbcda4708003029331cd796b9ea29269",
+    "src/game/FixedStep.ts": "835f17e264b982350da3a174e6d7c26535797457eeab4268ccc05247533cc05d",
+    "src/game/world/World.ts": "0d55af9aec219f02a26fe9b27504ddd66c5519ad12db9e508f66fa140379257e",
+    "src/game/profiling.ts": "6e603142093e34e65bb9a12bfb7fbb57925363bf4d8406e07fdf3be534468cf3",
+    "scripts/calibrate-performance.mjs": "29e90d8deca592e8a4a4093782f53416a768799e03d5663388f03598930541ec",
+    "scripts/inspect-retainers.mjs": "d7fff79c4c185b44a7d485a382bb31c856066eda8ece8877bd05929551f398bf",
+    "scripts/profile-combat.mjs": "75e303ca7aa330c543b2adc8444f09ffe051ff8e2362e5e69a914ed4cb10868a",
+    "scripts/profile-reference.mjs": "3f33fbf4fcbf9f45b3f9f0213f41c0dccb8a04895d11e0da1c3a31af45da2bcc",
+    "scripts/summarize-heaps.mjs": "b78067fba2dae4b09bc58e8e080eebe81c95613ef8a00db8a850c702385a862f",
+    "scripts/summarize-performance.mjs": "4ee592657826bd1576277a67418b58c4529f6f7ce9e3e191a2f649bf033f758d"
+  }
+}

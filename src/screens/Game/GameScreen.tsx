@@ -1,4 +1,6 @@
-﻿import { useEffect, useRef, useState } from 'react'
+import ScreenLayout from '../../components/ScreenLayout'
+import HowToPlay from '../../components/HowToPlay'
+import { useEffect, useRef, useState } from 'react'
 import type { CSSProperties } from 'react'
 import { COMBAT_CONFIG } from '../../game/config/CombatConfig'
 import type { GameHudState } from '../../game/Game'
@@ -7,6 +9,10 @@ import type { MatchResult } from '../../game/entities/Combat'
 import Options from '../Options/Options'
 import type { SessionSettings } from '../../SessionSettings'
 import './GameScreen.css'
+import { MOBILE_VIEWPORT_QUERY } from '../../game/viewport'
+
+let orientationSuggestionSeen = false
+const orientationSessionKey = 'pirate-battle-orientation-suggestion'
 
 type Props = {
   seed: number
@@ -38,8 +44,28 @@ export default function GameScreen({ seed, settings, onSaveSettings, onFinish, o
   const [generation, setGeneration] = useState(0)
   const [modal, setModal] = useState<Modal>(null)
   const [failed, setFailed] = useState(false)
+  const [orientationSuggestion, setOrientationSuggestion] = useState(false)
   const [status, setStatus] = useState('Loading ocean…')
   const [hud, setHud] = useState<GameHudState>(() => initialHud(snapshotSettings.duration))
+
+  useEffect(() => {
+    const mobile = window.matchMedia(MOBILE_VIEWPORT_QUERY)
+    const portrait = window.matchMedia('(orientation: portrait)')
+    const suggest = () => {
+      if (!mobile.matches || !portrait.matches || orientationSuggestionSeen) return
+      try { if (sessionStorage.getItem(orientationSessionKey)) return } catch { /* In-memory fallback. */ }
+      orientationSuggestionSeen = true
+      try { sessionStorage.setItem(orientationSessionKey, 'seen') } catch { /* Storage may be unavailable. */ }
+      setOrientationSuggestion(true)
+    }
+    suggest()
+    mobile.addEventListener('change', suggest)
+    portrait.addEventListener('change', suggest)
+    return () => {
+      mobile.removeEventListener('change', suggest)
+      portrait.removeEventListener('change', suggest)
+    }
+  }, [])
 
   useEffect(() => {
     const host = hostRef.current
@@ -48,17 +74,26 @@ export default function GameScreen({ seed, settings, onSaveSettings, onFinish, o
     setFailed(false)
     setStatus('Loading ocean…')
     setHud(initialHud(snapshotSettings.duration))
-    const game = new Game(seed, undefined, state => {
-      if (active) setHud(state)
-    }, result => { if (active) onFinish(result, snapshotSettings) }, {
-      duration: snapshotSettings.duration, spawnTime: snapshotSettings.spawnTime,
-      onPause: () => { if (active) setModal(current => current ?? 'pause') },
-    })
-    gameRef.current = game
+    let game: Game | undefined
     const preventWheel = (event: WheelEvent) => event.preventDefault()
     host.addEventListener('wheel', preventWheel, { passive: false })
-    void game.start(host).then(() => { if (active) setStatus('') }).catch((error: unknown) => {
-      game.destroy()
+    // Keep construction and asynchronous renderer startup in the same error boundary.
+    void Promise.resolve().then(async () => {
+      if (!active) return
+      game = new Game(seed, undefined, state => {
+        if (active) setHud(state)
+      }, result => { if (active) onFinish(result, snapshotSettings) }, {
+        duration: snapshotSettings.duration, spawnTime: snapshotSettings.spawnTime,
+        onPause: () => { if (active) setModal(current => current ?? 'pause') },
+      })
+      gameRef.current = game
+      await game.start(host)
+      if (active && import.meta.env.DEV && new URLSearchParams(location.search).has('test')) {
+        Object.assign(window, { __pirateGameTest: game.testController() })
+      }
+      if (active) setStatus('')
+    }).catch((error: unknown) => {
+      game?.destroy()
       if (active) setFailed(true)
       if (active) setStatus(error instanceof Error ? error.message : 'Unable to start the game.')
     })
@@ -66,7 +101,7 @@ export default function GameScreen({ seed, settings, onSaveSettings, onFinish, o
       active = false
       gameRef.current = null
       host.removeEventListener('wheel', preventWheel)
-      game.destroy()
+      game?.destroy()
     }
   }, [seed, snapshotSettings, generation, onFinish])
 
@@ -78,10 +113,10 @@ export default function GameScreen({ seed, settings, onSaveSettings, onFinish, o
     }
     if (!previousFocus.current) previousFocus.current = document.activeElement instanceof HTMLElement ? document.activeElement : null
     const dialog = dialogRef.current
-    dialog?.querySelector<HTMLElement>('button, input, select, [tabindex="0"]')?.focus()
+    dialog?.querySelector<HTMLElement>('button, input, select, a[href], [tabindex="0"]')?.focus()
     const trap = (event: KeyboardEvent) => {
       if (event.key !== 'Tab' || !dialog) return
-      const items = [...dialog.querySelectorAll<HTMLElement>('button:not(:disabled), input:not(:disabled), select, [tabindex="0"]')]
+      const items = [...dialog.querySelectorAll<HTMLElement>('button:not(:disabled), input:not(:disabled), select, a[href], [tabindex="0"]')]
       const first = items[0], last = items.at(-1)
       if (!first || !last) { event.preventDefault(); dialog.focus(); return }
       if (event.shiftKey && (document.activeElement === first || !dialog.contains(document.activeElement))) { event.preventDefault(); last.focus() }
@@ -107,8 +142,8 @@ export default function GameScreen({ seed, settings, onSaveSettings, onFinish, o
       <div ref={hostRef} className="game-canvas" />
       <div className="game-hud">
         <div className="game-hud-info">
-          <span className="score-counter"><img src={new URL('../../../assets/png/default/ui/hud/icon_score.png', import.meta.url).href} alt="" />Score: {hud.score}</span>
-          <span className="time-counter"><img src={new URL('../../../assets/png/default/ui/hud/icon_time.png', import.meta.url).href} alt="" />Time remaining: {Math.ceil(hud.timeRemaining)}s</span>
+          <span className="score-counter" role="group" aria-label={`Score: ${hud.score}`}><img src={new URL('../../../assets/png/default/ui/hud/icon_score.png', import.meta.url).href} alt="" /><span className="counter-label">Score: </span>{hud.score}</span>
+          <span className="time-counter" role="group" aria-label={`Time remaining: ${Math.ceil(hud.timeRemaining)} seconds`}><img src={new URL('../../../assets/png/default/ui/hud/icon_time.png', import.meta.url).href} alt="" /><span className="counter-label">Time remaining: </span>{Math.ceil(hud.timeRemaining)}s</span>
         </div>
         <div className="game-hud-actions">
           <button type="button" aria-label="Pause" onClick={() => gameRef.current?.pause()}><img src={icon('pause')} alt="" /></button>
@@ -116,9 +151,15 @@ export default function GameScreen({ seed, settings, onSaveSettings, onFinish, o
         </div>
       </div>
       <div className="game-input-controls" aria-label="Game controls">
-        {controls.map(([code, label, asset, key]) => {
+        {([
+          { name: 'Movement controls', className: 'movement-controls', items: controls.slice(0, 3) },
+          { name: 'Attack controls', className: 'attack-controls', items: controls.slice(3, 6) },
+          { name: 'Auxiliary controls', className: 'auxiliary-controls', items: controls.slice(6) },
+        ]).map(group => <div key={group.name} className={`control-group ${group.className}`} role="group" aria-label={group.name}>
+        {group.items.map(([code, label, asset, key]) => {
           const cooldown = cooldownFor(code)
           return <button key={code} type="button" aria-label={label} disabled={!!status || !!modal || !hud.alive}
+          data-code={code}
           data-active={hud.activeCodes.includes(code) || code === 'KeyR' && hud.repairActive}
           data-cooldown={cooldown.remaining > 0}
           title={`${label} (${key})${cooldown.remaining > 0 ? ` - ${cooldown.remaining.toFixed(1)}s` : ''}`}
@@ -127,29 +168,27 @@ export default function GameScreen({ seed, settings, onSaveSettings, onFinish, o
           onPointerLeave={event => { if (!event.currentTarget.hasPointerCapture(event.pointerId)) gameRef.current?.setPointer(event.pointerId, code, false) }}
           onPointerCancel={event => gameRef.current?.cancelPointer(event.pointerId)}
           onLostPointerCapture={event => gameRef.current?.cancelPointer(event.pointerId)}>
-          <img src={icon(asset)} alt="" /><small>{key}</small>
+          <img src={icon(asset)} alt="" />
           {cooldown.remaining > 0 && <span className="command-cooldown" style={{ '--cooldown-angle': `${Math.min(1, cooldown.remaining / cooldown.total) * 360}deg` } as CSSProperties}>
             <span>{Math.ceil(cooldown.remaining)}s</span>
           </span>}
         </button>})}
+        </div>)}
       </div>
-      <p className="portrait-hint">Rotate your device to landscape for more space.</p>
+      {orientationSuggestion && <aside className="portrait-hint" aria-label="Orientation suggestion">
+        <p role="status">For a wider view, try rotating your phone.</p>
+        <button type="button" aria-label="Dismiss orientation suggestion" onClick={() => setOrientationSuggestion(false)}>Got it</button>
+      </aside>}
       {status && <div className="game-status"><p role={failed ? 'alert' : 'status'}>{status}</p>{failed && <><button onClick={restart}>Retry</button><button onClick={onBack}>Main Menu</button></>}</div>}
       </div>
       {modal && <div className="game-modal-backdrop">
         <section ref={dialogRef} tabIndex={-1} className="game-modal" role="dialog" aria-modal="true" aria-label={modal === 'help' ? 'How to Play' : modal === 'options' ? 'Options' : 'Pause Menu'}>
-          {modal === 'options' ? <Options settings={settings} onSave={value => { onSaveSettings(value); setModal('pause') }} /> : <>
-            <h1>{modal === 'help' ? 'How to Play' : 'Pause Menu'}</h1>
-            {modal === 'help' && <>
-              <div className="help-controls">{controls.map(([, label, asset, key]) => <div key={label}><img src={icon(asset)} alt="" /><span>{label} <kbd>{key}</kbd></span></div>)}</div>
-              <p>Chaser pursues you and deals contact damage. Shooter approaches and fires cannons.</p>
-              <p>W: move forward · A / D: turn left / right.</p>
-              <p>Space: fire forward · Q / E: fire left / right.</p>
-              <p>R: Repair. Stay still to recover up to 50 HP. Movement or damage cancels repair; 30s cooldown.</p>
-              <p>Destroy enemies to score points and survive until time runs out. U: debug.</p>
-            </>}
-            <div className={`screen-actions ${modal === 'help' ? 'help-actions' : 'pause-actions'}`}>
-              <button type="button" className={modal === 'help' ? 'help-resume' : 'pause-resume'} onClick={resume}>Resume</button>
+          {modal === 'help' ? <ScreenLayout title="How to Play" scrollable footer={<div className="screen-actions help-actions">
+            <button type="button" className="help-resume" onClick={resume}>Resume</button>
+          </div>}><HowToPlay /></ScreenLayout> : modal === 'options' ? <Options settings={settings} onSave={value => { onSaveSettings(value); setModal('pause') }} /> : <>
+            <h1>Pause Menu</h1>
+            <div className="screen-actions pause-actions">
+              <button type="button" className="pause-resume" onClick={resume}>Resume</button>
               {modal === 'pause' && <>
                 <button type="button" onClick={() => setModal('options')}>Options</button>
                 <button type="button" onClick={restart}>Restart Match</button>

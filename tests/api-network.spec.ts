@@ -21,14 +21,12 @@ async function installFinishControl(page: Page) {
     const original = Game.prototype.start
     Game.prototype.start = async function(host: HTMLElement) {
       await original.call(this, host)
-      if (this.disposed) return
+      if (this.testController().observe().disposed) return
       host.dataset.ready = 'true'
       window.addEventListener('test-complete', () => {
-        if (this.disposed) return
+        if (this.testController().observe().disposed) return
         this.world.score = 99
-        this.world.time = this.world.duration - 0.001
-        this.world.paused = false
-        this.tick()
+        this.testController().finish()
       }, { once: true })
     }
   })
@@ -38,6 +36,7 @@ async function completeMatch(page: Page) {
   await expect(page.locator('.game-canvas')).toHaveAttribute('data-ready', 'true')
   await page.evaluate(() => window.dispatchEvent(new Event('test-complete')))
   await expect(page).toHaveURL(/\/result$/)
+  await page.getByRole('button', { name: 'Save Result' }).click()
 }
 async function stored(page: Page, key: string): Promise<MatchRecord[]> {
   return page.evaluate(key => JSON.parse(localStorage.getItem(key) ?? '[]'), key)
@@ -70,20 +69,24 @@ test('POST is idempotent, survives refresh and updates both paginated endpoints'
   expect(await stored(page, STORAGE_KEYS.confirmed)).toEqual([match])
 })
 
-test('timeout AFTER commit keeps pending; refresh and repeated retries recover exactly once', async ({ page }) => {
+test('timeout after commit preserves the private result and deadline across refresh', async ({ page }) => {
   await scenario(page, 'timeout-after-register')
   await installFinishControl(page)
   await completeMatch(page)
-  await expect(page.getByRole('status')).toHaveText('Failed')
+  const queueKey = 'pirate-battle-registration-queue-v2'
+  const queue = () => page.evaluate(key => JSON.parse(localStorage.getItem(key) ?? '[]'), queueKey)
+  await expect.poll(async () => (await queue())[0]?.status).toBe('Failed')
   const pending = await stored(page, STORAGE_KEYS.pending)
   expect(pending).toHaveLength(1)
   expect(await stored(page, STORAGE_KEYS.confirmed)).toEqual(pending)
+  const deadline = (await queue())[0].nextAttemptAt
   await page.reload()
-  await expect(page.getByRole('status')).toHaveText('Failed')
+  expect((await queue())[0].nextAttemptAt).toBe(deadline)
+  await expect(page.getByRole('status')).toHaveCount(0)
   await scenario(page, 'success')
-  await page.getByRole('button', { name: 'Retry Registration' }).evaluate(button => { button.click(); button.click(); button.click() })
-  await expect(page.getByRole('status')).toHaveText('Saved')
-  expect(await stored(page, STORAGE_KEYS.pending)).toEqual([])
+  await page.clock.install()
+  await page.clock.fastForward(Math.max(1, deadline - Date.now() + 1))
+  await expect.poll(() => stored(page, STORAGE_KEYS.pending)).toEqual([])
   expect(await stored(page, STORAGE_KEYS.confirmed)).toEqual(pending)
   await page.getByRole('button', { name: 'Main Menu', exact: true }).click()
   await expect(page.getByRole('tabpanel').filter({ visible: true }).getByText('Captain', { exact: true })).toBeVisible()
@@ -91,25 +94,21 @@ test('timeout AFTER commit keeps pending; refresh and repeated retries recover e
   await expect(page.getByRole('tabpanel').filter({ visible: true }).getByText('99', { exact: true })).toBeVisible()
 })
 
-test('multiple unavailable registrations never block new games and all recover from the menu', async ({ page }) => {
+test('multiple unavailable registrations never block games and recover on their deadlines', async ({ page }) => {
   await scenario(page, 'unavailable-on-match-end')
   await installFinishControl(page)
   await completeMatch(page)
-  await expect(page.getByRole('status')).toHaveText('Failed')
+  await expect.poll(() => stored(page, STORAGE_KEYS.pending)).toHaveLength(1)
   await completeMatch(page)
-  await expect(page.getByRole('status')).toHaveText('Failed')
-  expect(await stored(page, STORAGE_KEYS.pending)).toHaveLength(2)
+  await expect.poll(() => stored(page, STORAGE_KEYS.pending)).toHaveLength(2)
   expect(await stored(page, STORAGE_KEYS.confirmed)).toHaveLength(0)
   await page.getByRole('button', { name: 'Main Menu', exact: true }).click()
-  await page.reload()
-  const panel = page.getByRole('complementary', { name: 'Pending registrations' })
-  await expect(panel.getByRole('button', { name: 'Retry Registration' })).toHaveCount(2)
+  await expect(page.getByRole('complementary', { name: 'Pending registrations' })).toHaveCount(0)
   await scenario(page, 'success')
-  await panel.getByRole('button', { name: 'Retry Registration' }).first().click()
-  await expect(panel.getByRole('button', { name: 'Retry Registration' })).toHaveCount(1)
-  await panel.getByRole('button', { name: 'Retry Registration' }).click()
-  await expect(panel).toHaveCount(0)
-  expect(await stored(page, STORAGE_KEYS.confirmed)).toHaveLength(2)
+  await page.clock.install()
+  await page.clock.fastForward(10_001)
+  await expect.poll(() => stored(page, STORAGE_KEYS.confirmed)).toHaveLength(2)
+  await expect.poll(() => stored(page, STORAGE_KEYS.pending)).toEqual([])
   await page.getByRole('tab', { name: 'Match History' }).click()
   await expect(page.getByRole('tabpanel').filter({ visible: true }).locator('tbody tr')).toHaveCount(2)
 })
@@ -124,7 +123,8 @@ test('snapshot matches actual gameplay settings; refresh during combat registers
   await page.getByRole('spinbutton', { name: 'Enemy Spawn Time in seconds' }).fill('9')
   await page.getByRole('button', { name: 'Save', exact: true }).click()
   await page.evaluate(() => window.dispatchEvent(new Event('test-complete')))
-  await expect(page.getByRole('status')).toHaveText('Saved')
+  await page.getByRole('button', { name: 'Save Result' }).click()
+  await expect.poll(() => stored(page, STORAGE_KEYS.confirmed)).toHaveLength(1)
   const confirmed = await stored(page, STORAGE_KEYS.confirmed)
   expect(confirmed[0].gameConfig).toEqual({ gameSessionTime: 120, enemySpawnTime: 5 })
   await page.getByRole('button', { name: 'Play Again' }).click()
@@ -182,11 +182,6 @@ test('background refetch keeps cached rows, and query keys isolate delayed confi
 })
 
 test('successful retry invalidates only matching configuration and player caches', async ({ page }) => {
-  await page.evaluate(async match => {
-    const path = performance.getEntriesByType('resource').map(entry => entry.name).find(name => name.includes('/src/api/pending.ts')) ?? '/src/api/pending.ts'
-    const { enqueuePending } = await import(path)
-    enqueuePending(match)
-  }, match)
   await page.evaluate(async () => {
     const path = '/src/api/queries.ts'
     const { queryClient, rankingOptions, historyOptions } = await import(path)
@@ -197,8 +192,12 @@ test('successful retry invalidates only matching configuration and player caches
       queryClient.fetchQuery(historyOptions({ playerId: 'unrelated', page: 1, pageSize: 5 })),
     ])
   })
-  await page.getByRole('complementary').getByRole('button', { name: 'Retry Registration' }).click()
-  await expect(page.getByRole('complementary')).toHaveCount(0)
+  await page.evaluate(async match => {
+    const path = performance.getEntriesByType('resource').map(entry => entry.name).find(name => name.includes('/src/api/pending.ts')) ?? '/src/api/pending.ts'
+    const { enqueuePending } = await import(path)
+    enqueuePending(match)
+  }, match)
+  await expect.poll(() => stored(page, STORAGE_KEYS.pending)).toEqual([])
   const states = await page.evaluate(async () => {
     const path = '/src/api/queries.ts'
     const { queryClient, queryKeys } = await import(path)

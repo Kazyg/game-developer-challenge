@@ -40,11 +40,13 @@ test('lateral shots deal fifteen damage each and reload after 1.5 seconds', () =
   expect(world.projectiles[0]!.radius).toBe(4)
 })
 
-test('island impact damage scales with speed and is limited per impact interval', () => {
+test('island blocks at minimum speed without damage; faster contact damages once', () => {
   const world = arena()
   world.islandColliders.push({ type: 'circle', position: { x: 2000, y: 1900 }, radius: 20 })
   const pose = { x: 2000, y: 1900 }
   world.canPlayerPose(pose, 0)
+  expect(world.player.hp).toBe(100)
+  world.canPlayerPose(pose, 0, GAME_CONFIG.playerSpeed)
   expect(world.player.hp).toBe(100)
   world.canPlayerPose(pose, 0, GAME_CONFIG.playerSpeed * 1.3)
   expect(world.player.hp).toBe(95)
@@ -52,7 +54,7 @@ test('island impact damage scales with speed and is limited per impact interval'
   expect(world.player.hp).toBe(95)
   world.time += 1
   world.canPlayerPose(pose, 0, GAME_CONFIG.playerSpeed * 1.3 / 2)
-  expect(world.player.hp).toBe(92.5)
+  expect(world.player.hp).toBe(95)
 })
 
 test('moving into a shooter causes damage but pose queries do not', () => {

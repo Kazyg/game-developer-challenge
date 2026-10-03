@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="750" viewBox="0 0 1000 750"><rect width="1000" height="750" fill="white"/>
+<text x="60" y="40" font-family="sans-serif" font-size="16">rAF FPS per active second (not physical presentation)</text>
+<path d="M60 65H960" stroke="#ddd"/><text x="5" y="70" font-family="sans-serif" font-size="12">65.0</text>
+<path d="M60 105H960" stroke="#ddd"/><text x="5" y="110" font-family="sans-serif" font-size="12">48.8</text>
+<path d="M60 145H960" stroke="#ddd"/><text x="5" y="150" font-family="sans-serif" font-size="12">32.5</text>
+<path d="M60 185H960" stroke="#ddd"/><text x="5" y="190" font-family="sans-serif" font-size="12">16.3</text>
+<path d="M60 225H960" stroke="#ddd"/><text x="5" y="230" font-family="sans-serif" font-size="12">0.0</text>
+<polyline fill="none" stroke="#1565c0" stroke-width="1.5" points="60,77.81162538687624 124.28571428571303,77.81920588723173 188.57142857142605,77.82281246406808 252.85714285713908,77.81162538687622 317.1428571428521,77.82281246406808 381.4285714285651,77.808144615998 445.71428571427816,77.82281246406794 509.99999999999113,104.79331810306516 574.2857142857042,77.83039813500568 638.5714285714172,77.82281246406808 702.8571428571302,77.80814461599815 767.1428571428432,77.82281246406808 831.4285714285563,77.82281246406808 895.7142857142693,77.81162538687607 959.9999999999823,77.78806808551883"/>
+<text x="60" y="245" font-family="sans-serif" font-size="12">0s</text>
+<text x="210" y="245" font-family="sans-serif" font-size="12">2s</text>
+<text x="360" y="245" font-family="sans-serif" font-size="12">5s</text>
+<text x="510" y="245" font-family="sans-serif" font-size="12">7s</text>
+<text x="660" y="245" font-family="sans-serif" font-size="12">9s</text>
+<text x="810" y="245" font-family="sans-serif" font-size="12">12s</text>
+<text x="960" y="245" font-family="sans-serif" font-size="12">14s</text>
+<text x="60" y="285" font-family="sans-serif" font-size="16">p95 interval per active second (ms)</text>
+<path d="M60 310H960" stroke="#ddd"/><text x="5" y="315" font-family="sans-serif" font-size="12">55.0</text>
+<path d="M60 350H960" stroke="#ddd"/><text x="5" y="355" font-family="sans-serif" font-size="12">41.3</text>
+<path d="M60 390H960" stroke="#ddd"/><text x="5" y="395" font-family="sans-serif" font-size="12">27.5</text>
+<path d="M60 430H960" stroke="#ddd"/><text x="5" y="435" font-family="sans-serif" font-size="12">13.8</text>
+<path d="M60 470H960" stroke="#ddd"/><text x="5" y="475" font-family="sans-serif" font-size="12">0.0</text>
+<polyline fill="none" stroke="#c62828" stroke-width="1.5" points="60,421.1272727272722 124.28571428571303,421.1272727272722 188.57142857142605,421.1272727272722 252.85714285713908,420.8363636363647 317.1428571428521,421.1272727272722 381.4285714285651,421.1272727272722 445.71428571427816,421.1272727272722 509.99999999999113,420.8363636363647 574.2857142857042,421.12727272726954 638.5714285714172,421.12727272726954 702.8571428571302,421.12727272726954 767.1428571428432,421.12727272726954 831.4285714285563,421.12727272726954 895.7142857142693,421.12727272726954 959.9999999999823,421.12727272726954"/>
+<text x="60" y="490" font-family="sans-serif" font-size="12">0s</text>
+<text x="210" y="490" font-family="sans-serif" font-size="12">2s</text>
+<text x="360" y="490" font-family="sans-serif" font-size="12">5s</text>
+<text x="510" y="490" font-family="sans-serif" font-size="12">7s</text>
+<text x="660" y="490" font-family="sans-serif" font-size="12">9s</text>
+<text x="810" y="490" font-family="sans-serif" font-size="12">12s</text>
+<text x="960" y="490" font-family="sans-serif" font-size="12">14s</text>
+<text x="60" y="530" font-family="sans-serif" font-size="16">Entities: ships blue, projectiles red, effects green</text>
+<path d="M60 555H960" stroke="#ddd"/><text x="5" y="560" font-family="sans-serif" font-size="12">48.0</text>
+<path d="M60 595H960" stroke="#ddd"/><text x="5" y="600" font-family="sans-serif" font-size="12">36.0</text>
+<path d="M60 635H960" stroke="#ddd"/><text x="5" y="640" font-family="sans-serif" font-size="12">24.0</text>
+<path d="M60 675H960" stroke="#ddd"/><text x="5" y="680" font-family="sans-serif" font-size="12">12.0</text>
+<path d="M60 715H960" stroke="#ddd"/><text x="5" y="720" font-family="sans-serif" font-size="12">0.0</text>
+<polyline fill="none" stroke="#1565c0" stroke-width="1.5" points="60,578.3333333333334 124.28571428571311,578.3333333333334 189.64285714285447,578.3333333333334 253.92857142856724,578.3333333333334 318.21428571428004,578.3333333333334 382.49999999999284,578.3333333333334 446.7857142857057,581.6666666666666 511.0714285714185,581.6666666666666 575.3571428571313,581.6666666666666 638.5714285714189,581.6666666666666 702.857142857135,581.6666666666666 767.1428571428513,578.3333333333334 831.4285714285676,578.3333333333334 895.7142857142837,578.3333333333334 960,578.3333333333334"/>
+<polyline fill="none" stroke="#c62828" stroke-width="1.5" points="60,715 124.28571428571311,715 189.64285714285447,695 253.92857142856724,715 318.21428571428004,715 382.49999999999284,705 446.7857142857057,715 511.0714285714185,715 575.3571428571313,698.3333333333334 638.5714285714189,711.6666666666666 702.857142857135,715 767.1428571428513,698.3333333333334 831.4285714285676,715 895.7142857142837,715 960,701.6666666666666"/>
+<polyline fill="none" stroke="#2e7d32" stroke-width="1.5" points="60,715 124.28571428571311,691.6666666666666 189.64285714285447,711.6666666666666 253.92857142856724,715 318.21428571428004,698.3333333333334 382.49999999999284,715 446.7857142857057,715 511.0714285714185,701.6666666666666 575.3571428571313,715 638.5714285714189,715 702.857142857135,705 767.1428571428513,711.6666666666666 831.4285714285676,715 895.7142857142837,705 960,708.3333333333334"/>
+<text x="60" y="735" font-family="sans-serif" font-size="12">0s</text>
+<text x="210" y="735" font-family="sans-serif" font-size="12">2s</text>
+<text x="360" y="735" font-family="sans-serif" font-size="12">5s</text>
+<text x="510" y="735" font-family="sans-serif" font-size="12">7s</text>
+<text x="660" y="735" font-family="sans-serif" font-size="12">9s</text>
+<text x="810" y="735" font-family="sans-serif" font-size="12">12s</text>
+<text x="960" y="735" font-family="sans-serif" font-size="12">14s</text>
+</svg>

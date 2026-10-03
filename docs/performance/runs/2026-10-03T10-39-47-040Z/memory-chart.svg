@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="390"><rect width="800" height="390" fill="white"/>
+<text x="60" y="30" font-family="sans-serif" font-size="18">JavaScript heap (MiB), warm menu and five cycles</text>
+<text x="60" y="55" font-family="sans-serif" font-size="13">Blue: normal menu after 5s. Red: sampled combat peak. Black: GC diagnostics.</text>
+<path d="M70 310H745" stroke="#ddd"/><text x="10" y="315" font-family="sans-serif">0</text>
+<text x="70" y="340" font-family="sans-serif">0</text>
+<path d="M70 264H745" stroke="#ddd"/><text x="10" y="269" font-family="sans-serif">10</text>
+<text x="205" y="340" font-family="sans-serif">1</text>
+<path d="M70 218H745" stroke="#ddd"/><text x="10" y="223" font-family="sans-serif">20</text>
+<text x="340" y="340" font-family="sans-serif">2</text>
+<path d="M70 172H745" stroke="#ddd"/><text x="10" y="177" font-family="sans-serif">30</text>
+<text x="475" y="340" font-family="sans-serif">3</text>
+<path d="M70 126H745" stroke="#ddd"/><text x="10" y="131" font-family="sans-serif">40</text>
+<text x="610" y="340" font-family="sans-serif">4</text>
+<path d="M70 80H745" stroke="#ddd"/><text x="10" y="85" font-family="sans-serif">50</text>
+<text x="745" y="340" font-family="sans-serif">5</text>
+<polyline fill="none" stroke="#1565c0" stroke-width="2" points="70,191.3011573791504 205,263.9168067932129 340,175.10420684814454 475,193.25071411132814 610,154.52961959838868 745,172.89717407226564"/>
+<polyline fill="none" stroke="#c62828" stroke-width="2" points="205,152.28152542114256 340,108.01029815673829 475,134.68139801025393 610,144.5555419921875 745,117.33146438598632"/>
+<circle cx="70" cy="270.111287689209" r="5" fill="black"/>
+<circle cx="745" cy="259.8814010620117" r="5" fill="black"/>
+<text x="60" y="375" font-family="sans-serif" font-size="12">Snapshot/queryObjects baseline can trigger GC; this is not an intervention-free sequence.</text></svg>

@@ -42,14 +42,14 @@ test('earliest ship wins regardless of array order; wreck is ignored', () => {
   world.projectiles.splice(0, 1); world.projectiles.splice(1)
   world.projectiles[0]!.speed = 24000
   updateProjectiles(world, 1 / 60)
-  expect(near.hp).toBe(40); expect(far.hp).toBe(60)
+  expect(near.hp).toBe(45); expect(far.hp).toBe(60)
   near.alive = false
   world.player.weaponCooldowns.right = 0
   fireWeapon(world, world.player, 'right')
   world.projectiles.splice(0, 1); world.projectiles.splice(1)
   world.projectiles[0]!.speed = 24000
   updateProjectiles(world, 1 / 60)
-  expect(far.hp).toBe(40)
+  expect(far.hp).toBe(45)
 })
 test('last range/lifetime segment hits, but targets beyond range and nearby misses do not', () => {
   for (const mode of ['range', 'lifetime', 'beyond', 'miss']) {
@@ -61,7 +61,7 @@ test('last range/lifetime segment hits, but targets beyond range and nearby miss
     projectile.range = 100
     if (mode === 'lifetime') projectile.lifetime = 100 / projectile.speed
     updateProjectiles(world, 1 / 60)
-    expect(target.hp).toBe(mode === 'beyond' || mode === 'miss' ? 60 : 40)
+    expect(target.hp).toBe(mode === 'beyond' || mode === 'miss' ? 60 : 45)
     expect(world.projectiles).toHaveLength(0)
   }
 })
@@ -73,7 +73,6 @@ test('menu survives repeated visibility/focus cycles before and after gameplay',
     if (afterGame) {
       await page.getByRole('button', { name: 'Play', exact: true }).click()
       await expect(page.locator('canvas')).toBeVisible()
-      await page.keyboard.press('u')
       await page.keyboard.press('Escape')
       await page.getByRole('button', { name: 'Main Menu', exact: true }).click()
     }
@@ -104,7 +103,7 @@ test('collision is checked at the exact range endpoint', () => {
   projectile.range = 1
   const start = { ...projectile.position }
   world.islandColliders.push({ type: 'circle', position: {
-    x: start.x, y: start.y - 1 - projectile.radius - 2,
+    x: start.x, y: start.y - 1 - projectile.radius * 1.25 - 2,
   }, radius: 2 })
   updateProjectiles(world, 1 / 60)
   expect(world.effects.filter(effect => effect.kind === 'impact')).toHaveLength(1)
@@ -122,7 +121,7 @@ test('fast broadside preserves three independent hits or one surviving pair', ()
       if (!narrow) projectile.position.y = target.position.y
     }
     updateProjectiles(world, 1 / 60)
-    expect(target.hp).toBe(narrow ? 40 : 0)
+    expect(target.hp).toBe(narrow ? 45 : 15)
     expect(world.projectiles).toHaveLength(narrow ? 2 : 0)
     expect(world.effects.filter(effect => effect.kind === 'impact')).toHaveLength(narrow ? 1 : 3)
   }

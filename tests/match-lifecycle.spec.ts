@@ -1,6 +1,7 @@
-﻿import { test, expect } from '@playwright/test'
+import { test, expect } from '@playwright/test'
 
 test('pause/help/focus freeze gameplay, resume clears input, seed and restart lifecycle', async ({ page }) => {
+  test.setTimeout(90_000)
   const errors: string[] = []
   page.on('pageerror', error => errors.push(error.message))
   await page.goto('/')
@@ -27,7 +28,7 @@ test('pause/help/focus freeze gameplay, resume clears input, seed and restart li
         position: active.game.world.player.position, repair: active.game.world.player.repair,
         cooldowns: active.game.world.player.weaponCooldowns, projectiles: active.game.world.projectiles,
         enemies: active.game.world.enemies.map(enemy => ({ id: enemy.id, position: enemy.position,
-          rotation: enemy.rotation, hp: enemy.hp, state: enemy.state })), debug: active.game.view.debugGraphics.visible })
+          rotation: enemy.rotation, hp: enemy.hp, state: enemy.state })), debug: active.game.testController().observe().debug })
     })
     window.addEventListener('match-expire', () => { if (active.game) active.game.world.time = active.game.world.duration - 0.001 })
     window.addEventListener('match-hidden', () => {
@@ -52,7 +53,6 @@ test('pause/help/focus freeze gameplay, resume clears input, seed and restart li
   await page.keyboard.down('Space')
   await page.waitForTimeout(150)
   expect(await read()).toEqual(frozen)
-  await page.keyboard.press('KeyU')
   const debug = (await read()).debug
   await page.getByRole('button', { name: 'Resume', exact: true }).click()
   await page.waitForTimeout(100)

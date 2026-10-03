@@ -1,3 +1,4 @@
+import type { WorldEvent } from '../entities/WorldEvent'
 import { COMBAT_CONFIG as config } from '../config/CombatConfig'
 import type { Player } from '../entities/Player'
 
@@ -7,13 +8,14 @@ export function stopRepair(player: Player) {
   player.repair.cooldown = config.repair.cooldown
 }
 
-export function updateRepair(player: Player, requested: boolean, attemptedMovement: boolean, dt: number) {
+export function updateRepair(player: Player, requested: boolean, attemptedMovement: boolean, dt: number, emit?: (event: WorldEvent) => void) {
   const repair = player.repair
   const remainingCooldown = repair.cooldown - dt
   repair.cooldown = remainingCooldown <= config.timeEpsilon ? 0 : remainingCooldown
   if (!player.alive) { stopRepair(player); return }
   if (repair.active && attemptedMovement) { stopRepair(player); return }
   if (requested && !attemptedMovement && !repair.active && repair.cooldown === 0 && player.hp < player.maxHp) {
+    emit?.({ type: 'repairStarted' })
     repair.active = true
     repair.elapsed = 0
     repair.healed = 0

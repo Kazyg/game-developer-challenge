@@ -152,7 +152,7 @@ body:has(.game-screen) {
 .game-input-controls button:nth-child(4) { margin-left: auto; }
 .game-input-controls small { position: absolute; bottom: -5px; left: 0; right: 0; font-size: 10px; text-shadow: 0 1px 3px black; }
 .game-input-controls button:active, .game-input-controls button[data-active="true"] { background-image: url('../../../assets/png/default/ui/controls/button_round_pressed.png'); }
-.portrait-hint { display: none; }
+
 .help-controls { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 .help-controls > div { display: flex; align-items: center; gap: 12px; }
 .help-controls img { width: 32px; height: 32px; object-fit: contain; }
@@ -167,16 +167,110 @@ body:has(.game-screen) {
   .game-modal-backdrop { padding: 8px; }
   .game-modal { padding: 16px; }
 }
-@media (any-pointer: coarse) and (orientation: portrait) {
-  .portrait-hint { display: block; position: absolute; top: 20%; left: 12px; right: 12px; text-align: center; padding: 8px; background: #0f172acc; pointer-events: none; }
-  .game-hud-info { flex-direction: column; }
-  .game-input-controls { flex-wrap: wrap; justify-content: space-between; }
-  .game-input-controls button { width: 44px; height: 44px; padding: 6px; }
-  .game-input-controls button:nth-child(4) { margin-left: 0; }
-}
-
 .game-input-controls button:disabled { opacity: 0.45; cursor: not-allowed; filter: grayscale(0.8); }
 .game-input-controls button[data-active="true"] { filter: brightness(1.25); outline: 2px solid #ffe69d; border-radius: 50%; }
 .game-input-controls button[data-cooldown="true"] img { opacity: 0.7; }
 .command-cooldown { position: absolute; inset: 3px; border-radius: 50%; background: conic-gradient(#0c2337aa var(--cooldown-angle), transparent 0); pointer-events: none; }
 .command-cooldown > span { position: absolute; bottom: 3px; left: 0; right: 0; font-size: 11px; color: white; text-shadow: 0 1px 2px black; }
+
+.game-modal > h1 { width: 100%; text-align: center; margin: 0 0 20px; }
+.game-hud-actions button:hover, .game-input-controls button:hover {
+  background: url('../../../assets/png/default/ui/controls/button_round_normal.png') center / contain no-repeat;
+}
+.game-hud-actions button:active, .game-input-controls button:active, .game-input-controls button[data-active="true"]:hover {
+  background-image: url('../../../assets/png/default/ui/controls/button_round_pressed.png');
+}
+
+
+/* Shared framed panels own a single content scroller inside the modal. */
+.game-modal:has(> .screen-scroll) {
+  height: min(760px, calc(100dvh - max(12px, env(safe-area-inset-top)) - max(12px, env(safe-area-inset-bottom)))); width: min(100%, 760px);
+  padding: 0; overflow: visible; background: transparent;
+}
+.game-modal .screen-scroll {
+  height: 100%; padding: var(--frame-inset); background: #1e293b;
+  border-image: url('../../../assets/png/retina/ui/menu/panel_menu.png') 76 fill / 28px / 0 stretch;
+}
+.game-modal-backdrop {
+  padding: max(12px, env(safe-area-inset-top)) max(12px, env(safe-area-inset-right))
+    max(12px, env(safe-area-inset-bottom)) max(12px, env(safe-area-inset-left));
+}
+.game-modal .help-actions { margin-top: 12px; }
+.control-group { display: flex; gap: 8px; pointer-events: none; }
+.attack-controls { margin-left: auto; }
+.game-input-controls button:nth-child(4) { margin-left: 0; }
+@media (max-width: 600px), (pointer: coarse) and (max-width: 1400px) and (max-height: 600px) {
+  .game-input-controls { display: flex; flex-wrap: nowrap; justify-content: space-between; gap: 8px; }
+  .movement-controls, .attack-controls {
+    position: relative; display: block; width: 140px; height: 140px; flex: 0 0 140px;
+    border-radius: 50%; background: radial-gradient(circle, #102c3c50, transparent 70%);
+  }
+  .game-input-controls .control-group button {
+    position: absolute; width: 56px; height: 56px; padding: 10px;
+    touch-action: none; -webkit-touch-callout: none;
+  }
+  .control-group button[data-code='KeyW'], .control-group button[data-code='Space'] { top: 0; left: 42px; }
+  .control-group button[data-code='KeyA'], .control-group button[data-code='KeyQ'] { bottom: 4px; left: 0; }
+  .control-group button[data-code='KeyD'], .control-group button[data-code='KeyE'] { bottom: 4px; right: 0; }
+  .auxiliary-controls { position: absolute; bottom: 116px; left: 50%; transform: translateX(-50%); width: 48px; height: 48px; }
+  .game-input-controls .auxiliary-controls button { width: 48px; height: 48px; padding: 8px; }
+  .game-input-controls img { width: 28px; height: 28px; }
+  .game-hud-info {
+    position: absolute; left: 50%; transform: translateX(-50%); top: 0;
+    display: flex; flex-direction: row; gap: 4px; max-width: calc(100% - 104px);
+  }
+  .game-hud-info > span { min-height: 40px; padding: 6px 10px; gap: 4px; font-size: 14px; white-space: nowrap; }
+  .game-hud-info img { width: 18px; height: 18px; }
+  .counter-label { display: none; }
+  .game-hud-actions { display: contents; }
+  .game-hud-actions button { position: absolute; top: 0; width: 44px; height: 44px; padding: 8px; }
+  .game-hud-actions button:first-child { left: 0; }
+  .game-hud-actions button:last-child { right: 0; }
+  
+}
+@media (max-width: 480px) {
+  .game-modal .screen-scroll { border-image-width: 18px; }
+}
+
+.game-screen { touch-action: pan-y; }
+.game-underlay { touch-action: none; }
+
+@media (min-width: 381px) and (max-width: 600px), (pointer: coarse) and (min-width: 381px) and (max-width: 1400px) and (max-height: 600px) {
+  .auxiliary-controls { bottom: 0; }
+}
+@media (max-height: 500px) {
+  .game-modal .screen-scroll { border-image-width: 18px; }
+  .game-modal > h1 { font-size: 24px; margin-bottom: 12px; }
+  .game-modal .screen-actions.pause-actions {
+    display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin-top: 12px;
+  }
+  .game-modal .screen-actions.pause-actions > button {
+    width: 100%; height: 48px; aspect-ratio: auto; padding: 8px; background-size: 100% 100%;
+  }
+  .game-modal .screen-footer .help-actions > button.help-resume {
+    max-width: 240px; margin: 0 auto; aspect-ratio: auto; height: 48px;
+    min-height: 48px; padding: 10px 16px; background-size: 100% 100%;
+  }
+}
+
+/* A non-modal suggestion: play remains available and dismissal lasts for the session. */
+.portrait-hint {
+  position: absolute; z-index: 2; top: max(72px, calc(env(safe-area-inset-top) + 60px));
+  left: max(12px, env(safe-area-inset-left)); right: max(12px, env(safe-area-inset-right));
+  width: fit-content; max-width: calc(100% - 24px); margin: 0 auto;
+  display: flex; align-items: center; gap: 12px; padding: 8px 12px;
+  border: 1px solid #d4a24e; border-radius: 8px; background: #0f172ae6;
+  touch-action: manipulation;
+}
+.portrait-hint p { margin: 0; font-size: 14px; }
+.portrait-hint button { flex-shrink: 0; min-width: 48px; padding: 8px; }
+@media (max-width: 600px), (pointer: coarse) and (max-width: 1400px) and (max-height: 600px) {
+  .game-input-controls { --control-size: 56px; --group-size: 140px; }
+  .movement-controls, .attack-controls { width: var(--group-size); height: var(--group-size); flex-basis: var(--group-size); }
+  .game-input-controls .control-group button { width: var(--control-size); height: var(--control-size); }
+  .control-group button[data-code='KeyW'], .control-group button[data-code='Space'] { left: calc((var(--group-size) - var(--control-size)) / 2); }
+  .game-input-controls .auxiliary-controls button { width: 48px; height: 48px; }
+}
+@media (pointer: coarse) and (max-width: 1400px) and (max-height: 380px) {
+  .game-input-controls { --control-size: 48px; --group-size: 120px; }
+}

@@ -64,7 +64,15 @@ export function generateIslands(seed: number, spawn: Vector2): Island[] {
       shape: generateIslandShape(variant, category, random.integer(0, 0xffffffff)), rotation: random.range(-Math.PI, Math.PI) }
   }).sort((a, b) => b.size * b.shape.boundingRadius - a.size * a.shape.boundingRadius)
   let failure = ''
-  for (let layout = 0; layout < 24; layout++) {
+  for (let layout = 0; layout < config.islandLayout.attempts; layout++) {
+    // Dense plans may not leave enough clearance for the larger player hull.
+    // Compact only the sampled size range, preserving categories/count and their minimum sizes.
+    if ((config.islandLayout.compactAt as readonly number[]).includes(layout)) {
+      for (const plan of plans) {
+        const min = ISLAND_SIZE_PROFILES[plan.sizeCategory].min
+        plan.size = min + (plan.size - min) * config.islandLayout.sizeRangeFactor
+      }
+    }
     const islands: Island[] = []
 
     for (const { size, variant, shape, rotation, sizeCategory } of plans) {

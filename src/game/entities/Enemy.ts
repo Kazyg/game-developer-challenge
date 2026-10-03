@@ -17,6 +17,24 @@ export interface EnemyNavigation {
   islandId: string | null
   side: 1 | -1
   waypoint: Vector2 | null
+  neighborSides: Record<string, { side: number; age: number }>
+  escape: { point: Vector2; rotation: number; reverse: boolean } | null
+  replanRequested: boolean
+  planCount: number
+  replanPhase: number
+  routeReachable: boolean
+  blockedBy: 'terrain' | 'ally' | null
+  route: Vector2[]
+  goal: Vector2 | null
+  progressPoint: Vector2 | null
+  progressDistance: number
+  progressSeconds: number
+  lastStep: number
+  routeAge: number
+  turningSeconds: number
+  pursuit: Vector2 | null
+  straightDistance: number
+  maneuverAge: number
   stalledSeconds: number
 }
 export interface Enemy {
@@ -42,7 +60,9 @@ export function createEnemy(id: string, type: EnemyType, area: PatrolArea,
   position: Vector2, seed: number, validPatrolPoint: (point: Vector2) => boolean = () => true, plan?: PatrolPlan): Enemy {
   const config = COMBAT_CONFIG[type]
   const random = new SeededRandom(seed)
-  const margin = Math.max(...getPlayerColliders({ position: { x: 0, y: 0 }, rotation: 0 })
+  const phaseSeed = Array.from(id).reduce((hash, character) => (Math.imul(hash, 31) + character.charCodeAt(0)) >>> 0, seed)
+  const replanPhase = new SeededRandom(phaseSeed).next() * COMBAT_CONFIG.obstacles.routeRefreshSeconds
+  const margin = Math.max(...getPlayerColliders({ position: { x: 0, y: 0 }, rotation: 0, team: 'enemy' })
     .map(circle => Math.hypot(circle.position.x, circle.position.y) + circle.radius))
   let center = { ...position }
   let radius = Math.max(1, Math.min(position.x - area.x, area.x + area.width - position.x,
@@ -67,7 +87,7 @@ export function createEnemy(id: string, type: EnemyType, area: PatrolArea,
     attackRange: type === 'shooter' ? COMBAT_CONFIG.shooter.attackRange : 0,
     speed: config.speed, weaponCooldowns: createWeaponCooldowns(),
     patrol: plan ?? { kind: 'circular', center, radius, direction: random.next() < 0.5 ? 1 : -1 },
-    navigation: { islandId: null, side: random.next() < 0.5 ? 1 : -1, waypoint: null, stalledSeconds: 0 },
+    navigation: { islandId: null, side: random.next() < 0.5 ? 1 : -1, waypoint: null, stalledSeconds: 0, neighborSides: {}, escape: null, replanRequested: false, planCount: 0, replanPhase, routeReachable: true, blockedBy: null, route: [], goal: null, routeAge: 0, lastStep: 0, progressPoint: null, progressDistance: 0, progressSeconds: 0, turningSeconds: 0, pursuit: null, straightDistance: 0, maneuverAge: COMBAT_CONFIG.shooter.maneuverSeconds },
     get colliders() { return getPlayerColliders(this) },
   }
 }

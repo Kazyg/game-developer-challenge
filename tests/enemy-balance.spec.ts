@@ -1,4 +1,4 @@
-﻿import { test, expect } from '@playwright/test'
+import { test, expect } from '@playwright/test'
 import { World } from '../src/game/world/World'
 import { createEnemy } from '../src/game/entities/Enemy'
 import { updateEnemies, leashBounds } from '../src/game/ai/EnemySystem'
@@ -11,29 +11,31 @@ function arena() {
   const world = new World(42)
   world.islands.splice(0)
   world.islandColliders.splice(0)
+  world.enemies.splice(0)
   Object.assign(world.patrolAreas[0]!, { x: 1400, y: 1400, width: 1200, height: 1200 })
   return world
 }
 
-test('vision requires proximity and RETURN latches until the patrol region', () => {
+test('vision requires proximity and RETURN reaches the patrol region without hull contact', () => {
   const world = arena()
   const area = world.patrolAreas[0]!
   const enemy = createEnemy('enemy', 'chaser', area, { x: 2000, y: 2400 }, 42)
   world.enemies.push(enemy)
   updateEnemies(world, 0)
-  expect(enemy.visionRange).toBe(300)
+  expect(enemy.visionRange).toBe(345)
   expect(enemy.state).toBe('PATROL')
   world.player.position.y = 2150
   updateEnemies(world, 0)
   expect(enemy.state).toBe('CHASE')
   const bounds = leashBounds(area)
   enemy.position = { x: bounds.x - 10, y: 2000 }
-  world.player.position = { x: enemy.position.x, y: 2100 }
+  world.player.position = { x: enemy.position.x, y: 2150 }
   updateEnemies(world, 0)
   expect(enemy.state).toBe('RETURN')
   let returned = false
   for (let i = 0; i < 600; i++) {
-    world.player.position = { x: enemy.position.x, y: enemy.position.y + 100 }
+    // 150 exceeds both reduced return vision and the combined longitudinal hulls.
+    world.player.position = { x: enemy.position.x, y: enemy.position.y + 150 }
     updateEnemies(world, 1 / 60)
     if (enemy.state === 'PATROL') { returned = true; break }
     expect(enemy.state).toBe('RETURN')
@@ -143,10 +145,11 @@ test('RETURN uses reduced vision and reacquires nearby players without oscillati
   updateEnemies(world, 0)
   expect(enemy.state).toBe('RETURN')
   expect(enemy.visionRange).toBe(90)
-  world.player.position.y = 2080
+  // Reduced vision can be tested beside the hull, without longitudinal overlap.
+  world.player.position = { x: enemy.position.x + 80, y: enemy.position.y }
   updateEnemies(world, 0)
   expect(enemy.state).toBe('CHASE')
-  expect(enemy.visionRange).toBe(300)
+  expect(enemy.visionRange).toBe(345)
   updateEnemies(world, 0)
   expect(enemy.state).toBe('CHASE')
   world.player.position.y = 2150
@@ -156,5 +159,5 @@ test('RETURN uses reduced vision and reacquires nearby players without oscillati
   world.player.position = { x: 100, y: 100 }
   updateEnemies(world, 0)
   expect(enemy.state).toBe('PATROL')
-  expect(enemy.visionRange).toBe(300)
+  expect(enemy.visionRange).toBe(345)
 })

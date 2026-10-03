@@ -1,0 +1,87 @@
+{
+  "mode": "cpu",
+  "runs": [
+    {
+      "complete": false,
+      "activeSeconds": 30.016666666666232,
+      "wallSeconds": 30.213,
+      "collectionSeconds": 29.986900000000002,
+      "startupMs": 458.60000002384186,
+      "rafIntervals": 1781,
+      "fps": 59.392601435960366,
+      "p95Ms": 16.80000000000291,
+      "over16_67": 1589,
+      "over33_33": 2,
+      "over50": 1,
+      "renderCalls": 1781,
+      "renderCallsPerSecond": 59.392601435960366,
+      "simulationSteps": 1800,
+      "stepsPerFrame": 1.0106681639528354,
+      "maxStepsPerFrame": 12,
+      "maxBacklogSeconds": 0.01663333340485906,
+      "meanSimulationMs": 2.360527793053226,
+      "p95SimulationMs": 3.100000023841858,
+      "meanRendererSubmissionMs": 0.19185850715315925,
+      "p95RendererSubmissionMs": 0.30000007152557373,
+      "minHp": 60,
+      "maxScore": 0,
+      "entityStats": {
+        "chasers": {
+          "mean": 19.838709677419356,
+          "max": 20
+        },
+        "shooters": {
+          "mean": 20,
+          "max": 20
+        },
+        "ships": {
+          "mean": 40.83870967741935,
+          "max": 41
+        },
+        "projectiles": {
+          "mean": 1.6129032258064515,
+          "max": 6
+        },
+        "effects": {
+          "mean": 2.064516129032258,
+          "max": 7
+        },
+        "wrecks": {
+          "mean": 0.0967741935483871,
+          "max": 1
+        },
+        "islands": {
+          "mean": 37,
+          "max": 37
+        },
+        "engaged": {
+          "mean": 0.1935483870967742,
+          "max": 1
+        }
+      },
+      "intervals": [
+        {
+          "from": 0,
+          "fps": 58.57126850088111,
+          "p95Ms": 16.80000000000109
+        },
+        {
+          "from": 10,
+          "fps": 59.79222701048863,
+          "p95Ms": 16.80000000000291
+        },
+        {
+          "from": 20,
+          "fps": 59.792824861016676,
+          "p95Ms": 16.80000000000291
+        },
+        {
+          "from": 30,
+          "fps": 59.77286312014372,
+          "p95Ms": 16.799999999999272
+        }
+      ]
+    }
+  ],
+  "cycles": []
+}

@@ -1,4 +1,4 @@
-﻿import { MATCH_CONFIG } from './game/config/MatchConfig'
+import { MATCH_CONFIG } from './game/config/MatchConfig'
 export const SETTINGS_LIMITS = { minSpawnTime: 1, maxSpawnTime: 60, defaultSpawnTime: 5 } as const
 export interface SessionSettings { duration: number; spawnTime: number }
 export function validSettings(value: SessionSettings): boolean {

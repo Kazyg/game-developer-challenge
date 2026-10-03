@@ -1,3 +1,4 @@
+import { removeMissing, destroyDisplay } from './collections'
 import { Assets, Container, Sprite } from 'pixi.js'
 import type { Texture } from 'pixi.js'
 import { GAME_CONFIG } from '../config/GameConfig'
@@ -12,6 +13,7 @@ export class DamageRenderer {
   private parts: Texture[] = []
   private texture: Texture | undefined
   private disposed = false
+  observe() { return [...this.overlays].map(([id, display]) => ({ id, visible: display.visible })) }
   async initialize() {
     const partUrls = import.meta.glob('../../../assets/png/default/ship_parts/*.png', { eager: true, query: '?url', import: 'default' }) as Record<string, string>
     const parts = await Promise.all(['cannon', 'flag_1', 'flag_3', 'flag_5'].map(name => Assets.load<Texture>(partUrls[`../../../assets/png/default/ship_parts/${name}.png`]!)))
@@ -22,9 +24,7 @@ export class DamageRenderer {
   render(world: World, viewport?: Viewport) {
     const damaged = [world.player, ...world.enemies].filter(ship => ship.alive)
     const ids = new Set(damaged.map(ship => ship.id))
-    for (const [id, overlay] of this.overlays) {
-      if (!ids.has(id)) { overlay.destroy({ children: true }); this.overlays.delete(id) }
-    }
+    removeMissing(this.overlays, ids, item => destroyDisplay(item))
     for (const ship of damaged) {
       let overlay = this.overlays.get(ship.id)
       const visible = inViewport(ship.position, 80, viewport)
@@ -59,7 +59,7 @@ export class DamageRenderer {
       }
       overlay.position.set(ship.position.x, ship.position.y)
       overlay.rotation = ship.rotation + GAME_CONFIG.spriteRotationOffset
-      overlay.scale.set(GAME_CONFIG.playerSpriteScale)
+      overlay.scale.set(ship.team === 'player' ? GAME_CONFIG.playerSpriteScale : GAME_CONFIG.enemySpriteScale)
       const ratio = ship.hp / ship.maxHp
       overlay.children.at(-2)!.visible = ratio <= 0.6
       overlay.children.at(-1)!.visible = ratio <= 0.3

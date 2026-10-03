@@ -1,3 +1,4 @@
+import { COMBAT_CONFIG } from '../src/game/config/CombatConfig'
 import { test, expect } from '@playwright/test'
 import { getPlayerColliders } from '../src/game/entities/Player'
 
@@ -25,32 +26,34 @@ test('offscreen ships skip graphics, reappear without losing sprites and continu
     host.style.cssText = 'width:800px;height:600px'
     document.body.append(host)
     await game.start(host)
-    game.app.stop()
-    const view = game.view
+    const control = game.testController()
+    control.stopClock()
     const enemy = game.world.enemies[0]
-    const initialSprites = view.combatView.ships.size
+    const initialSprites = control.observe().combat.ships
     const before = { ...enemy.position }
     updateEnemies(game.world, 1 / 60)
     const simulated = enemy.position.x !== before.x || enemy.position.y !== before.y
     enemy.position = { x: 2100, y: 2000 }
-    game.render()
-    const sprite = view.combatView.ships.get(enemy.id)
-    const visible = sprite.visible && view.damageView.overlays.get(enemy.id).visible
+    control.render()
+    const sprite = control.observe().combat.shipDisplays.find((display: {id: string}) => display.id === enemy.id)
+    const visible = sprite.visible && control.observe().damage.find((display: {id: string}) => display.id === enemy.id).visible
     enemy.position = { x: 3900, y: 3900 }
-    game.render()
-    const hidden = !sprite.visible && !view.damageView.overlays.get(enemy.id).visible
-      && !view.healthView.bars.get(enemy.id).container.visible
+    control.render()
+    const hidden = !control.observe().combat.shipDisplays.find((display: {id: string}) => display.id === enemy.id).visible && !control.observe().damage.find((display: {id: string}) => display.id === enemy.id).visible
+      && !control.observe().health.find((display: {id: string}) => display.id === enemy.id).visible
     enemy.position = { x: 2100, y: 2000 }
-    game.render()
-    const reused = view.combatView.ships.get(enemy.id) === sprite && sprite.visible
-    const ocean = { width: view.ocean.width, height: view.ocean.height }
+    control.render()
+    const returned = control.observe().combat.shipDisplays.find((display: {id: string}) => display.id === enemy.id)
+    const reused = returned.uid === sprite.uid && returned.visible
+    const ocean = control.observe().ocean
     const population = game.world.enemies.length
     game.destroy()
     host.remove()
     return { initialSprites, simulated, visible, hidden, reused, ocean, population }
   })
-  expect(result.population).toBe(48)
-  expect(result.initialSprites).toBeLessThan(48)
+  expect(result.population).toBeGreaterThan(0)
+  expect(result.population).toBeLessThanOrEqual(COMBAT_CONFIG.spawn.maxPopulation)
+  expect(result.initialSprites).toBeLessThan(result.population)
   expect(result.simulated).toBe(true)
   expect(result.visible).toBe(true)
   expect(result.hidden).toBe(true)

@@ -1,0 +1,21 @@
+{
+  "ram": {
+    "before": {
+      "score": 0,
+      "hp": 1
+    },
+    "after": {
+      "score": 1,
+      "hp": 0,
+      "alive": false,
+      "playerHp": 96.15384615384616
+    },
+    "poseAllowed": false
+  },
+  "shooter": {
+    "beforeDistance": 300,
+    "configuredAttackRange": 220,
+    "state": "RETURN",
+    "projectiles": 0
+  }
+}

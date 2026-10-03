@@ -1,0 +1,1528 @@
+{
+  "method": "Shortest root paths excluding weak edges; examples, not full dominator/ephemeron analysis.",
+  "targets": {
+    "native:MessageEvent": {
+      "stronglyReachableCount": 2331,
+      "examples": [
+        {
+          "fullPathLength": 1368,
+          "path": [
+            {
+              "node": "synthetic:(GC roots)",
+              "via": "element:1"
+            },
+            {
+              "node": "synthetic:(Global handles)",
+              "via": "element:10"
+            },
+            {
+              "node": "object:InjectedScript",
+              "via": "internal:5 / DevTools console"
+            },
+            {
+              "node": "native:Window / http://127.0.0.1:4175",
+              "via": "property:window"
+            },
+            {
+              "node": "native:blink::HeapHashTableBacking<blink::HashTable<const char *, blink::KeyValuePair<const char *, cppgc::internal::BasicMember<blink::Supplement<blink::ExecutionContext>, cppgc::internal::StrongMemberTag, cppgc::internal::DijkstraWriteBarrierPolicy>>, blink::KeyValuePairExtractor, blink::HashMapValueTraits<blink::HashTraits<const char *>, blink::HashTraits<cppgc::internal::BasicMember<blink::Supplement<blink::ExecutionContext>, cppgc::internal::StrongMemberTag, cppgc::internal::DijkstraWriteBarrierPolicy>>>, blink::HashTraits<const char *>, blink::HeapAllocator>>",
+              "via": "element:36"
+            },
+            {
+              "node": "native:ServiceWorkerContainer",
+              "via": "element:1"
+            },
+            {
+              "node": "native:blink::EventTargetData",
+              "via": "element:7"
+            },
+            {
+              "node": "native:blink::BasicHeapVector<blink::internal::HeapCollectionType::kGCed, cppgc::internal::BasicMember<blink::RegisteredEventListener, cppgc::internal::StrongMemberTag, cppgc::internal::DijkstraWriteBarrierPolicy>, 1>",
+              "via": "element:1"
+            },
+            {
+              "node": "native:blink::HeapVectorBacking<cppgc::internal::BasicMember<blink::RegisteredEventListener, cppgc::internal::StrongMemberTag, cppgc::internal::DijkstraWriteBarrierPolicy>>",
+              "via": "element:1"
+            },
+            {
+              "node": "native:blink::RegisteredEventListener",
+              "via": "element:1"
+            },
+            {
+              "node": "native:EventListener",
+              "via": "element:1"
+            },
+            {
+              "node": "native:V8EventListener",
+              "via": "element:1"
+            },
+            {
+              "node": "closure:",
+              "via": "element:1"
+            },
+            {
+              "node": "object:system / Context / scope @54141",
+              "via": "internal:context"
+            },
+            {
+              "node": "object:co",
+              "via": "context:this"
+            },
+            {
+              "node": "closure:getWorker",
+              "via": "property:#e"
+            },
+            {
+              "node": "object:system / Context / scope @54107",
+              "via": "internal:context"
+            },
+            {
+              "node": "object:e",
+              "via": "context:this"
+            },
+            {
+              "node": "object:Promise",
+              "via": "property:workerPromise"
+            },
+            {
+              "node": "native:system / PromiseReaction",
+              "via": "internal:reactions_or_result"
+            },
+            {
+              "omitted": 1328
+            },
+            {
+              "node": "native:system / PromiseReaction",
+              "via": "hidden:1"
+            },
+            {
+              "node": "native:system / PromiseReaction",
+              "via": "hidden:1"
+            },
+            {
+              "node": "native:system / PromiseReaction",
+              "via": "hidden:1"
+            },
+            {
+              "node": "native:system / PromiseReaction",
+              "via": "hidden:1"
+            },
+            {
+              "node": "native:system / PromiseReaction",
+              "via": "hidden:1"
+            },
+            {
+              "node": "native:system / PromiseReaction",
+              "via": "hidden:1"
+            },
+            {
+              "node": "native:system / PromiseReaction",
+              "via": "hidden:1"
+            },
+            {
+              "node": "native:system / PromiseReaction",
+              "via": "hidden:1"
+            },
+            {
+              "node": "native:system / PromiseReaction",
+              "via": "hidden:1"
+            },
+            {
+              "node": "native:system / PromiseReaction",
+              "via": "hidden:1"
+            },
+            {
+              "node": "native:system / PromiseReaction",
+              "via": "hidden:1"
+            },
+            {
+              "node": "native:system / PromiseReaction",
+              "via": "hidden:1"
+            },
+            {
+              "node": "native:system / PromiseReaction",
+              "via": "hidden:1"
+            },
+            {
+              "node": "object:Promise",
+              "via": "hidden:4"
+            },
+            {
+              "node": "native:system / PromiseReaction",
+              "via": "internal:reactions_or_result"
+            },
+            {
+              "node": "closure:",
+              "via": "hidden:1"
+            },
+            {
+              "node": "object:system / Context / scope @459",
+              "via": "internal:context"
+            },
+            {
+              "node": "object:Generator",
+              "via": "internal:extension"
+            },
+            {
+              "node": "array:",
+              "via": "internal:parameters_and_registers"
+            },
+            {
+              "node": "native:MessageEvent",
+              "via": "internal:0"
+            }
+          ]
+        },
+        {
+          "fullPathLength": 32,
+          "path": [
+            {
+              "node": "synthetic:(GC roots)",
+              "via": "element:1"
+            },
+            {
+              "node": "synthetic:(Global handles)",
+              "via": "element:10"
+            },
+            {
+              "node": "object:InjectedScript",
+              "via": "internal:5 / DevTools console"
+            },
+            {
+              "node": "native:Window / http://127.0.0.1:4175",
+              "via": "property:window"
+            },
+            {
+              "node": "native:blink::HeapHashTableBacking<blink::HashTable<const char *, blink::KeyValuePair<const char *, cppgc::internal::BasicMember<blink::Supplement<blink::ExecutionContext>, cppgc::internal::StrongMemberTag, cppgc::internal::DijkstraWriteBarrierPolicy>>, blink::KeyValuePairExtractor, blink::HashMapValueTraits<blink::HashTraits<const char *>, blink::HashTraits<cppgc::internal::BasicMember<blink::Supplement<blink::ExecutionContext>, cppgc::internal::StrongMemberTag, cppgc::internal::DijkstraWriteBarrierPolicy>>>, blink::HashTraits<const char *>, blink::HeapAllocator>>",
+              "via": "element:36"
+            },
+            {
+              "node": "native:ServiceWorkerContainer",
+              "via": "element:1"
+            },
+            {
+              "node": "native:blink::EventTargetData",
+              "via": "element:7"
+            },
+            {
+              "node": "native:blink::BasicHeapVector<blink::internal::HeapCollectionType::kGCed, cppgc::internal::BasicMember<blink::RegisteredEventListener, cppgc::internal::StrongMemberTag, cppgc::internal::DijkstraWriteBarrierPolicy>, 1>",
+              "via": "element:1"
+            },
+            {
+              "node": "native:blink::HeapVectorBacking<cppgc::internal::BasicMember<blink::RegisteredEventListener, cppgc::internal::StrongMemberTag, cppgc::internal::DijkstraWriteBarrierPolicy>>",
+              "via": "element:1"
+            },
+            {
+              "node": "native:blink::RegisteredEventListener",
+              "via": "element:1"
+            },
+            {
+              "node": "native:EventListener",
+              "via": "element:1"
+            },
+            {
+              "node": "native:V8EventListener",
+              "via": "element:1"
+            },
+            {
+              "node": "closure:",
+              "via": "element:1"
+            },
+            {
+              "node": "object:system / Context / scope @54141",
+              "via": "internal:context"
+            },
+            {
+              "node": "object:co",
+              "via": "context:this"
+            },
+            {
+              "node": "closure:getWorker",
+              "via": "property:#e"
+            },
+            {
+              "node": "object:system / Context / scope @54107",
+              "via": "internal:context"
+            },
+            {
+              "node": "object:e",
+              "via": "context:this"
+            },
+            {
+              "node": "object:Promise",
+              "via": "property:workerPromise"
+            },
+            {
+              "node": "native:system / PromiseReaction",
+              "via": "internal:reactions_or_result"
+            },
+            {
+              "node": "native:system / PromiseReaction",
+              "via": "hidden:1"
+            },
+            {
+              "node": "native:system / PromiseReaction",
+              "via": "hidden:1"
+            },
+            {
+              "node": "native:system / PromiseReaction",
+              "via": "hidden:1"
+            },
+            {
+              "node": "native:system / PromiseReaction",
+              "via": "hidden:1"
+            },
+            {
+              "node": "native:system / PromiseReaction",
+              "via": "hidden:1"
+            },
+            {
+              "node": "object:Promise",
+              "via": "hidden:4"
+            },
+            {
+              "node": "native:system / PromiseReaction",
+              "via": "internal:reactions_or_result"
+            },
+            {
+              "node": "closure:",
+              "via": "hidden:1"
+            },
+            {
+              "node": "object:system / Context / scope @459",
+              "via": "internal:context"
+            },
+            {
+              "node": "object:Generator",
+              "via": "internal:extension"
+            },
+            {
+              "node": "array:",
+              "via": "internal:parameters_and_registers"
+            },
+            {
+              "node": "native:MessageEvent",
+              "via": "internal:0"
+            }
+          ]
+        },
+        {
+          "fullPathLength": 1077,
+          "path": [
+            {
+              "node": "synthetic:(GC roots)",
+              "via": "element:1"
+            },
+            {
+              "node": "synthetic:(Global handles)",
+              "via": "element:10"
+            },
+            {
+              "node": "object:InjectedScript",
+              "via": "internal:5 / DevTools console"
+            },
+            {
+              "node": "native:Window / http://127.0.0.1:4175",
+              "via": "property:window"
+            },
+            {
+              "node": "native:blink::HeapHashTableBacking<blink::HashTable<const char *, blink::KeyValuePair<const char *, cppgc::internal::BasicMember<blink::Supplement<blink::ExecutionContext>, cppgc::internal::StrongMemberTag, cppgc::internal::DijkstraWriteBarrierPolicy>>, blink::KeyValuePairExtractor, blink::HashMapValueTraits<blink::HashTraits<const char *>, blink::HashTraits<cppgc::internal::BasicMember<blink::Supplement<blink::ExecutionContext>, cppgc::internal::StrongMemberTag, cppgc::internal::DijkstraWriteBarrierPolicy>>>, blink::HashTraits<const char *>, blink::HeapAllocator>>",
+              "via": "element:36"
+            },
+            {
+              "node": "native:ServiceWorkerContainer",
+              "via": "element:1"
+            },
+            {
+              "node": "native:blink::EventTargetData",
+              "via": "element:7"
+            },
+            {
+              "node": "native:blink::BasicHeapVector<blink::internal::HeapCollectionType::kGCed, cppgc::internal::BasicMember<blink::RegisteredEventListener, cppgc::internal::StrongMemberTag, cppgc::internal::DijkstraWriteBarrierPolicy>, 1>",
+              "via": "element:1"
+            },
+            {
+              "node": "native:blink::HeapVectorBacking<cppgc::internal::BasicMember<blink::RegisteredEventListener, cppgc::internal::StrongMemberTag, cppgc::internal::DijkstraWriteBarrierPolicy>>",
+              "via": "element:1"
+            },
+            {
+              "node": "native:blink::RegisteredEventListener",
+              "via": "element:1"
+            },
+            {
+              "node": "native:EventListener",
+              "via": "element:1"
+            },
+            {
+              "node": "native:V8EventListener",
+              "via": "element:1"
+            },
+            {
+              "node": "closure:",
+              "via": "element:1"
+            },
+            {
+              "node": "object:system / Context / scope @54141",
+              "via": "internal:context"
+            },
+            {
+              "node": "object:co",
+              "via": "context:this"
+            },
+            {
+              "node": "closure:getWorker",
+              "via": "property:#e"
+            },
+            {
+              "node": "object:system / Context / scope @54107",
+              "via": "internal:context"
+            },
+            {
+              "node": "object:e",
+              "via": "context:this"
+            },
+            {
+              "node": "object:Promise",
+              "via": "property:workerPromise"
+            },
+            {
+              "node": "native:system / PromiseReaction",
+              "via": "internal:reactions_or_result"
+            },
+            {
+              "omitted": 1037
+            },
+            {
+              "node": "native:system / PromiseReaction",
+              "via": "hidden:1"
+            },
+            {
+              "node": "native:system / PromiseReaction",
+              "via": "hidden:1"
+            },
+            {
+              "node": "native:system / PromiseReaction",
+              "via": "hidden:1"
+            },
+            {
+              "node": "native:system / PromiseReaction",
+              "via": "hidden:1"
+            },
+            {
+              "node": "native:system / PromiseReaction",
+              "via": "hidden:1"
+            },
+            {
+              "node": "native:system / PromiseReaction",
+              "via": "hidden:1"
+            },
+            {
+              "node": "native:system / PromiseReaction",
+              "via": "hidden:1"
+            },
+            {
+              "node": "native:system / PromiseReaction",
+              "via": "hidden:1"
+            },
+            {
+              "node": "native:system / PromiseReaction",
+              "via": "hidden:1"
+            },
+            {
+              "node": "native:system / PromiseReaction",
+              "via": "hidden:1"
+            },
+            {
+              "node": "native:system / PromiseReaction",
+              "via": "hidden:1"
+            },
+            {
+              "node": "native:system / PromiseReaction",
+              "via": "hidden:1"
+            },
+            {
+              "node": "native:system / PromiseReaction",
+              "via": "hidden:1"
+            },
+            {
+              "node": "object:Promise",
+              "via": "hidden:4"
+            },
+            {
+              "node": "native:system / PromiseReaction",
+              "via": "internal:reactions_or_result"
+            },
+            {
+              "node": "closure:",
+              "via": "hidden:1"
+            },
+            {
+              "node": "object:system / Context / scope @459",
+              "via": "internal:context"
+            },
+            {
+              "node": "object:Generator",
+              "via": "internal:extension"
+            },
+            {
+              "node": "array:",
+              "via": "internal:parameters_and_registers"
+            },
+            {
+              "node": "native:MessageEvent",
+              "via": "internal:0"
+            }
+          ]
+        },
+        {
+          "fullPathLength": 408,
+          "path": [
+            {
+              "node": "synthetic:(GC roots)",
+              "via": "element:1"
+            },
+            {
+              "node": "synthetic:(Global handles)",
+              "via": "element:10"
+            },
+            {
+              "node": "object:InjectedScript",
+              "via": "internal:5 / DevTools console"
+            },
+            {
+              "node": "native:Window / http://127.0.0.1:4175",
+              "via": "property:window"
+            },
+            {
+              "node": "native:blink::HeapHashTableBacking<blink::HashTable<const char *, blink::KeyValuePair<const char *, cppgc::internal::BasicMember<blink::Supplement<blink::ExecutionContext>, cppgc::internal::StrongMemberTag, cppgc::internal::DijkstraWriteBarrierPolicy>>, blink::KeyValuePairExtractor, blink::HashMapValueTraits<blink::HashTraits<const char *>, blink::HashTraits<cppgc::internal::BasicMember<blink::Supplement<blink::ExecutionContext>, cppgc::internal::StrongMemberTag, cppgc::internal::DijkstraWriteBarrierPolicy>>>, blink::HashTraits<const char *>, blink::HeapAllocator>>",
+              "via": "element:36"
+            },
+            {
+              "node": "native:ServiceWorkerContainer",
+              "via": "element:1"
+            },
+            {
+              "node": "native:blink::EventTargetData",
+              "via": "element:7"
+            },
+            {
+              "node": "native:blink::BasicHeapVector<blink::internal::HeapCollectionType::kGCed, cppgc::internal::BasicMember<blink::RegisteredEventListener, cppgc::internal::StrongMemberTag, cppgc::internal::DijkstraWriteBarrierPolicy>, 1>",
+              "via": "element:1"
+            },
+            {
+              "node": "native:blink::HeapVectorBacking<cppgc::internal::BasicMember<blink::RegisteredEventListener, cppgc::internal::StrongMemberTag, cppgc::internal::DijkstraWriteBarrierPolicy>>",
+              "via": "element:1"
+            },
+            {
+              "node": "native:blink::RegisteredEventListener",
+              "via": "element:1"
+            },
+            {
+              "node": "native:EventListener",
+              "via": "element:1"
+            },
+            {
+              "node": "native:V8EventListener",
+              "via": "element:1"
+            },
+            {
+              "node": "closure:",
+              "via": "element:1"
+            },
+            {
+              "node": "object:system / Context / scope @54141",
+              "via": "internal:context"
+            },
+            {
+              "node": "object:co",
+              "via": "context:this"
+            },
+            {
+              "node": "closure:getWorker",
+              "via": "property:#e"
+            },
+            {
+              "node": "object:system / Context / scope @54107",
+              "via": "internal:context"
+            },
+            {
+              "node": "object:e",
+              "via": "context:this"
+            },
+            {
+              "node": "object:Promise",
+              "via": "property:workerPromise"
+            },
+            {
+              "node": "native:system / PromiseReaction",
+              "via": "internal:reactions_or_result"
+            },
+            {
+              "omitted": 368
+            },
+            {
+              "node": "native:system / PromiseReaction",
+              "via": "hidden:1"
+            },
+            {
+              "node": "native:system / PromiseReaction",
+              "via": "hidden:1"
+            },
+            {
+              "node": "native:system / PromiseReaction",
+              "via": "hidden:1"
+            },
+            {
+              "node": "native:system / PromiseReaction",
+              "via": "hidden:1"
+            },
+            {
+              "node": "native:system / PromiseReaction",
+              "via": "hidden:1"
+            },
+            {
+              "node": "native:system / PromiseReaction",
+              "via": "hidden:1"
+            },
+            {
+              "node": "native:system / PromiseReaction",
+              "via": "hidden:1"
+            },
+            {
+              "node": "native:system / PromiseReaction",
+              "via": "hidden:1"
+            },
+            {
+              "node": "native:system / PromiseReaction",
+              "via": "hidden:1"
+            },
+            {
+              "node": "native:system / PromiseReaction",
+              "via": "hidden:1"
+            },
+            {
+              "node": "native:system / PromiseReaction",
+              "via": "hidden:1"
+            },
+            {
+              "node": "native:system / PromiseReaction",
+              "via": "hidden:1"
+            },
+            {
+              "node": "native:system / PromiseReaction",
+              "via": "hidden:1"
+            },
+            {
+              "node": "object:Promise",
+              "via": "hidden:4"
+            },
+            {
+              "node": "native:system / PromiseReaction",
+              "via": "internal:reactions_or_result"
+            },
+            {
+              "node": "closure:",
+              "via": "hidden:1"
+            },
+            {
+              "node": "object:system / Context / scope @459",
+              "via": "internal:context"
+            },
+            {
+              "node": "object:Generator",
+              "via": "internal:extension"
+            },
+            {
+              "node": "array:",
+              "via": "internal:parameters_and_registers"
+            },
+            {
+              "node": "native:MessageEvent",
+              "via": "internal:0"
+            }
+          ]
+        }
+      ]
+    },
+    "native:MessagePort": {
+      "stronglyReachableCount": 3470,
+      "examples": [
+        {
+          "fullPathLength": 12,
+          "path": [
+            {
+              "node": "synthetic:(GC roots)",
+              "via": "element:1"
+            },
+            {
+              "node": "synthetic:(Global handles)",
+              "via": "element:10"
+            },
+            {
+              "node": "object:InjectedScript",
+              "via": "internal:5 / DevTools console"
+            },
+            {
+              "node": "native:HTMLDocument",
+              "via": "property:document"
+            },
+            {
+              "node": "native:<td>",
+              "via": "element:12"
+            },
+            {
+              "node": "object:Li",
+              "via": "property:__reactFiber$sus8rpk8hw"
+            },
+            {
+              "node": "object:Object",
+              "via": "property:__proto__"
+            },
+            {
+              "node": "closure:Li",
+              "via": "property:constructor"
+            },
+            {
+              "node": "object:system / Context / scope @94765",
+              "via": "internal:context"
+            },
+            {
+              "node": "closure:",
+              "via": "context:We"
+            },
+            {
+              "node": "object:system / Context / scope @419293",
+              "via": "internal:context"
+            },
+            {
+              "node": "native:MessagePort",
+              "via": "context:oe"
+            }
+          ]
+        },
+        {
+          "fullPathLength": 42,
+          "path": [
+            {
+              "node": "synthetic:(GC roots)",
+              "via": "element:1"
+            },
+            {
+              "node": "synthetic:(Global handles)",
+              "via": "element:10"
+            },
+            {
+              "node": "object:InjectedScript",
+              "via": "internal:5 / DevTools console"
+            },
+            {
+              "node": "native:Window / http://127.0.0.1:4175",
+              "via": "property:window"
+            },
+            {
+              "node": "native:blink::HeapHashTableBacking<blink::HashTable<const char *, blink::KeyValuePair<const char *, cppgc::internal::BasicMember<blink::Supplement<blink::ExecutionContext>, cppgc::internal::StrongMemberTag, cppgc::internal::DijkstraWriteBarrierPolicy>>, blink::KeyValuePairExtractor, blink::HashMapValueTraits<blink::HashTraits<const char *>, blink::HashTraits<cppgc::internal::BasicMember<blink::Supplement<blink::ExecutionContext>, cppgc::internal::StrongMemberTag, cppgc::internal::DijkstraWriteBarrierPolicy>>>, blink::HashTraits<const char *>, blink::HeapAllocator>>",
+              "via": "element:36"
+            },
+            {
+              "node": "native:ServiceWorkerContainer",
+              "via": "element:1"
+            },
+            {
+              "node": "native:blink::EventTargetData",
+              "via": "element:7"
+            },
+            {
+              "node": "native:blink::BasicHeapVector<blink::internal::HeapCollectionType::kGCed, cppgc::internal::BasicMember<blink::RegisteredEventListener, cppgc::internal::StrongMemberTag, cppgc::internal::DijkstraWriteBarrierPolicy>, 1>",
+              "via": "element:1"
+            },
+            {
+              "node": "native:blink::HeapVectorBacking<cppgc::internal::BasicMember<blink::RegisteredEventListener, cppgc::internal::StrongMemberTag, cppgc::internal::DijkstraWriteBarrierPolicy>>",
+              "via": "element:1"
+            },
+            {
+              "node": "native:blink::RegisteredEventListener",
+              "via": "element:1"
+            },
+            {
+              "node": "native:EventListener",
+              "via": "element:1"
+            },
+            {
+              "node": "native:V8EventListener",
+              "via": "element:1"
+            },
+            {
+              "node": "closure:",
+              "via": "element:1"
+            },
+            {
+              "node": "object:system / Context / scope @54141",
+              "via": "internal:context"
+            },
+            {
+              "node": "object:co",
+              "via": "context:this"
+            },
+            {
+              "node": "closure:getWorker",
+              "via": "property:#e"
+            },
+            {
+              "node": "object:system / Context / scope @54107",
+              "via": "internal:context"
+            },
+            {
+              "node": "object:e",
+              "via": "context:this"
+            },
+            {
+              "node": "object:Promise",
+              "via": "property:workerPromise"
+            },
+            {
+              "node": "native:system / PromiseReaction",
+              "via": "internal:reactions_or_result"
+            },
+            {
+              "node": "native:system / PromiseReaction",
+              "via": "hidden:1"
+            },
+            {
+              "node": "native:system / PromiseReaction",
+              "via": "hidden:1"
+            },
+            {
+              "node": "native:system / PromiseReaction",
+              "via": "hidden:1"
+            },
+            {
+              "node": "native:system / PromiseReaction",
+              "via": "hidden:1"
+            },
+            {
+              "node": "native:system / PromiseReaction",
+              "via": "hidden:1"
+            },
+            {
+              "node": "native:system / PromiseReaction",
+              "via": "hidden:1"
+            },
+            {
+              "node": "native:system / PromiseReaction",
+              "via": "hidden:1"
+            },
+            {
+              "node": "native:system / PromiseReaction",
+              "via": "hidden:1"
+            },
+            {
+              "node": "native:system / PromiseReaction",
+              "via": "hidden:1"
+            },
+            {
+              "node": "native:system / PromiseReaction",
+              "via": "hidden:1"
+            },
+            {
+              "node": "native:system / PromiseReaction",
+              "via": "hidden:1"
+            },
+            {
+              "node": "native:system / PromiseReaction",
+              "via": "hidden:1"
+            },
+            {
+              "node": "object:Promise",
+              "via": "hidden:4"
+            },
+            {
+              "node": "native:system / PromiseReaction",
+              "via": "internal:reactions_or_result"
+            },
+            {
+              "node": "closure:",
+              "via": "hidden:1"
+            },
+            {
+              "node": "object:system / Context / scope @459",
+              "via": "internal:context"
+            },
+            {
+              "node": "object:Generator",
+              "via": "internal:extension"
+            },
+            {
+              "node": "array:",
+              "via": "internal:parameters_and_registers"
+            },
+            {
+              "node": "native:MessageEvent",
+              "via": "internal:0"
+            },
+            {
+              "node": "object:Array",
+              "via": "property:<symbol >"
+            },
+            {
+              "node": "array:(object elements)",
+              "via": "internal:elements"
+            },
+            {
+              "node": "native:MessagePort",
+              "via": "internal:0"
+            }
+          ]
+        },
+        {
+          "fullPathLength": 409,
+          "path": [
+            {
+              "node": "synthetic:(GC roots)",
+              "via": "element:1"
+            },
+            {
+              "node": "synthetic:(Global handles)",
+              "via": "element:10"
+            },
+            {
+              "node": "object:InjectedScript",
+              "via": "internal:5 / DevTools console"
+            },
+            {
+              "node": "native:Window / http://127.0.0.1:4175",
+              "via": "property:window"
+            },
+            {
+              "node": "native:blink::HeapHashTableBacking<blink::HashTable<const char *, blink::KeyValuePair<const char *, cppgc::internal::BasicMember<blink::Supplement<blink::ExecutionContext>, cppgc::internal::StrongMemberTag, cppgc::internal::DijkstraWriteBarrierPolicy>>, blink::KeyValuePairExtractor, blink::HashMapValueTraits<blink::HashTraits<const char *>, blink::HashTraits<cppgc::internal::BasicMember<blink::Supplement<blink::ExecutionContext>, cppgc::internal::StrongMemberTag, cppgc::internal::DijkstraWriteBarrierPolicy>>>, blink::HashTraits<const char *>, blink::HeapAllocator>>",
+              "via": "element:36"
+            },
+            {
+              "node": "native:ServiceWorkerContainer",
+              "via": "element:1"
+            },
+            {
+              "node": "native:blink::EventTargetData",
+              "via": "element:7"
+            },
+            {
+              "node": "native:blink::BasicHeapVector<blink::internal::HeapCollectionType::kGCed, cppgc::internal::BasicMember<blink::RegisteredEventListener, cppgc::internal::StrongMemberTag, cppgc::internal::DijkstraWriteBarrierPolicy>, 1>",
+              "via": "element:1"
+            },
+            {
+              "node": "native:blink::HeapVectorBacking<cppgc::internal::BasicMember<blink::RegisteredEventListener, cppgc::internal::StrongMemberTag, cppgc::internal::DijkstraWriteBarrierPolicy>>",
+              "via": "element:1"
+            },
+            {
+              "node": "native:blink::RegisteredEventListener",
+              "via": "element:1"
+            },
+            {
+              "node": "native:EventListener",
+              "via": "element:1"
+            },
+            {
+              "node": "native:V8EventListener",
+              "via": "element:1"
+            },
+            {
+              "node": "closure:",
+              "via": "element:1"
+            },
+            {
+              "node": "object:system / Context / scope @54141",
+              "via": "internal:context"
+            },
+            {
+              "node": "object:co",
+              "via": "context:this"
+            },
+            {
+              "node": "closure:getWorker",
+              "via": "property:#e"
+            },
+            {
+              "node": "object:system / Context / scope @54107",
+              "via": "internal:context"
+            },
+            {
+              "node": "object:e",
+              "via": "context:this"
+            },
+            {
+              "node": "object:Promise",
+              "via": "property:workerPromise"
+            },
+            {
+              "node": "native:system / PromiseReaction",
+              "via": "internal:reactions_or_result"
+            },
+            {
+              "omitted": 369
+            },
+            {
+              "node": "native:system / PromiseReaction",
+              "via": "hidden:1"
+            },
+            {
+              "node": "native:system / PromiseReaction",
+              "via": "hidden:1"
+            },
+            {
+              "node": "native:system / PromiseReaction",
+              "via": "hidden:1"
+            },
+            {
+              "node": "native:system / PromiseReaction",
+              "via": "hidden:1"
+            },
+            {
+              "node": "native:system / PromiseReaction",
+              "via": "hidden:1"
+            },
+            {
+              "node": "native:system / PromiseReaction",
+              "via": "hidden:1"
+            },
+            {
+              "node": "native:system / PromiseReaction",
+              "via": "hidden:1"
+            },
+            {
+              "node": "native:system / PromiseReaction",
+              "via": "hidden:1"
+            },
+            {
+              "node": "native:system / PromiseReaction",
+              "via": "hidden:1"
+            },
+            {
+              "node": "native:system / PromiseReaction",
+              "via": "hidden:1"
+            },
+            {
+              "node": "object:Promise",
+              "via": "hidden:4"
+            },
+            {
+              "node": "native:system / PromiseReaction",
+              "via": "internal:reactions_or_result"
+            },
+            {
+              "node": "closure:",
+              "via": "hidden:1"
+            },
+            {
+              "node": "object:system / Context / scope @459",
+              "via": "internal:context"
+            },
+            {
+              "node": "object:Generator",
+              "via": "internal:extension"
+            },
+            {
+              "node": "array:",
+              "via": "internal:parameters_and_registers"
+            },
+            {
+              "node": "native:MessageEvent",
+              "via": "internal:0"
+            },
+            {
+              "node": "object:Array",
+              "via": "property:<symbol >"
+            },
+            {
+              "node": "array:(object elements)",
+              "via": "internal:elements"
+            },
+            {
+              "node": "native:MessagePort",
+              "via": "internal:0"
+            }
+          ]
+        },
+        {
+          "fullPathLength": 885,
+          "path": [
+            {
+              "node": "synthetic:(GC roots)",
+              "via": "element:1"
+            },
+            {
+              "node": "synthetic:(Global handles)",
+              "via": "element:10"
+            },
+            {
+              "node": "object:InjectedScript",
+              "via": "internal:5 / DevTools console"
+            },
+            {
+              "node": "native:Window / http://127.0.0.1:4175",
+              "via": "property:window"
+            },
+            {
+              "node": "native:blink::HeapHashTableBacking<blink::HashTable<const char *, blink::KeyValuePair<const char *, cppgc::internal::BasicMember<blink::Supplement<blink::ExecutionContext>, cppgc::internal::StrongMemberTag, cppgc::internal::DijkstraWriteBarrierPolicy>>, blink::KeyValuePairExtractor, blink::HashMapValueTraits<blink::HashTraits<const char *>, blink::HashTraits<cppgc::internal::BasicMember<blink::Supplement<blink::ExecutionContext>, cppgc::internal::StrongMemberTag, cppgc::internal::DijkstraWriteBarrierPolicy>>>, blink::HashTraits<const char *>, blink::HeapAllocator>>",
+              "via": "element:36"
+            },
+            {
+              "node": "native:ServiceWorkerContainer",
+              "via": "element:1"
+            },
+            {
+              "node": "native:blink::EventTargetData",
+              "via": "element:7"
+            },
+            {
+              "node": "native:blink::BasicHeapVector<blink::internal::HeapCollectionType::kGCed, cppgc::internal::BasicMember<blink::RegisteredEventListener, cppgc::internal::StrongMemberTag, cppgc::internal::DijkstraWriteBarrierPolicy>, 1>",
+              "via": "element:1"
+            },
+            {
+              "node": "native:blink::HeapVectorBacking<cppgc::internal::BasicMember<blink::RegisteredEventListener, cppgc::internal::StrongMemberTag, cppgc::internal::DijkstraWriteBarrierPolicy>>",
+              "via": "element:1"
+            },
+            {
+              "node": "native:blink::RegisteredEventListener",
+              "via": "element:1"
+            },
+            {
+              "node": "native:EventListener",
+              "via": "element:1"
+            },
+            {
+              "node": "native:V8EventListener",
+              "via": "element:1"
+            },
+            {
+              "node": "closure:",
+              "via": "element:1"
+            },
+            {
+              "node": "object:system / Context / scope @54141",
+              "via": "internal:context"
+            },
+            {
+              "node": "object:co",
+              "via": "context:this"
+            },
+            {
+              "node": "closure:getWorker",
+              "via": "property:#e"
+            },
+            {
+              "node": "object:system / Context / scope @54107",
+              "via": "internal:context"
+            },
+            {
+              "node": "object:e",
+              "via": "context:this"
+            },
+            {
+              "node": "object:Promise",
+              "via": "property:workerPromise"
+            },
+            {
+              "node": "native:system / PromiseReaction",
+              "via": "internal:reactions_or_result"
+            },
+            {
+              "omitted": 845
+            },
+            {
+              "node": "native:system / PromiseReaction",
+              "via": "hidden:1"
+            },
+            {
+              "node": "native:system / PromiseReaction",
+              "via": "hidden:1"
+            },
+            {
+              "node": "native:system / PromiseReaction",
+              "via": "hidden:1"
+            },
+            {
+              "node": "native:system / PromiseReaction",
+              "via": "hidden:1"
+            },
+            {
+              "node": "native:system / PromiseReaction",
+              "via": "hidden:1"
+            },
+            {
+              "node": "native:system / PromiseReaction",
+              "via": "hidden:1"
+            },
+            {
+              "node": "native:system / PromiseReaction",
+              "via": "hidden:1"
+            },
+            {
+              "node": "native:system / PromiseReaction",
+              "via": "hidden:1"
+            },
+            {
+              "node": "native:system / PromiseReaction",
+              "via": "hidden:1"
+            },
+            {
+              "node": "native:system / PromiseReaction",
+              "via": "hidden:1"
+            },
+            {
+              "node": "object:Promise",
+              "via": "hidden:4"
+            },
+            {
+              "node": "native:system / PromiseReaction",
+              "via": "internal:reactions_or_result"
+            },
+            {
+              "node": "closure:",
+              "via": "hidden:1"
+            },
+            {
+              "node": "object:system / Context / scope @459",
+              "via": "internal:context"
+            },
+            {
+              "node": "object:Generator",
+              "via": "internal:extension"
+            },
+            {
+              "node": "array:",
+              "via": "internal:parameters_and_registers"
+            },
+            {
+              "node": "native:MessageEvent",
+              "via": "internal:0"
+            },
+            {
+              "node": "object:Array",
+              "via": "property:<symbol >"
+            },
+            {
+              "node": "array:(object elements)",
+              "via": "internal:elements"
+            },
+            {
+              "node": "native:MessagePort",
+              "via": "internal:0"
+            }
+          ]
+        }
+      ]
+    },
+    "native:blink::NetworkResourcesData::ResourceData": {
+      "stronglyReachableCount": 1129,
+      "examples": [
+        {
+          "fullPathLength": 8,
+          "path": [
+            {
+              "node": "synthetic:(GC roots)",
+              "via": "element:1"
+            },
+            {
+              "node": "synthetic:C++ Persistent roots",
+              "via": "element:29"
+            },
+            {
+              "node": "native:blink::DevToolsSession",
+              "via": "internal:v8_inspector::V8InspectorSessionImpl::V8InspectorSessionImpl(V8InspectorImpl *, int, int, V8Inspector::ManagedChannel *, StringView, V8Inspector::ClientTrustLevel, std::shared_ptr<V8DebuggerBarrier>, V8EmbedderState)@..\\..\\v8\\src\\inspector\\v8-inspector-session-impl.cc:114"
+            },
+            {
+              "node": "native:blink::HeapVectorBacking<cppgc::internal::BasicMember<blink::InspectorAgent, cppgc::internal::StrongMemberTag, cppgc::internal::DijkstraWriteBarrierPolicy>>",
+              "via": "element:4"
+            },
+            {
+              "node": "native:blink::InspectorNetworkAgent",
+              "via": "element:3"
+            },
+            {
+              "node": "native:blink::NetworkResourcesData",
+              "via": "element:2"
+            },
+            {
+              "node": "native:blink::HeapHashTableBacking<blink::HashTable<blink::String, blink::KeyValuePair<blink::String, cppgc::internal::BasicMember<blink::NetworkResourcesData::ResourceData, cppgc::internal::StrongMemberTag, cppgc::internal::DijkstraWriteBarrierPolicy>>, blink::KeyValuePairExtractor, blink::HashMapValueTraits<blink::HashTraits<String>, blink::HashTraits<cppgc::internal::BasicMember<blink::NetworkResourcesData::ResourceData, cppgc::internal::StrongMemberTag, cppgc::internal::DijkstraWriteBarrierPolicy>>>, blink::HashTraits<String>, blink::HeapAllocator>>",
+              "via": "element:1"
+            },
+            {
+              "node": "native:blink::NetworkResourcesData::ResourceData",
+              "via": "element:705"
+            }
+          ]
+        },
+        {
+          "fullPathLength": 8,
+          "path": [
+            {
+              "node": "synthetic:(GC roots)",
+              "via": "element:1"
+            },
+            {
+              "node": "synthetic:C++ Persistent roots",
+              "via": "element:29"
+            },
+            {
+              "node": "native:blink::DevToolsSession",
+              "via": "internal:v8_inspector::V8InspectorSessionImpl::V8InspectorSessionImpl(V8InspectorImpl *, int, int, V8Inspector::ManagedChannel *, StringView, V8Inspector::ClientTrustLevel, std::shared_ptr<V8DebuggerBarrier>, V8EmbedderState)@..\\..\\v8\\src\\inspector\\v8-inspector-session-impl.cc:114"
+            },
+            {
+              "node": "native:blink::HeapVectorBacking<cppgc::internal::BasicMember<blink::InspectorAgent, cppgc::internal::StrongMemberTag, cppgc::internal::DijkstraWriteBarrierPolicy>>",
+              "via": "element:4"
+            },
+            {
+              "node": "native:blink::InspectorNetworkAgent",
+              "via": "element:3"
+            },
+            {
+              "node": "native:blink::NetworkResourcesData",
+              "via": "element:2"
+            },
+            {
+              "node": "native:blink::HeapHashTableBacking<blink::HashTable<blink::String, blink::KeyValuePair<blink::String, cppgc::internal::BasicMember<blink::NetworkResourcesData::ResourceData, cppgc::internal::StrongMemberTag, cppgc::internal::DijkstraWriteBarrierPolicy>>, blink::KeyValuePairExtractor, blink::HashMapValueTraits<blink::HashTraits<String>, blink::HashTraits<cppgc::internal::BasicMember<blink::NetworkResourcesData::ResourceData, cppgc::internal::StrongMemberTag, cppgc::internal::DijkstraWriteBarrierPolicy>>>, blink::HashTraits<String>, blink::HeapAllocator>>",
+              "via": "element:1"
+            },
+            {
+              "node": "native:blink::NetworkResourcesData::ResourceData",
+              "via": "element:157"
+            }
+          ]
+        },
+        {
+          "fullPathLength": 8,
+          "path": [
+            {
+              "node": "synthetic:(GC roots)",
+              "via": "element:1"
+            },
+            {
+              "node": "synthetic:C++ Persistent roots",
+              "via": "element:29"
+            },
+            {
+              "node": "native:blink::DevToolsSession",
+              "via": "internal:v8_inspector::V8InspectorSessionImpl::V8InspectorSessionImpl(V8InspectorImpl *, int, int, V8Inspector::ManagedChannel *, StringView, V8Inspector::ClientTrustLevel, std::shared_ptr<V8DebuggerBarrier>, V8EmbedderState)@..\\..\\v8\\src\\inspector\\v8-inspector-session-impl.cc:114"
+            },
+            {
+              "node": "native:blink::HeapVectorBacking<cppgc::internal::BasicMember<blink::InspectorAgent, cppgc::internal::StrongMemberTag, cppgc::internal::DijkstraWriteBarrierPolicy>>",
+              "via": "element:4"
+            },
+            {
+              "node": "native:blink::InspectorNetworkAgent",
+              "via": "element:3"
+            },
+            {
+              "node": "native:blink::NetworkResourcesData",
+              "via": "element:2"
+            },
+            {
+              "node": "native:blink::HeapHashTableBacking<blink::HashTable<blink::String, blink::KeyValuePair<blink::String, cppgc::internal::BasicMember<blink::NetworkResourcesData::ResourceData, cppgc::internal::StrongMemberTag, cppgc::internal::DijkstraWriteBarrierPolicy>>, blink::KeyValuePairExtractor, blink::HashMapValueTraits<blink::HashTraits<String>, blink::HashTraits<cppgc::internal::BasicMember<blink::NetworkResourcesData::ResourceData, cppgc::internal::StrongMemberTag, cppgc::internal::DijkstraWriteBarrierPolicy>>>, blink::HashTraits<String>, blink::HeapAllocator>>",
+              "via": "element:1"
+            },
+            {
+              "node": "native:blink::NetworkResourcesData::ResourceData",
+              "via": "element:505"
+            }
+          ]
+        },
+        {
+          "fullPathLength": 8,
+          "path": [
+            {
+              "node": "synthetic:(GC roots)",
+              "via": "element:1"
+            },
+            {
+              "node": "synthetic:C++ Persistent roots",
+              "via": "element:29"
+            },
+            {
+              "node": "native:blink::DevToolsSession",
+              "via": "internal:v8_inspector::V8InspectorSessionImpl::V8InspectorSessionImpl(V8InspectorImpl *, int, int, V8Inspector::ManagedChannel *, StringView, V8Inspector::ClientTrustLevel, std::shared_ptr<V8DebuggerBarrier>, V8EmbedderState)@..\\..\\v8\\src\\inspector\\v8-inspector-session-impl.cc:114"
+            },
+            {
+              "node": "native:blink::HeapVectorBacking<cppgc::internal::BasicMember<blink::InspectorAgent, cppgc::internal::StrongMemberTag, cppgc::internal::DijkstraWriteBarrierPolicy>>",
+              "via": "element:4"
+            },
+            {
+              "node": "native:blink::InspectorNetworkAgent",
+              "via": "element:3"
+            },
+            {
+              "node": "native:blink::NetworkResourcesData",
+              "via": "element:2"
+            },
+            {
+              "node": "native:blink::HeapHashTableBacking<blink::HashTable<blink::String, blink::KeyValuePair<blink::String, cppgc::internal::BasicMember<blink::NetworkResourcesData::ResourceData, cppgc::internal::StrongMemberTag, cppgc::internal::DijkstraWriteBarrierPolicy>>, blink::KeyValuePairExtractor, blink::HashMapValueTraits<blink::HashTraits<String>, blink::HashTraits<cppgc::internal::BasicMember<blink::NetworkResourcesData::ResourceData, cppgc::internal::StrongMemberTag, cppgc::internal::DijkstraWriteBarrierPolicy>>>, blink::HashTraits<String>, blink::HeapAllocator>>",
+              "via": "element:1"
+            },
+            {
+              "node": "native:blink::NetworkResourcesData::ResourceData",
+              "via": "element:608"
+            }
+          ]
+        }
+      ]
+    },
+    "object:Generator": {
+      "stronglyReachableCount": 2378,
+      "examples": [
+        {
+          "fullPathLength": 9,
+          "path": [
+            {
+              "node": "synthetic:(GC roots)",
+              "via": "element:1"
+            },
+            {
+              "node": "synthetic:(Global handles)",
+              "via": "element:10"
+            },
+            {
+              "node": "native:system / NativeContext / http://127.0.0.1:4175",
+              "via": "internal:279 / blink::ScriptStateProtectingContext::context_"
+            },
+            {
+              "node": "object:Window [JSGlobalObject] / http://127.0.0.1:4175",
+              "via": "internal:global_object"
+            },
+            {
+              "node": "closure:__combatProfileEnd",
+              "via": "property:__combatProfileEnd"
+            },
+            {
+              "node": "object:system / Context / scope @168823",
+              "via": "internal:context"
+            },
+            {
+              "node": "object:system / Context / scope @439875",
+              "via": "internal:previous"
+            },
+            {
+              "node": "native:system / SourceTextModule",
+              "via": "internal:extension"
+            },
+            {
+              "node": "object:Generator",
+              "via": "hidden:5"
+            }
+          ]
+        },
+        {
+          "fullPathLength": 10,
+          "path": [
+            {
+              "node": "synthetic:(GC roots)",
+              "via": "element:1"
+            },
+            {
+              "node": "synthetic:(Global handles)",
+              "via": "element:10"
+            },
+            {
+              "node": "native:system / NativeContext / http://127.0.0.1:4175",
+              "via": "internal:279 / blink::ScriptStateProtectingContext::context_"
+            },
+            {
+              "node": "object:Window [JSGlobalObject] / http://127.0.0.1:4175",
+              "via": "internal:global_object"
+            },
+            {
+              "node": "closure:__combatProfileEnd",
+              "via": "property:__combatProfileEnd"
+            },
+            {
+              "node": "object:system / Context / scope @168823",
+              "via": "internal:context"
+            },
+            {
+              "node": "object:system / Context / scope @439875",
+              "via": "internal:previous"
+            },
+            {
+              "node": "native:system / SourceTextModule",
+              "via": "internal:extension"
+            },
+            {
+              "node": "object:Generator",
+              "via": "hidden:5"
+            },
+            {
+              "node": "object:Generator",
+              "via": "property:__proto__"
+            }
+          ]
+        },
+        {
+          "fullPathLength": 4,
+          "path": [
+            {
+              "node": "synthetic:(GC roots)",
+              "via": "element:1"
+            },
+            {
+              "node": "synthetic:(Global handles)",
+              "via": "element:10"
+            },
+            {
+              "node": "native:system / NativeContext / http://127.0.0.1:4175",
+              "via": "internal:279 / blink::ScriptStateProtectingContext::context_"
+            },
+            {
+              "node": "object:Generator",
+              "via": "internal:initial_generator_prototype"
+            }
+          ]
+        },
+        {
+          "fullPathLength": 11,
+          "path": [
+            {
+              "node": "synthetic:(GC roots)",
+              "via": "element:1"
+            },
+            {
+              "node": "synthetic:(Global handles)",
+              "via": "element:10"
+            },
+            {
+              "node": "native:system / NativeContext / http://127.0.0.1:4175",
+              "via": "internal:279 / blink::ScriptStateProtectingContext::context_"
+            },
+            {
+              "node": "object:Window [JSGlobalObject] / http://127.0.0.1:4175",
+              "via": "internal:global_object"
+            },
+            {
+              "node": "native:system / JSProxy",
+              "via": "property:WebSocket"
+            },
+            {
+              "node": "object:Object",
+              "via": "hidden:2"
+            },
+            {
+              "node": "closure:construct",
+              "via": "property:construct"
+            },
+            {
+              "node": "object:system / Context / scope @101621",
+              "via": "internal:context"
+            },
+            {
+              "node": "object:system / Context / scope @99977",
+              "via": "internal:previous"
+            },
+            {
+              "node": "native:system / SourceTextModule",
+              "via": "internal:extension"
+            },
+            {
+              "node": "object:Generator",
+              "via": "hidden:5"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

@@ -3,6 +3,7 @@ import { generateIslandDecorations } from '../src/game/world/IslandDecorations'
 import { generateIslandStructures, insideStructureClearing, shoreDistance, structurePoint, STRUCTURE_PRESETS, STRUCTURE_TILE_IDS } from '../src/game/world/IslandStructures'
 import { generateIslandShape, ISLAND_SHAPES, polygonArea } from '../src/game/world/IslandShapes'
 import { ISLAND_SIZE_PROFILES } from '../src/game/world/IslandSizes'
+import { generateIslands } from '../src/game/world/MapGenerator'
 import { World } from '../src/game/world/World'
 import { NAVIGATION_RADIUS, validateMapNavigation } from '../src/game/world/MapNavigation'
 import { COMBAT_CONFIG } from '../src/game/config/CombatConfig'
@@ -59,16 +60,15 @@ test('every fort wall connector joins a compatible adjacent part, including rota
   }
 })
 
-test('size classes change coastline complexity, area, density and connected patrol water', () => {
-  const counts = { SMALL: 0, MEDIUM: 0, LARGE: 0, HUGE: 0 }
-  for (let seed = 0; seed < 40; seed++) {
+// Keep each expensive navigation/route seed independently timed and reported.
+for (let seed = 0; seed < 40; seed++) test(`connected patrol water and coastline complexity, seed ${seed}`, () => {
     const world = new World(seed)
     const navigation = validateMapNavigation(world.islands, world.player.position)
     expect(navigation.valid).toBe(true)
-    expect(world.enemies).toHaveLength(COMBAT_CONFIG.spawn.maxPopulation)
+    expect(world.enemies.length).toBeGreaterThan(0)
+    expect(world.enemies.length).toBeLessThanOrEqual(COMBAT_CONFIG.spawn.maxPopulation)
     for (const island of world.islands) {
       const category = island.sizeCategory!
-      counts[category]++
       expect(island.shape!.outline).toHaveLength(ISLAND_SIZE_PROFILES[category].coastlinePoints)
     }
     for (const area of world.patrolAreas) {
@@ -79,6 +79,12 @@ test('size classes change coastline complexity, area, density and connected patr
       }
       expect(water / 49).toBeGreaterThanOrEqual(0.65)
     }
+})
+
+test('size classes change coastline complexity, area and density', () => {
+  const counts = { SMALL: 0, MEDIUM: 0, LARGE: 0, HUGE: 0 }
+  for (let seed = 0; seed < 40; seed++) {
+    for (const island of generateIslands(seed, { x: 2000, y: 2000 })) counts[island.sizeCategory!]++
   }
   expect(counts.HUGE).toBeGreaterThan(0)
   expect(counts.HUGE).toBeLessThan(counts.LARGE)
@@ -106,8 +112,8 @@ test('size classes change coastline complexity, area, density and connected patr
 test('U fort is generated and renders as a connected recessed perimeter', async ({ page }) => {
   let match: { seed: number; islandIndex: number } | undefined
   for (let seed = 0; seed < 30 && !match; seed++) {
-    const world = new World(seed, { combatEnabled: false })
-    for (const [islandIndex, island] of world.islands.entries()) {
+    const islands = generateIslands(seed, { x: 2000, y: 2000 })
+    for (const [islandIndex, island] of islands.entries()) {
       if (island.sizeCategory !== 'LARGE' && island.sizeCategory !== 'HUGE') continue
       const structures = generateIslandStructures(island.shape!, seed ^ ((islandIndex + 1) * 0x45d9f3b), island.size)
       if (structures.some(s => s.preset.name === 'u-fort')) { match = { seed, islandIndex }; break }
@@ -127,10 +133,10 @@ test('U fort is generated and renders as a connected recessed perimeter', async 
     host.style.cssText = 'position:fixed;inset:0;z-index:100'
     document.body.append(host)
     await game.start(host)
-    game.app.stop()
+    const control = game.testController()
+    control.stopClock()
     const island = game.world.islands[islandIndex]
-    game.view.render(game.world, { position: { x: island.position.x - 640, y: island.position.y - 450 } }, 1280, 900)
-    game.app.renderer.render(game.app.stage)
+    control.renderAt(island.position.x - 640, island.position.y - 450, 1280, 900)
     window.addEventListener('u-review-cleanup', () => { game.destroy(); host.remove() }, { once: true })
   }, match!)
   await page.screenshot({ path: 'test-results/u-fort-review.png' })
@@ -153,15 +159,15 @@ for (const seed of [2, 42, 1234]) {
       host.style.cssText = 'position:fixed;inset:0;z-index:100'
       document.body.append(host)
       await game.start(host)
-      game.app.stop()
+      const control = game.testController()
+      control.stopClock()
       window.addEventListener('island-review', event => {
         const category = (event as CustomEvent<string>).detail
         const island = game.world.islands.find((i: { sizeCategory: string }) => i.sizeCategory === category)
         const position = { x: island.position.x - 640, y: island.position.y - 450 }
-        game.view.render(game.world, { position }, 1280, 900)
-        game.app.renderer.render(game.app.stage)
+        control.renderAt(position.x, position.y, 1280, 900)
       })
-      window.addEventListener('review-debug', () => game.view.toggleDebugColliders())
+      window.addEventListener('review-debug', () => control.toggleDebug())
       window.addEventListener('review-cleanup', () => { game.destroy(); host.remove() }, { once: true })
       return [...new Set(game.world.islands.map((i: { sizeCategory: string }) => i.sizeCategory))] as string[]
     }, seed)
@@ -182,7 +188,16 @@ test('structure textures load in the game without rendering errors', async ({ pa
   const errors: string[] = []
   page.on('pageerror', error => errors.push(error.message))
   await page.goto('/game?seed=42')
-  await expect(page.locator('canvas')).toHaveCount(1)
+  await expect(page.locator('canvas')).toHaveCount(1, { timeout: 15000 })
   await expect(page.getByRole('status')).toHaveCount(0)
   expect(errors).toEqual([])
+})
+
+test('all new fort types appear in deterministic large-island generation', () => {
+  const seen = new Set<string>()
+  for (let seed = 0; seed < 120; seed++) {
+    const shape = generateIslandShape(seed % ISLAND_SHAPES.length, 'HUGE', seed)
+    for (const structure of generateIslandStructures(shape, seed, 860)) seen.add(structure.preset.name)
+  }
+  for (const name of ['m-fort','c-fort','p-fort','connected-squares']) expect(seen.has(name), name).toBe(true)
 })

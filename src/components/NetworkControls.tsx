@@ -4,6 +4,7 @@ import { getScenario, scenarios, setScenario, subscribeScenario } from '../mocks
 import type { NetworkScenario } from '../mocks/scenarios'
 import { STORAGE_KEYS } from '../api/storage'
 import { clearPending, getPending } from '../api/pending'
+import { clearCompleted } from '../api/lastCompleted'
 
 export default function NetworkControls() {
   const config = useSyncExternalStore(subscribeScenario, getScenario)
@@ -22,7 +23,7 @@ export default function NetworkControls() {
     <button type="button" onClick={() => change('success')}>Return to success</button>
     <button type="button" onClick={() => {
       if (getPending().some(item => item.status === 'Saving') || client.isMutating()) { setMessage('Wait for the active registration before resetting.'); return }
-      try { localStorage.removeItem(STORAGE_KEYS.confirmed); clearPending(); change('success'); setMessage('Mock records and pending registrations reset. Fixtures restored.') }
+      try { localStorage.removeItem(STORAGE_KEYS.confirmed); clearCompleted(); clearPending(); change('success'); setMessage('Mock records, last result and pending registrations reset. Fixtures restored.') }
       catch { setMessage('Unable to reset local storage.') }
     }}>Reset confirmed + pending records</button>
     <p role="status">{message}</p>

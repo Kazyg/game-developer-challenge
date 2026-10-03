@@ -1,4 +1,4 @@
-﻿import { expect, test } from '@playwright/test'
+import { expect, test } from '@playwright/test'
 import type { IslandShape } from '../src/game/world/IslandShapes'
 import type { InputState } from '../src/game/input/InputManager'
 
@@ -26,8 +26,40 @@ test('game fills viewport, preserves its canvas on resize, and cleans up on navi
   expect(await page.evaluate(() => ({ x: window.scrollX, y: window.scrollY,
     overflow: document.documentElement.scrollHeight > innerHeight }))).toEqual({ x: 0, y: 0, overflow: false })
   await page.screenshot({ path: 'test-results/pirate-battle.png' })
+  await page.keyboard.press('Escape')
+  await page.getByRole('button', { name: 'Main Menu', exact: true }).click()
+  await expect(page.locator('canvas')).toHaveCount(0)
+  expect(errors).toEqual([])
+})
+
+test('repeated real navigation starts one canvas and history navigation cleans the last game', async ({ page }) => {
+  // Four full Pixi/world initializations take 30–40s with two workers here.
+  // Bound this multi-cycle lifecycle case separately from single-start tests.
+  test.setTimeout(60_000)
+  const errors: string[] = []
+  page.on('pageerror', error => errors.push(error.message))
+  await page.goto('/game?seed=42&test')
+  await expect(page.locator('canvas')).toHaveCount(1)
+  await expect(page.getByRole('status')).toHaveCount(0)
+  await page.evaluate(async () => {
+    // Lifecycle checks need initialized Pixi and real navigation, not an active
+    // simulation competing with the next world's construction on this machine.
+    const current = (window as unknown as { __pirateGameTest: { stopClock: () => void } }).__pirateGameTest
+    current.stopClock()
+    const path = performance.getEntriesByType('resource').map(entry => entry.name).find(name => name.includes('/src/game/Game.ts')) ?? '/src/game/Game.ts'
+    const { Game } = await import(path)
+    const start = Game.prototype.start
+    Game.prototype.start = async function(host: HTMLElement) {
+      await start.call(this, host)
+      const controller = this.testController()
+      if (!controller.observe().disposed) { controller.stopClock(); controller.render() }
+    }
+  })
   for (let round = 0; round < 3; round++) {
-    await page.keyboard.press('Escape')
+    // Blur can already have opened the pause dialog; Escape would resume it.
+    if (!await page.getByRole('dialog').isVisible()) {
+      await page.getByRole('button', { name: 'Pause', exact: true }).click()
+    }
     await page.getByRole('button', { name: 'Main Menu', exact: true }).click()
     await expect(page.locator('canvas')).toHaveCount(0)
     await page.getByRole('button', { name: 'Play', exact: true }).click()

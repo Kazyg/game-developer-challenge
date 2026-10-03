@@ -12,8 +12,8 @@ import { validateMapNavigation } from './MapNavigation'
 import { SeededRandom } from './SeededRandom'
 import type { World } from './World'
 
-export const SHIP_MARGIN = Math.max(...GAME_CONFIG.playerHullCircles.map((circle) =>
-  (Math.hypot(circle.x, circle.y) + circle.radius) * GAME_CONFIG.playerSpriteScale))
+export { ENEMY_HULL_RADIUS as SHIP_MARGIN } from '../entities/HullGeometry'
+import { ENEMY_HULL_RADIUS as SHIP_MARGIN } from '../entities/HullGeometry'
 
 export function insidePatrolArea(position: Vector2, area: PatrolArea, margin = SHIP_MARGIN): boolean {
   return position.x >= area.x + margin && position.x <= area.x + area.width - margin
@@ -25,74 +25,104 @@ export function sampleArea(area: PatrolArea, random: SeededRandom): Vector2 {
     y: random.range(area.y + SHIP_MARGIN, area.y + area.height - SHIP_MARGIN) }
 }
 
+const COVERAGE_SAMPLES = 7
+const SECTOR_COLUMNS = 5
+const SEARCH_SAMPLES = 5
+const MIN_SECTOR_COVERAGE = 0.70
+const MIN_FALLBACK_COVERAGE = 0.75
+const FALLBACK_AREA_SIZE = 320
+const SHRINK_EXTENTS = [480, FALLBACK_AREA_SIZE, 240] as const
+type MapNavigation = ReturnType<typeof validateMapNavigation>
+
+function waterCoverage(area: PatrolArea, navigation: MapNavigation | undefined, spawn: Vector2): number {
+  let valid = 0
+  for (let y = 0; y < COVERAGE_SAMPLES; y++) for (let x = 0; x < COVERAGE_SAMPLES; x++) {
+    const p = { x: area.x + SHIP_MARGIN + x / (COVERAGE_SAMPLES - 1) * (area.width - SHIP_MARGIN * 2),
+      y: area.y + SHIP_MARGIN + y / (COVERAGE_SAMPLES - 1) * (area.height - SHIP_MARGIN * 2) }
+    if (!navigation || (navigation.accessible(p) && Math.hypot(p.x - spawn.x, p.y - spawn.y) >= config.spawn.playerSafeDistance)) valid++
+  }
+  return valid / (COVERAGE_SAMPLES ** 2)
+}
+function safeSpawn(lanes: readonly PatrolPlan[], spawn: Vector2): boolean {
+  return lanes.every(route => Math.abs(Math.hypot(route.center.x - spawn.x, route.center.y - spawn.y) - route.radius)
+    >= config.spawn.playerSafeDistance)
+}
+function shuffleSectors(random: SeededRandom): number[] {
+  const cells = Array.from({ length: SECTOR_COLUMNS ** 2 }, (_, index) => index)
+    .filter(index => index !== Math.floor(SECTOR_COLUMNS ** 2 / 2))
+  for (let index = cells.length - 1; index > 0; index--) {
+    const other = random.integer(0, index)
+    const value = cells[index]!
+    cells[index] = cells[other]!
+    cells[other] = value
+  }
+  return cells
+}
+
+function findWaterArea(initial: PatrolArea, cell: number, navigation: MapNavigation | undefined,
+  coverage: (area: PatrolArea) => number): PatrolArea | null {
+  let area = initial
+  const { x, y, width: size } = initial
+  const columns = SECTOR_COLUMNS
+  const cellWidth = GAME_CONFIG.worldWidth / columns
+  const cellHeight = GAME_CONFIG.worldHeight / columns
+  if (navigation && coverage(area) < MIN_SECTOR_COVERAGE) {
+    let found = false
+    for (const extent of [size, ...SHRINK_EXTENTS]) {
+      let best = area, bestCoverage = -1
+      // Reposition within the same sector first, keeping the established spread.
+      for (let row = 0; row < SEARCH_SAMPLES; row++) for (let column = 0; column < SEARCH_SAMPLES; column++) {
+        const candidate = { id: area.id,
+          x: cell % columns * cellWidth + column / (SEARCH_SAMPLES - 1) * (cellWidth - extent),
+          y: Math.floor(cell / columns) * cellHeight + row / (SEARCH_SAMPLES - 1) * (cellHeight - extent), width: extent, height: extent }
+        const candidateCoverage = coverage(candidate)
+        if (candidateCoverage > bestCoverage) { best = candidate; bestCoverage = candidateCoverage }
+      }
+      if (bestCoverage >= MIN_SECTOR_COVERAGE) { area = best; found = true; break }
+    }
+    if (!found) {
+      // Rare deeply occupied sectors use the closest connected open-water patch.
+      const center = { x: x + size / 2, y: y + size / 2 }
+      const points = [...navigation.reachablePoints].sort((a, b) =>
+        Math.hypot(a.x - center.x, a.y - center.y) - Math.hypot(b.x - center.x, b.y - center.y))
+      for (const p of points) {
+        const candidate = { id: area.id, x: Math.max(0, Math.min(GAME_CONFIG.worldWidth - FALLBACK_AREA_SIZE, p.x - FALLBACK_AREA_SIZE / 2)),
+          y: Math.max(0, Math.min(GAME_CONFIG.worldHeight - FALLBACK_AREA_SIZE, p.y - FALLBACK_AREA_SIZE / 2)), width: FALLBACK_AREA_SIZE, height: FALLBACK_AREA_SIZE }
+        if (coverage(candidate) >= MIN_FALLBACK_COVERAGE) { area = candidate; found = true; break }
+      }
+      if (!found) return null
+    }
+  }
+  return area
+}
+
 export function generatePatrolAreas(seed: number, islands: readonly Island[] = [], spawn: Vector2 = { x: GAME_CONFIG.worldWidth / 2, y: GAME_CONFIG.worldHeight / 2 }): PatrolArea[] {
   const random = new SeededRandom(seed ^ config.spawn.seedSalt)
   const areas: PatrolArea[] = []
   const routes: PatrolPlan[] = []
   const size = config.spawn.areaSize
   const navigation = islands.length ? validateMapNavigation(islands, spawn) : undefined
-  const waterCoverage = (area: PatrolArea) => {
-    let valid = 0
-    for (let y = 0; y < 7; y++) for (let x = 0; x < 7; x++) {
-      const p = { x: area.x + SHIP_MARGIN + x / 6 * (area.width - SHIP_MARGIN * 2),
-        y: area.y + SHIP_MARGIN + y / 6 * (area.height - SHIP_MARGIN * 2) }
-      if (!navigation || (navigation.accessible(p) && Math.hypot(p.x - spawn.x, p.y - spawn.y) >= config.spawn.playerSafeDistance)) valid++
-    }
-    return valid / 49
-  }
-  // One area per sector: a seeded jitter keeps spacing without clustering.
-  // The central sector stays clear for the player's initial position.
-  const columns = 5
+  const coverage = (area: PatrolArea) => waterCoverage(area, navigation, spawn)
+  const columns = SECTOR_COLUMNS
   const cellWidth = GAME_CONFIG.worldWidth / columns
   const cellHeight = GAME_CONFIG.worldHeight / columns
-  const cells = Array.from({ length: columns * columns }, (_, index) => index).filter(index => index !== 12)
-  for (let index = cells.length - 1; index > 0; index--) {
-    const other = random.integer(0, index)
-    ;[cells[index], cells[other]] = [cells[other]!, cells[index]!]
-  }
+  const cells = shuffleSectors(random)
   for (const cell of cells.slice(0, config.spawn.areaCount)) {
     const x = cell % columns * cellWidth + random.range(0, cellWidth - size)
     const y = Math.floor(cell / columns) * cellHeight + random.range(0, cellHeight - size)
     let area: PatrolArea = { id: `area-${areas.length}`, x, y, width: size, height: size }
-    if (navigation && waterCoverage(area) < 0.70) {
-      let found = false
-      for (const extent of [size, 480, 320, 240]) {
-        let best = area, bestCoverage = -1
-        // Reposition within the same sector first, keeping the established spread.
-        for (let row = 0; row < 5; row++) for (let column = 0; column < 5; column++) {
-          const candidate = { id: area.id,
-            x: cell % columns * cellWidth + column / 4 * (cellWidth - extent),
-            y: Math.floor(cell / columns) * cellHeight + row / 4 * (cellHeight - extent), width: extent, height: extent }
-          const coverage = waterCoverage(candidate)
-          if (coverage > bestCoverage) { best = candidate; bestCoverage = coverage }
-        }
-        if (bestCoverage >= 0.70) { area = best; found = true; break }
-      }
-      if (!found) {
-        // Rare deeply occupied sectors use the closest connected open-water patch.
-        const center = { x: x + size / 2, y: y + size / 2 }
-        const points = [...navigation.reachablePoints].sort((a, b) =>
-          Math.hypot(a.x - center.x, a.y - center.y) - Math.hypot(b.x - center.x, b.y - center.y))
-        for (const p of points) {
-          const candidate = { id: area.id, x: Math.max(0, Math.min(GAME_CONFIG.worldWidth - 320, p.x - 160)),
-            y: Math.max(0, Math.min(GAME_CONFIG.worldHeight - 320, p.y - 160)), width: 320, height: 320 }
-          if (waterCoverage(candidate) >= 0.75) { area = candidate; found = true; break }
-        }
-        if (!found) continue
-      }
-    }
-    const safeSpawn = (lanes: readonly PatrolPlan[]) => lanes.every(route =>
-      Math.abs(Math.hypot(route.center.x - spawn.x, route.center.y - spawn.y) - route.radius)
-        >= config.spawn.playerSafeDistance)
+    const waterArea = findWaterArea(area, cell, navigation, coverage)
+    if (!waterArea) continue
+    area = waterArea
     let lanes = planLanes(area, islands, routes)
-    if (lanes && !safeSpawn(lanes)) lanes = null
+    if (lanes && !safeSpawn(lanes, spawn)) lanes = null
     if (!lanes) {
       for (let attempt = 0; attempt < config.spawn.areaAttempts; attempt++) {
         const candidate = { id: area.id, x: random.range(0, GAME_CONFIG.worldWidth - size),
           y: random.range(0, GAME_CONFIG.worldHeight - size), width: size, height: size }
-        if (waterCoverage(candidate) < 0.70) continue
+        if (coverage(candidate) < MIN_SECTOR_COVERAGE) continue
         const planned = planLanes(candidate, islands, routes)
-        if (planned && safeSpawn(planned)) { area = candidate; lanes = planned; break }
+        if (planned && safeSpawn(planned, spawn)) { area = candidate; lanes = planned; break }
       }
     }
     if (!lanes) continue
@@ -161,7 +191,7 @@ export class SpawnSystem {
         if (!insidePatrolArea(candidate, slot.area)) continue
         if (world.player.alive && Math.hypot(candidate.x - world.player.position.x,
           candidate.y - world.player.position.y) < config.spawn.playerSafeDistance) continue
-        const circles = getPlayerColliders({ position: candidate, rotation: 0 })
+        const circles = getPlayerColliders({ position: candidate, rotation: 0, team: 'enemy' })
         if (canOccupyWithCircles(circles, obstacles, world.width, world.height)) { position = candidate; break }
       }
       if (position) {

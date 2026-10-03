@@ -1,0 +1,13 @@
+{
+  "seed": 42,
+  "time": 120,
+  "gameOver": true,
+  "endReason": "timeExpired",
+  "hp": 100,
+  "score": 0,
+  "enemyCount": 40,
+  "sameIds": true,
+  "states": [
+    "PATROL"
+  ]
+}

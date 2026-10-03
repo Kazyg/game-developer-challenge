@@ -5,9 +5,10 @@ export default function PendingRegistrations({ pending, onRetry }: { pending: Pe
   if (!pending.length) return null
   return <aside className="pending-registrations" aria-label="Pending registrations">
     <h2>Pending Registrations ({pending.length})</h2>
-    {pending.map(({ match, status, error }) => <div key={match.matchId}>
+    {pending.map(({ match, status, error, exhausted }) => <div key={match.matchId}>
       <p>{new Date(match.date).toLocaleString()} · Score: {match.score} · <span role="status">{status}</span></p>
       {error && <p role="alert">{error}</p>}
+      {exhausted && <p>Automatic attempts exhausted. Your result is saved locally.</p>}
       <button type="button" disabled={status === 'Saving'} onClick={() => onRetry(match)}>Retry Registration</button>
     </div>)}
   </aside>

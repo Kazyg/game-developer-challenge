@@ -18,6 +18,11 @@ export function writeMatches(key: string, matches: MatchRecord[]) {
   try { localStorage.setItem(key, JSON.stringify(matches)) } catch { throw new Error('Unable to persist registrations locally.') }
 }
 let sessionPlayer: PlayerIdentity | null = null
+export function savePlayerName(name: string) {
+  const player = { ...loadPlayer(), playerName: name.replace(/[^a-zA-Z0-9 ]/g, '').trim().slice(0, 40) || 'Captain' }
+  sessionPlayer = player
+  try { localStorage.setItem(STORAGE_KEYS.player, JSON.stringify(player)) } catch { /* Keep session identity. */ }
+}
 export function loadPlayer(): PlayerIdentity {
   try {
     const player = JSON.parse(localStorage.getItem(STORAGE_KEYS.player) ?? 'null') as PlayerIdentity | null

@@ -14,7 +14,6 @@ test('published build starts MSW and recovers persisted pending through the netw
   const ranking = page.getByRole('tabpanel').filter({ visible: true })
   await expect(ranking.getByText('Anne', { exact: true })).toBeVisible()
   expect(await page.evaluate(() => navigator.serviceWorker.controller?.scriptURL)).toContain('mockServiceWorker.js')
-  await page.getByRole('complementary').getByRole('button', { name: 'Retry Registration' }).click()
   await expect(page.getByRole('complementary')).toHaveCount(0)
   await expect(ranking.getByText('Production Captain', { exact: true })).toBeVisible()
   await page.getByRole('tab', { name: 'Match History' }).click()

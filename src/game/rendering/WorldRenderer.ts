@@ -1,5 +1,3 @@
-import { navigationClearance, ROUTE_MARGIN } from '../ai/PatrolNavigation'
-import { COMBAT_CONFIG } from '../config/CombatConfig'
 import { Assets, Container, Graphics, Rectangle, Sprite, Texture, TilingSprite } from 'pixi.js'
 import type { Application } from 'pixi.js'
 import { GAME_CONFIG as config } from '../config/GameConfig'
@@ -7,6 +5,7 @@ import type { Camera } from '../camera/Camera'
 import type { World } from '../world/World'
 import { getIslandShape } from '../world/IslandShapes'
 import type { IslandShape } from '../world/IslandShapes'
+import { initializeAssets } from './initializeAssets'
 import { loadShipTextures } from './ShipTextures'
 import { damageStage } from './ShipAppearance'
 import oceanUrl from '../../../assets/png/retina/tiles/tile_73.png'
@@ -17,7 +16,7 @@ import { HealthBarRenderer } from './HealthBarRenderer'
 import { DamageRenderer } from './DamageRenderer'
 import { generateIslandDecorations } from '../world/IslandDecorations'
 import { STRUCTURE_TILE_IDS } from '../world/IslandStructures'
-import { leashBounds } from '../ai/EnemySystem'
+import { DebugRenderer } from './DebugRenderer'
 import type { Viewport } from './Viewport'
 
 export class WorldRenderer {
@@ -27,7 +26,7 @@ export class WorldRenderer {
   private islandSprites: Sprite[] = []
   private generatedTextures: Texture[] = []
   private surfaceTextures: Texture[] = []
-  private debugGraphics: Graphics | undefined
+  private readonly debugView = new DebugRenderer()
   private disposed = false
   private debugColliders: boolean
   private readonly combatView = new CombatRenderer()
@@ -43,7 +42,15 @@ export class WorldRenderer {
 
   toggleDebugColliders() {
     this.debugColliders = !this.debugColliders
-    if (this.debugGraphics) this.debugGraphics.visible = this.debugColliders
+    this.debugView.graphics.visible = this.debugColliders
+  }
+
+  observe() {
+    return { debug: this.debugView.graphics.visible,
+      debugInstructions: this.debugView.graphics.context?.instructions.length ?? 0,
+      localTextures: this.generatedTextures.length + this.surfaceTextures.length,
+      ocean: this.ocean ? { width: this.ocean.width, height: this.ocean.height } : undefined,
+      combat: this.combatView.observe(), damage: this.damageView.observe(), health: this.healthView.observe() }
   }
 
   private createSeamlessTexture(app: Application, texture: Texture): Texture {
@@ -55,9 +62,8 @@ export class WorldRenderer {
       sprite.position.set(x * texture.width * 2, y * texture.height * 2)
       composition.addChild(sprite)
     }
-    const result = app.renderer.generateTexture(composition)
-    composition.destroy({ children: true })
-    return result
+    try { return app.renderer.generateTexture(composition) }
+    finally { composition.destroy({ children: true }) }
   }
 
   private createIslandTexture(app: Application, shape: IslandShape, sand: Texture, grass: Texture, details: Map<number, Texture>, shallow: Texture, seed: number, islandSize: number): Texture {
@@ -85,50 +91,37 @@ export class WorldRenderer {
     addSurface(sand, 1)
     if (shape.vegetation) addSurface(grass, config.islandVegetationInset)
     for (const decoration of generateIslandDecorations(shape, seed, islandSize)) {
-      const sprite = new Sprite(details.get(decoration.tile)!)
+      const detail = details.get(decoration.tile)
+      if (!detail) throw new Error(`Missing island tile ${decoration.tile}`)
+      const sprite = new Sprite(detail)
       sprite.anchor.set(0.5)
       sprite.position.set(decoration.position.x * config.islandTextureSize, decoration.position.y * config.islandTextureSize)
       sprite.scale.set(decoration.scale)
       sprite.rotation = decoration.rotation
       composition.addChild(sprite)
     }
-    const texture = app.renderer.generateTexture({
-      target: composition,
-      frame: new Rectangle(-radius, -radius, radius * 2, radius * 2),
-    })
-    composition.destroy({ children: true })
-    return texture
+    try {
+      return app.renderer.generateTexture({
+        target: composition,
+        frame: new Rectangle(-radius, -radius, radius * 2, radius * 2),
+      })
+    } finally { composition.destroy({ children: true }) }
   }
 
   async initialize(app: Application, world: World): Promise<void> {
-    const [fleet, oceanTexture, sand, grass, details, shallow] = await Promise.all([
-      loadShipTextures(), Assets.load<Texture>(oceanUrl),
+    const fleetTask = loadShipTextures()
+    const [fleet, oceanTexture, sand, grass, details, shallow] = await initializeAssets([
+      fleetTask,
+      Assets.load<Texture>(oceanUrl),
       Assets.load<Texture>(sandUrl), Assets.load<Texture>(grassUrl),
-      Promise.all([...new Set([49, 51, 70, 72, 87, 88, ...STRUCTURE_TILE_IDS])].map(async index => {
-        const texture = await Assets.load<Texture>(new URL(`../../../assets/png/default/tiles/tile_${index}.png`, import.meta.url).href)
-        if (index < 81 || index > 84) return [index, texture] as const
-        // These four assets bake sand (and sometimes grass) behind the objects.
-        // Key that background in native pixels, retaining brown timber and blue/gray metal.
-        const canvas = document.createElement('canvas')
-        canvas.width = texture.width
-        canvas.height = texture.height
-        const context = canvas.getContext('2d')!
-        context.drawImage(texture.source.resource as HTMLImageElement, 0, 0)
-        const pixels = context.getImageData(0, 0, canvas.width, canvas.height)
-        for (let i = 0; i < pixels.data.length; i += 4) {
-          const r = pixels.data[i]!, g = pixels.data[i + 1]!, b = pixels.data[i + 2]!
-          const y = Math.floor(i / 4 / canvas.width)
-          // All four objects end before row 55; the dark wavy sand edge must
-          // also disappear even though it shares timber's darker colors.
-          if (y >= 55 || (g > 155 && r > b) || (g > r && g > b)) pixels.data[i + 3] = 0
-        }
-        context.putImageData(pixels, 0, 0)
-        const cutout = Texture.from(canvas)
-        this.surfaceTextures.push(cutout)
-        return [index, cutout] as const
+      initializeAssets([...new Set([49, 51, 70, 72, 87, 88, ...STRUCTURE_TILE_IDS])].map(async index => {
+        const url = index >= 81 && index <= 84
+          ? new URL(`../../../assets/generated/cutouts/tile_${index}.png`, import.meta.url).href
+          : new URL(`../../../assets/png/default/tiles/tile_${index}.png`, import.meta.url).href
+        return [index, await Assets.load<Texture>(url)] as const
       })),
       Assets.load<Texture>(new URL('../../../assets/png/retina/tiles/tile_27.png', import.meta.url).href),
-      this.combatView.initialize(),
+      this.combatView.initialize(fleetTask),
       this.healthView.initialize(),
       this.damageView.initialize(),
     ])
@@ -142,11 +135,17 @@ export class WorldRenderer {
     this.ocean = ocean
     ocean.tileScale.set(config.oceanTileScale)
     this.container.addChild(ocean)
-    this.surfaceTextures.push(this.createSeamlessTexture(app, sand), this.createSeamlessTexture(app, grass))
-    const sandSurface = this.surfaceTextures[this.surfaceTextures.length - 2]!
-    const grassSurface = this.surfaceTextures[this.surfaceTextures.length - 1]!
-    this.generatedTextures = world.islands.map((island, index) =>
-      this.createIslandTexture(app, getIslandShape(island), sandSurface, grassSurface, new Map(details), shallow!, world.seed ^ ((index + 1) * 0x45d9f3b), island.size))
+    const sandSurface = this.createSeamlessTexture(app, sand)
+    this.surfaceTextures.push(sandSurface)
+    const grassSurface = this.createSeamlessTexture(app, grass)
+    this.surfaceTextures.push(grassSurface)
+    const detailTextures = new Map(details)
+    // Store each owned texture immediately, so a later generation error cannot
+    // strand textures created earlier in a map/argument expression.
+    world.islands.forEach((island, index) => {
+      this.generatedTextures.push(this.createIslandTexture(app, getIslandShape(island),
+        sandSurface, grassSurface, detailTextures, shallow, world.seed ^ ((index + 1) * 0x45d9f3b), island.size))
+    })
     this.islandSprites = world.islands.map((island, index) => {
       const sprite = new Sprite(this.generatedTextures[index]!)
       sprite.anchor.set(0.5)
@@ -164,9 +163,8 @@ export class WorldRenderer {
     this.container.addChild(this.combatView.container)
     this.container.addChild(this.damageView.container)
     this.container.addChild(this.healthView.container)
-    this.debugGraphics = new Graphics()
-    this.debugGraphics.visible = this.debugColliders
-    this.container.addChild(this.debugGraphics)
+    this.debugView.graphics.visible = this.debugColliders
+    this.container.addChild(this.debugView.graphics)
     app.stage.addChild(this.container)
   }
 
@@ -178,7 +176,8 @@ export class WorldRenderer {
       this.ocean.height = height
       this.ocean.tilePosition.set(-camera.position.x, -camera.position.y)
     }
-    this.container.position.set(-camera.position.x, -camera.position.y)
+    this.container.scale.set(camera.zoom)
+    this.container.position.set(-camera.position.x * camera.zoom, -camera.position.y * camera.zoom)
     if (this.playerSprite) {
       this.playerSprite.visible = world.player.alive
       this.playerSprite.texture = this.playerTextures[damageStage(world.player.hp, world.player.maxHp)]!
@@ -196,68 +195,7 @@ export class WorldRenderer {
     this.combatView.render(world, 0, this.viewport)
     this.damageView.render(world, this.viewport)
     this.healthView.render(world, camera, width, height)
-    if (this.debugColliders && this.debugGraphics) {
-      this.debugGraphics.clear()
-      world.islands.forEach((island, index) => {
-        if (!this.islandSprites[index]!.visible) return
-        for (const collider of navigationClearance(island).slice(island.colliders.length)) {
-          if (collider.type === 'polygon') this.debugGraphics!.poly(collider.vertices.flatMap(p => [p.x, p.y]))
-          this.debugGraphics!.stroke({ color: 0x42e8ad, width: 2 })
-        }
-        for (const collider of island.colliders) {
-          if (collider.type === 'polygon') {
-            this.debugGraphics!.poly(collider.vertices.flatMap((p) => [p.x, p.y]))
-          } else {
-            this.debugGraphics!.circle(collider.position.x, collider.position.y, collider.radius)
-          }
-          this.debugGraphics!.stroke({ color: 0xff3d7f, width: 2 })
-        }
-      })
-      for (const circle of world.player.alive ? world.player.colliders : []) {
-        this.debugGraphics.circle(circle.position.x, circle.position.y, circle.radius)
-          .stroke({ color: 0xffff00, width: 2 })
-      }
-      for (const area of world.patrolAreas) {
-        this.debugGraphics.rect(area.x, area.y, area.width, area.height)
-          .stroke({ color: 0x9d7bff, width: 2, alpha: 0.8 })
-      }
-      for (const enemy of world.enemies) {
-        if (!enemy.alive) continue
-        const color = enemy.type === 'chaser' ? 0xff6947 : 0x66ddff
-        this.debugGraphics.circle(enemy.patrol.center.x, enemy.patrol.center.y, enemy.patrol.radius)
-          .stroke({ color, width: 1, alpha: 0.35 })
-        for (const radius of [enemy.patrol.radius - ROUTE_MARGIN, enemy.patrol.radius + ROUTE_MARGIN])
-          this.debugGraphics.circle(enemy.patrol.center.x, enemy.patrol.center.y, radius)
-            .stroke({ color, width: 1, alpha: 0.2 })
-        this.debugGraphics.moveTo(enemy.position.x, enemy.position.y)
-          .lineTo(enemy.position.x + Math.sin(enemy.rotation) * COMBAT_CONFIG.patrol.hullLookAhead,
-            enemy.position.y - Math.cos(enemy.rotation) * COMBAT_CONFIG.patrol.hullLookAhead)
-          .stroke({ color: 0xffffff, width: 2 })
-        if (enemy.navigation.waypoint) this.debugGraphics.moveTo(enemy.position.x, enemy.position.y)
-          .lineTo(enemy.navigation.waypoint.x, enemy.navigation.waypoint.y).stroke({ color: 0x42e8ad, width: 2 })
-        const area = world.patrolAreas.find((item) => item.id === enemy.areaId)
-        if (area) {
-          const leash = leashBounds(area)
-          this.debugGraphics.rect(leash.x, leash.y, leash.width, leash.height)
-            .stroke({ color, width: 2, alpha: 0.4 })
-        }
-        for (const circle of enemy.colliders) {
-          this.debugGraphics.circle(circle.position.x, circle.position.y, circle.radius)
-            .stroke({ color, width: 2 })
-        }
-        this.debugGraphics.circle(enemy.position.x, enemy.position.y, enemy.visionRange)
-          .stroke({ color, width: 1, alpha: 0.5 })
-        if (enemy.type === 'shooter') {
-          this.debugGraphics.circle(enemy.position.x, enemy.position.y, enemy.attackRange)
-            .stroke({ color: 0xffd166, width: 1, alpha: 0.7 })
-        }
-      }
-      for (const projectile of world.projectiles) {
-        const circle = projectile.collider
-        this.debugGraphics.circle(circle.position.x, circle.position.y, circle.radius)
-          .stroke({ color: projectile.team === 'player' ? 0xffffff : 0xff4444, width: 1 })
-      }
-    }
+    if (this.debugColliders) this.debugView.render(world, this.islandSprites.map(sprite => sprite.visible))
   }
 
   destroy() {
@@ -266,6 +204,7 @@ export class WorldRenderer {
     this.combatView.destroy()
     this.healthView.destroy()
     this.damageView.destroy()
+    if (!this.debugView.graphics.parent) this.debugView.graphics.destroy()
     this.container.destroy({ children: true })
     this.generatedTextures.forEach((texture) => texture.destroy(true))
     this.surfaceTextures.forEach((texture) => texture.destroy(true))

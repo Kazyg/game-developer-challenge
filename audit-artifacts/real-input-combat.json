@@ -1,0 +1,17 @@
+{
+  "first": {
+    "hp": 10,
+    "score": 0,
+    "cooldowns": {
+      "front": 0.7166666666666658,
+      "left": 0,
+      "right": 0
+    }
+  },
+  "second": {
+    "targetExists": true,
+    "score": 0,
+    "playerHp": 100
+  },
+  "stableScore": 0
+}

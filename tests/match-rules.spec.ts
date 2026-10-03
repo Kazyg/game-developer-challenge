@@ -1,4 +1,5 @@
-﻿import { test, expect } from '@playwright/test'
+import { GAME_CONFIG } from '../src/game/config/GameConfig'
+import { test, expect } from '@playwright/test'
 import { World } from '../src/game/world/World'
 import { createEnemy } from '../src/game/entities/Enemy'
 import { damageShip, fireWeapon, updateProjectiles, chaserContact } from '../src/game/combat/CombatSystem'
@@ -18,13 +19,13 @@ test('W advances along bow, A/D only turn and movement can fire simultaneously',
   world.update({ ...idle, left: true }, 0.1)
   expect(world.player.rotation).toBeCloseTo(0)
   world.update({ ...idle, up: true, actions: { front: true, left: true, right: true, repair: false } }, 0.1)
-  expect(world.player.position.y).toBeCloseTo(1978)
+  expect(world.player.position.y).toBeCloseTo(2000 - GAME_CONFIG.playerSpeed * 0.1)
   expect(world.projectiles).toHaveLength(7)
   world.update({ ...idle, down: true }, 0.1)
-  expect(world.player.position.y).toBeCloseTo(1978)
+  expect(world.player.position.y).toBeCloseTo(2000 - GAME_CONFIG.playerSpeed * 0.1)
 })
 
-test('projectile range equals normal vision and a target at maximum range receives no damage', () => {
+test('front projectile range follows its team configuration and distant hulls receive no damage', () => {
   for (const team of ['player', 'enemy'] as const) {
     const world = arena()
     const shooter = createEnemy('enemy', 'shooter', world.patrolAreas[0]!, { x: 2000, y: 2200 }, 42)
@@ -32,14 +33,14 @@ test('projectile range equals normal vision and a target at maximum range receiv
     const owner = team === 'player' ? world.player : shooter
     fireWeapon(world, owner, 'front')
     const projectile = world.projectiles[0]!
-    expect(projectile.range).toBe(COMBAT_CONFIG.enemyVisionRange)
+    expect(projectile.range).toBe(team === 'player' ? COMBAT_CONFIG.projectile.playerFrontRange : COMBAT_CONFIG.enemyVisionRange)
     const target = team === 'player' ? shooter : world.player
     projectile.range = 4
     projectile.position = { x: 1000, y: 1000 }
     projectile.direction = { x: 1, y: 0 }
     // Only the final sample intersects the stern collider.
     target.rotation = Math.PI / 2
-    target.position = { x: 1033, y: 1000 }
+    target.position = { x: 1100, y: 1000 }
     const hp = target.hp
     updateProjectiles(world, 0.1)
     expect(target.hp).toBe(hp)

@@ -22,7 +22,7 @@ export function moveShip(ship: Ship, direction: Vector2, speed: number, dt: numb
   if (!ship.alive) return
   const distance = speed * dt
   const stepSize = Math.min(config.movementStep, ...ship.colliders.map((circle) => circle.radius))
-  const steps = Math.max(1, Math.ceil(distance / stepSize))
+  const steps = Math.max(1, Math.ceil(Math.abs(distance) / stepSize))
   const dx = Math.sin(ship.rotation) * distance / steps
   const dy = -Math.cos(ship.rotation) * distance / steps
   for (let step = 0; step < steps && ship.alive; step++) {
@@ -40,4 +40,11 @@ export function moveShip(ship: Ship, direction: Vector2, speed: number, dt: numb
     position.x = next.x
     position.y = next.y
   }
+}
+
+export function straightSailingSpeed(base: number, distance: number, maxBoost = config.straightSailing.maxBoost): number {
+  return base * (1 + maxBoost * Math.min(1, distance / config.straightSailing.distanceForMaxBoost))
+}
+export function straightSailingDistance(previous: number, traveled: number, turning: boolean, blocked: boolean): number {
+  return turning || blocked ? 0 : previous + traveled
 }

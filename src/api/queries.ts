@@ -1,10 +1,10 @@
 import { QueryClient, queryOptions } from '@tanstack/react-query'
-import { ApiError, getHistory, getRanking } from './client'
+import { getHistory, getRanking } from './client'
 import type { GameConfigSnapshot, HistoryRequest, RankingRequest } from './contracts'
 
 export const queryClient = new QueryClient({ defaultOptions: {
   queries: { staleTime: 15_000, gcTime: 300_000, refetchOnMount: 'always', refetchOnWindowFocus: true,
-    retry: (count, error) => count < 1 && !(error instanceof ApiError && error.kind === 'client'), retryDelay: 200 },
+    retry: false },
   mutations: { retry: false },
 } })
 export const queryKeys = {

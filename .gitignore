@@ -25,4 +25,9 @@ dist-ssr
 
 # Playwright artifacts
 test-results/
+test-results-production/
 playwright-report/
+playwright-report-production/
+test-results-followup/
+playwright-report-followup/
+docs/performance/**/*.heapsnapshot

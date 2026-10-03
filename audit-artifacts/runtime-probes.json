@@ -1,0 +1,176 @@
+{
+  "result": {
+    "initial": {
+      "time": 0,
+      "enemies": 40,
+      "types": [
+        "chaser",
+        "shooter"
+      ],
+      "hp": 100,
+      "ids": [
+        "enemy-0",
+        "enemy-1",
+        "enemy-2",
+        "enemy-3",
+        "enemy-4",
+        "enemy-5",
+        "enemy-6",
+        "enemy-7",
+        "enemy-8",
+        "enemy-9",
+        "enemy-10",
+        "enemy-11",
+        "enemy-12",
+        "enemy-13",
+        "enemy-14",
+        "enemy-15",
+        "enemy-16",
+        "enemy-17",
+        "enemy-18",
+        "enemy-19",
+        "enemy-20",
+        "enemy-21",
+        "enemy-22",
+        "enemy-23",
+        "enemy-24",
+        "enemy-25",
+        "enemy-26",
+        "enemy-27",
+        "enemy-28",
+        "enemy-29",
+        "enemy-30",
+        "enemy-31",
+        "enemy-32",
+        "enemy-33",
+        "enemy-34",
+        "enemy-35",
+        "enemy-36",
+        "enemy-37",
+        "enemy-38",
+        "enemy-39"
+      ]
+    },
+    "after": {
+      "time": 20.000000000000146,
+      "enemies": 40,
+      "hp": 100,
+      "score": 0,
+      "ids": [
+        "enemy-0",
+        "enemy-1",
+        "enemy-2",
+        "enemy-3",
+        "enemy-4",
+        "enemy-5",
+        "enemy-6",
+        "enemy-7",
+        "enemy-8",
+        "enemy-9",
+        "enemy-10",
+        "enemy-11",
+        "enemy-12",
+        "enemy-13",
+        "enemy-14",
+        "enemy-15",
+        "enemy-16",
+        "enemy-17",
+        "enemy-18",
+        "enemy-19",
+        "enemy-20",
+        "enemy-21",
+        "enemy-22",
+        "enemy-23",
+        "enemy-24",
+        "enemy-25",
+        "enemy-26",
+        "enemy-27",
+        "enemy-28",
+        "enemy-29",
+        "enemy-30",
+        "enemy-31",
+        "enemy-32",
+        "enemy-33",
+        "enemy-34",
+        "enemy-35",
+        "enemy-36",
+        "enemy-37",
+        "enemy-38",
+        "enemy-39"
+      ],
+      "states": [
+        "PATROL"
+      ]
+    }
+  },
+  "completion": {
+    "text": "Match Result\nScore\n0\nTime Played\n20s\nEnd Reason\nTime Expired\nPlayer name (optional)\n\nUse letters, numbers and spaces. Leave blank to keep the default name.\n\nSave Result\nPlay Again\nMain Menu",
+    "last": {
+      "match": {
+        "matchId": "e24fdd20-4f1e-44d5-81ed-c379025514fa",
+        "seed": 42,
+        "playerId": "26e385c8-edd0-4ee0-8b1e-1205010ff3d7",
+        "playerName": "Captain",
+        "date": "2026-10-03T11:16:03.004Z",
+        "score": 0,
+        "effectiveDuration": 20.000000000000146,
+        "endReason": "timeExpired",
+        "gameConfig": {
+          "gameSessionTime": 120,
+          "enemySpawnTime": 5
+        }
+      },
+      "seed": 42,
+      "status": "Pending",
+      "awaitingName": true
+    },
+    "pending": null,
+    "confirmed": null
+  },
+  "returned": {
+    "text": "",
+    "last": {
+      "match": {
+        "matchId": "e24fdd20-4f1e-44d5-81ed-c379025514fa",
+        "seed": 42,
+        "playerId": "26e385c8-edd0-4ee0-8b1e-1205010ff3d7",
+        "playerName": "Captain",
+        "date": "2026-10-03T11:16:03.004Z",
+        "score": 0,
+        "effectiveDuration": 20.000000000000146,
+        "endReason": "timeExpired",
+        "gameConfig": {
+          "gameSessionTime": 120,
+          "enemySpawnTime": 5
+        }
+      },
+      "seed": 42,
+      "status": "Pending",
+      "awaitingName": true
+    },
+    "pending": null
+  },
+  "second": {
+    "last": {
+      "match": {
+        "matchId": "5f4114ce-c0e1-4988-9fa5-d9a525de6cff",
+        "seed": 42,
+        "playerId": "26e385c8-edd0-4ee0-8b1e-1205010ff3d7",
+        "playerName": "Captain",
+        "date": "2026-10-03T11:16:20.816Z",
+        "score": 0,
+        "effectiveDuration": 0,
+        "endReason": "timeExpired",
+        "gameConfig": {
+          "gameSessionTime": 120,
+          "enemySpawnTime": 5
+        }
+      },
+      "seed": 42,
+      "status": "Pending",
+      "awaitingName": true
+    },
+    "pending": null
+  },
+  "errors": []
+}

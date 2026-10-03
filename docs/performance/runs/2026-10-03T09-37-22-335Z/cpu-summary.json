@@ -1,0 +1,458 @@
+{
+  "totalUs": 30345140,
+  "subsystemSelfUs": {
+    "(program)": 3221474,
+    "ai": 619907,
+    "collision": 1721362,
+    "entities": 187700,
+    "dependencies": 270642,
+    "(idle)": 22851975,
+    "(anonymous)": 344795,
+    "unmapped/browser": 260110,
+    "profiling.ts:75:23": 248,
+    "movement": 44310,
+    "world": 188241,
+    "combat": 29840,
+    "(garbage collector)": 401120,
+    "profiling.ts:62:24": 6205,
+    "rendering": 61962,
+    "profiling.ts:28:19": 78469,
+    "profiling.ts:57:46": 1553,
+    "profiling.ts:44:8": 3401,
+    "profiling.ts:115:15": 8136,
+    "audio": 29005,
+    "profiling.ts:109:17": 4296,
+    "Game.ts:169:45": 1957,
+    "Game.ts:209:2": 3189,
+    "profiling.ts:52:36": 109,
+    "viewport.ts:4:16": 3233,
+    "input": 226,
+    "camera": 1499,
+    "profiling.ts:54:36": 37,
+    "Game.ts:163:2": 44,
+    "profiling.ts:53:37": 48,
+    "FixedStep.ts:7:2": 47
+  },
+  "selfTime": [
+    {
+      "name": "(idle)",
+      "location": ":0:-1",
+      "selfUs": 22851975,
+      "samples": 15078
+    },
+    {
+      "name": "(program)",
+      "location": ":0:-1",
+      "selfUs": 3221474,
+      "samples": 7854
+    },
+    {
+      "name": "circleOverlapsPolygon",
+      "location": "../../src/game/collision/CollisionSystem.ts:89:16",
+      "selfUs": 430157,
+      "samples": 390
+    },
+    {
+      "name": "(garbage collector)",
+      "location": ":0:-1",
+      "selfUs": 401120,
+      "samples": 254
+    },
+    {
+      "name": "(anonymous)",
+      "location": ":0:-1",
+      "selfUs": 338327,
+      "samples": 216
+    },
+    {
+      "name": "bounds",
+      "location": "../../src/game/collision/CollisionSystem.ts:7:9",
+      "selfUs": 297568,
+      "samples": 288
+    },
+    {
+      "name": "sweepCollider",
+      "location": "../../src/game/collision/CollisionSystem.ts:36:16",
+      "selfUs": 250533,
+      "samples": 257
+    },
+    {
+      "name": "overlapsCollider",
+      "location": "../../src/game/collision/CollisionSystem.ts:100:16",
+      "selfUs": 244333,
+      "samples": 240
+    },
+    {
+      "name": "(anonymous)",
+      "location": "../../src/game/collision/CollisionSystem.ts:108:24",
+      "selfUs": 213601,
+      "samples": 172
+    },
+    {
+      "name": "canOccupy",
+      "location": "../../src/game/collision/CollisionSystem.ts:104:16",
+      "selfUs": 145411,
+      "samples": 117
+    },
+    {
+      "name": "avoidNeighbors",
+      "location": "../../src/game/ai/EnemySystem.ts:20:16",
+      "selfUs": 120672,
+      "samples": 142
+    },
+    {
+      "name": "getPlayerColliders",
+      "location": "../../src/game/entities/Player.ts:24:16",
+      "selfUs": 117217,
+      "samples": 107
+    },
+    {
+      "name": "clearPoseSegment",
+      "location": "../../src/game/ai/ObstacleAvoidance.ts:27:16",
+      "selfUs": 107779,
+      "samples": 124
+    },
+    {
+      "name": "(anonymous)",
+      "location": "../../src/game/ai/ObstacleAvoidance.ts:34:36",
+      "selfUs": 93506,
+      "samples": 104
+    },
+    {
+      "name": "movementSpeed",
+      "location": "../../src/game/ai/EnemySystem.ts:140:16",
+      "selfUs": 84718,
+      "samples": 92
+    },
+    {
+      "name": "i.<computed>",
+      "location": "../../src/game/profiling.ts:28:19",
+      "selfUs": 78469,
+      "samples": 52
+    },
+    {
+      "name": "distanceToSegmentSquared",
+      "location": "../../src/game/collision/CollisionSystem.ts:80:9",
+      "selfUs": 47661,
+      "samples": 38
+    },
+    {
+      "name": "planEnemyMoves",
+      "location": "../../src/game/ai/EnemySystem.ts:180:16",
+      "selfUs": 46770,
+      "samples": 59
+    },
+    {
+      "name": "matchMedia",
+      "location": ":0:-1",
+      "selfUs": 44147,
+      "samples": 29
+    },
+    {
+      "name": "clearSegment",
+      "location": "../../src/game/ai/ObstacleAvoidance.ts:39:16",
+      "selfUs": 42097,
+      "samples": 50
+    },
+    {
+      "name": "clear",
+      "location": ":0:-1",
+      "selfUs": 37031,
+      "samples": 24
+    },
+    {
+      "name": "canEnemyPose",
+      "location": "../../src/game/world/World.ts:151:2",
+      "selfUs": 35350,
+      "samples": 24
+    },
+    {
+      "name": "moveShip",
+      "location": "../../src/game/movement/ShipMovement.ts:17:16",
+      "selfUs": 33920,
+      "samples": 25
+    },
+    {
+      "name": "(anonymous)",
+      "location": "../../src/game/entities/Player.ts:33:71",
+      "selfUs": 33634,
+      "samples": 26
+    },
+    {
+      "name": "(anonymous)",
+      "location": "../../src/game/world/World.ts:160:43",
+      "selfUs": 27431,
+      "samples": 19
+    },
+    {
+      "name": "playSound",
+      "location": "../../src/game/audio/AudioManager.ts:37:16",
+      "selfUs": 27387,
+      "samples": 19
+    },
+    {
+      "name": "render",
+      "location": "../../src/game/rendering/CombatRenderer.ts:69:2",
+      "selfUs": 26852,
+      "samples": 18
+    },
+    {
+      "name": "clear",
+      "location": "../../src/game/world/NavigationGrid.ts:43:2",
+      "selfUs": 26429,
+      "samples": 17
+    },
+    {
+      "name": "updateTransformAndChildren",
+      "location": "../../node_modules/pixi.js/lib/scene/container/utils/updateRenderGroupTransforms.mjs:55:9",
+      "selfUs": 26398,
+      "samples": 17
+    },
+    {
+      "name": "bufferSubData",
+      "location": ":0:-1",
+      "selfUs": 26367,
+      "samples": 17
+    },
+    {
+      "name": "now",
+      "location": ":0:-1",
+      "selfUs": 24065,
+      "samples": 17
+    },
+    {
+      "name": "(anonymous)",
+      "location": "../../src/game/ai/EnemySystem.ts:167:2",
+      "selfUs": 23572,
+      "samples": 16
+    },
+    {
+      "name": "shipVelocity",
+      "location": "../../src/game/world/World.ts:54:2",
+      "selfUs": 23428,
+      "samples": 26
+    },
+    {
+      "name": "shortestAngleDifference",
+      "location": "../../src/game/entities/rotation.ts:1:16",
+      "selfUs": 22235,
+      "samples": 20
+    },
+    {
+      "name": "circlesOverlap",
+      "location": "../../src/game/collision/CollisionSystem.ts:64:16",
+      "selfUs": 21643,
+      "samples": 14
+    },
+    {
+      "name": "render",
+      "location": "../../node_modules/pixi.js/lib/rendering/renderers/shared/system/AbstractRenderer.mjs:76:2",
+      "selfUs": 20423,
+      "samples": 13
+    },
+    {
+      "name": "sweepCircle",
+      "location": "../../src/game/collision/CollisionSystem.ts:21:16",
+      "selfUs": 19359,
+      "samples": 14
+    },
+    {
+      "name": "innerSerialize",
+      "location": ":186:23",
+      "selfUs": 19307,
+      "samples": 20
+    },
+    {
+      "name": "impact",
+      "location": "../../src/game/combat/CombatSystem.ts:87:9",
+      "selfUs": 17367,
+      "samples": 15
+    },
+    {
+      "name": "movementDirection",
+      "location": "../../src/game/ai/EnemySystem.ts:120:16",
+      "selfUs": 17174,
+      "samples": 20
+    },
+    {
+      "name": "canOccupyWithCircles",
+      "location": "../../src/game/collision/CollisionSystem.ts:111:16",
+      "selfUs": 16999,
+      "samples": 15
+    },
+    {
+      "name": "pointInPolygon",
+      "location": "../../src/game/collision/CollisionSystem.ts:69:16",
+      "selfUs": 16536,
+      "samples": 11
+    },
+    {
+      "name": "requestAnimationFrame",
+      "location": ":0:-1",
+      "selfUs": 16474,
+      "samples": 25
+    },
+    {
+      "name": "setShipVelocity",
+      "location": "../../src/game/world/World.ts:51:2",
+      "selfUs": 15853,
+      "samples": 14
+    },
+    {
+      "name": "emit",
+      "location": "../../node_modules/pixi.js/lib/rendering/renderers/shared/system/SystemRunner.mjs:16:2",
+      "selfUs": 15587,
+      "samples": 10
+    },
+    {
+      "name": "(anonymous)",
+      "location": "../../src/game/collision/CollisionSystem.ts:94:26",
+      "selfUs": 14991,
+      "samples": 12
+    },
+    {
+      "name": "queueMicrotask",
+      "location": ":0:-1",
+      "selfUs": 13990,
+      "samples": 9
+    },
+    {
+      "name": "serialize",
+      "location": ":175:18",
+      "selfUs": 13784,
+      "samples": 10
+    },
+    {
+      "name": "isTypedArray",
+      "location": ":65:21",
+      "selfUs": 12999,
+      "samples": 9
+    },
+    {
+      "name": "push",
+      "location": "../../node_modules/pixi.js/lib/rendering/renderers/shared/renderTarget/RenderTargetSystem.mjs:282:2",
+      "selfUs": 12574,
+      "samples": 8
+    },
+    {
+      "name": "(anonymous)",
+      "location": "../../src/game/ai/EnemySystem.ts:199:10",
+      "selfUs": 12538,
+      "samples": 11
+    },
+    {
+      "name": "set visible",
+      "location": "../../node_modules/pixi.js/lib/scene/container/Container.mjs:1060:6",
+      "selfUs": 11365,
+      "samples": 9
+    },
+    {
+      "name": "uniformMatrix3fv",
+      "location": ":0:-1",
+      "selfUs": 10896,
+      "samples": 7
+    },
+    {
+      "name": "avoidIslands",
+      "location": "../../src/game/ai/ObstacleAvoidance.ts:182:16",
+      "selfUs": 10706,
+      "samples": 15
+    },
+    {
+      "name": "get colliders",
+      "location": "../../src/game/entities/Enemy.ts:91:8",
+      "selfUs": 10196,
+      "samples": 7
+    },
+    {
+      "name": "execute",
+      "location": "../../node_modules/pixi.js/lib/rendering/batcher/gl/GlBatchAdaptor.mjs:32:2",
+      "selfUs": 9506,
+      "samples": 6
+    },
+    {
+      "name": "neighbors",
+      "location": "../../src/game/world/NavigationGrid.ts:54:2",
+      "selfUs": 9351,
+      "samples": 6
+    },
+    {
+      "name": "render",
+      "location": "../../src/game/rendering/DamageRenderer.ts:24:2",
+      "selfUs": 8264,
+      "samples": 7
+    },
+    {
+      "name": "i.render",
+      "location": "../../src/game/profiling.ts:115:15",
+      "selfUs": 8136,
+      "samples": 5
+    },
+    {
+      "name": "updateCombat",
+      "location": "../../src/game/world/World.ts:230:2",
+      "selfUs": 7622,
+      "samples": 6
+    },
+    {
+      "name": "canTurnTo",
+      "location": "../../src/game/ai/ObstacleAvoidance.ts:43:16",
+      "selfUs": 7558,
+      "samples": 9
+    },
+    {
+      "name": "navigationGrid",
+      "location": "../../src/game/ai/ObstacleAvoidance.ts:14:16",
+      "selfUs": 7265,
+      "samples": 7
+    },
+    {
+      "name": "drawElements",
+      "location": ":0:-1",
+      "selfUs": 7143,
+      "samples": 5
+    },
+    {
+      "name": "patrolGoal",
+      "location": "../../src/game/ai/EnemySystem.ts:54:9",
+      "selfUs": 6785,
+      "samples": 9
+    },
+    {
+      "name": "(anonymous)",
+      "location": "../../src/game/ai/ObstacleAvoidance.ts:17:21",
+      "selfUs": 6775,
+      "samples": 8
+    },
+    {
+      "name": "(anonymous)",
+      "location": "../../src/game/ai/EnemySystem.ts:186:41",
+      "selfUs": 6742,
+      "samples": 6
+    },
+    {
+      "name": "render",
+      "location": "../../src/game/rendering/HealthBarRenderer.ts:26:2",
+      "selfUs": 6549,
+      "samples": 5
+    },
+    {
+      "name": "turnShip",
+      "location": "../../src/game/movement/ShipMovement.ts:11:16",
+      "selfUs": 6397,
+      "samples": 4
+    },
+    {
+      "name": "insidePatrolArea",
+      "location": "../../src/game/world/SpawnSystem.ts:18:16",
+      "selfUs": 6384,
+      "samples": 4
+    },
+    {
+      "name": "packAttributes",
+      "location": "../../node_modules/pixi.js/lib/rendering/batcher/shared/DefaultBatcher.mjs:26:2",
+      "selfUs": 6305,
+      "samples": 4
+    }
+  ]
+}

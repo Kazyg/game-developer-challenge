@@ -1,3 +1,4 @@
+import { COMBAT_CONFIG } from '../src/game/config/CombatConfig'
 import { test, expect } from '@playwright/test'
 import type { CircleCollider, Vector2 } from '../src/game/entities/Island'
 import type { WeaponCooldowns } from '../src/game/entities/Combat'
@@ -15,7 +16,7 @@ interface Snapshot {
   enemies: number
 }
 
-test('real bindings fire while moving, toggle full combat debug, Repair cancels, and U is cleaned up', async ({ page }) => {
+test('real bindings fire while moving, Repair cancels and destruction cleans the canvas', async ({ page }) => {
   const errors: string[] = []
   page.on('pageerror', (error) => errors.push(error.message))
   await page.goto('/')
@@ -33,14 +34,15 @@ test('real bindings fire while moving, toggle full combat debug, Repair cancels,
     host.style.cssText = 'position:fixed;inset:0;z-index:10'
     document.body.append(host)
     await game.start(host)
-    game.app.stop()
+    const control = game.testController()
+    control.stopClock()
     const output = document.createElement('output')
     output.id = 'combat-snapshot'
     output.hidden = true
     document.body.append(output)
     const snapshot = () => {
-      output.textContent = JSON.stringify({ debug: game.view.debugGraphics.visible,
-        instructions: game.view.debugGraphics.context?.instructions.length ?? 0,
+      output.textContent = JSON.stringify({ debug: control.observe().debug,
+        instructions: control.observe().debugInstructions,
         hp: game.world.player.hp, repairActive: game.world.player.repair.active,
         repairCooldown: game.world.player.repair.cooldown,
         position: game.world.player.position, weapons: game.world.player.weaponCooldowns,
@@ -50,18 +52,19 @@ test('real bindings fire while moving, toggle full combat debug, Repair cancels,
       })
     }
     const step = () => {
-      game.world.update(game.input.read(), 0.1)
-      game.render()
-      game.app.render()
+      control.advance(0.1)
       snapshot()
     }
+    const debug = () => control.toggleDebug()
+    window.addEventListener('combat-toggle-debug', debug)
     window.addEventListener('combat-step', step)
     window.addEventListener('combat-read', snapshot)
     window.addEventListener('combat-destroy', () => {
       game.destroy()
       window.removeEventListener('combat-step', step)
+      window.removeEventListener('combat-toggle-debug', debug)
       host.remove()
-      // Keep snapshot available to verify that pressing U no longer toggles this Game.
+      window.removeEventListener('combat-read', snapshot)
     }, { once: true })
     snapshot()
   })
@@ -71,7 +74,7 @@ test('real bindings fire while moving, toggle full combat debug, Repair cancels,
   }
   const step = () => page.evaluate(() => window.dispatchEvent(new Event('combat-step')))
   expect((await read()).debug).toBe(false)
-  await page.keyboard.press('KeyU')
+  await page.evaluate(() => window.dispatchEvent(new Event('combat-toggle-debug')))
   expect((await read()).debug).toBe(true)
   expect((await read()).instructions).toBeGreaterThan(0)
   for (const key of ['KeyW', 'Space', 'KeyQ', 'KeyE']) await page.keyboard.down(key)
@@ -83,22 +86,22 @@ test('real bindings fire while moving, toggle full combat debug, Repair cancels,
   expect(new Set(fired.playerProjectiles).size).toBe(7)
   expect(fired.projectileColliders.length).toBeGreaterThanOrEqual(7)
   expect(fired.enemies).toBeGreaterThanOrEqual(2)
-  expect(fired.weapons).toEqual({ front: 1, left: 2.5, right: 2.5 })
+  expect(fired.weapons.front).toBeCloseTo(COMBAT_CONFIG.player.frontCooldown - 5 / 60)
+  expect(fired.weapons.left).toBeCloseTo(COMBAT_CONFIG.player.sideCooldown - 5 / 60)
+  expect(fired.weapons.right).toBeCloseTo(COMBAT_CONFIG.player.sideCooldown - 5 / 60)
   await page.screenshot({ path: 'test-results/combat-debug.png' })
   await page.keyboard.press('KeyR')
   await step()
   expect((await read()).repairActive).toBe(true)
-  expect((await read()).hp).toBe(51)
+  expect((await read()).hp).toBeCloseTo(51)
   await page.keyboard.down('KeyD')
   await step()
   await page.keyboard.up('KeyD')
   expect((await read()).repairActive).toBe(false)
-  expect((await read()).repairCooldown).toBe(30)
-  await page.keyboard.press('KeyU')
+  expect((await read()).repairCooldown).toBeCloseTo(30 - 5 / 60)
+  await page.evaluate(() => window.dispatchEvent(new Event('combat-toggle-debug')))
   expect((await read()).debug).toBe(false)
   await page.evaluate(() => window.dispatchEvent(new Event('combat-destroy')))
   await expect(page.locator('canvas')).toHaveCount(0)
-  await page.keyboard.press('KeyU')
-  expect((await read()).debug).toBe(false)
   expect(errors).toEqual([])
 })

@@ -4,20 +4,18 @@ import { canOccupyWithCircles, overlapsCollider } from '../collision/CollisionSy
 import type { Collider, Island, Vector2 } from '../entities/Island'
 import type { PatrolArea } from '../entities/Combat'
 import type { PatrolPlan } from '../entities/Enemy'
-import { getIslandShape, transformOutline } from '../world/IslandShapes'
 
-export const HULL_RADIUS = Math.max(...GAME_CONFIG.playerHullCircles.map(c =>
-  (Math.hypot(c.x, c.y) + c.radius) * GAME_CONFIG.playerSpriteScale))
+export { ENEMY_HULL_RADIUS as HULL_RADIUS } from '../entities/HullGeometry'
+import { ENEMY_HULL_RADIUS as HULL_RADIUS } from '../entities/HullGeometry'
 export const ROUTE_MARGIN = HULL_RADIUS + config.patrol.safetyMargin
 export const LANE_GAP = ROUTE_MARGIN * 2 + 8
 const clearances = new WeakMap<Island, readonly Collider[]>()
 
-// Matches the renderer's shallow-water mask; physical land colliders stay unchanged.
+// Shallow water is visual; only physical land blocks navigation.
 export function navigationClearance(island: Island): readonly Collider[] {
   let result = clearances.get(island)
   if (!result) {
-    result = [...island.colliders, { type: 'polygon', vertices: transformOutline(
-      getIslandShape(island).outline, island.position, island.size * 1.12, island.rotation) }]
+    result = island.colliders
     clearances.set(island, result)
   }
   return result

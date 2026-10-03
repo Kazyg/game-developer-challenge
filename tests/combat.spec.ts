@@ -1,4 +1,4 @@
-﻿import { test, expect } from '@playwright/test'
+import { test, expect } from '@playwright/test'
 import { World } from '../src/game/world/World'
 import { COMBAT_CONFIG as config } from '../src/game/config/CombatConfig'
 import { createEnemy } from '../src/game/entities/Enemy'
@@ -9,12 +9,13 @@ import { stopRepair, updateRepair } from '../src/game/combat/RepairSystem'
 import { updateEnemies, avoidNeighbors } from '../src/game/ai/EnemySystem'
 import { circlesOverlap, canOccupyWithCircles } from '../src/game/collision/CollisionSystem'
 import { SeededRandom } from '../src/game/world/SeededRandom'
-import { generatePatrolAreas, sampleArea, insidePatrolArea } from '../src/game/world/SpawnSystem'
+import { SpawnSystem, generatePatrolAreas, sampleArea, insidePatrolArea } from '../src/game/world/SpawnSystem'
 
 function arena() {
   const world = new World(42, { combatEnabled: false })
   world.islandColliders.splice(0)
   world.islands.splice(0)
+  Object.assign(world, { spawner: new SpawnSystem(world.seed, undefined, [], world.player.position) })
   return world
 }
 
@@ -186,9 +187,15 @@ test('Shooter approaches, attacks by relative angle with all three weapon catego
   shooter.position = { x: 1800, y: 2000 }
   shooter.rotation = 0
   updateEnemies(world, 0.1)
+  expect(world.projectiles).toHaveLength(1) // shared enemy cooldown prevents alternating weapons
+  shooter.weaponCooldowns = { front: 0, left: 0, right: 0 }
+  shooter.rotation = 0
+  updateEnemies(world, 0)
   expect(world.projectiles).toHaveLength(4)
   shooter.position = { x: 2200, y: 2000 }
-  updateEnemies(world, 0.1)
+  shooter.weaponCooldowns = { front: 0, left: 0, right: 0 }
+  shooter.rotation = 0
+  updateEnemies(world, 0)
   expect(world.projectiles).toHaveLength(7)
   const area = world.patrolAreas[0]!
   shooter.position = { x: area.x + area.width / 2, y: area.y + area.height / 2 }
@@ -343,8 +350,8 @@ test('population respects the reduced spawn limit across seeds and respawn setti
   for (const seed of [1, 42, 123, 999, 2026]) {
     const world = new World(seed, { spawnTime: 5 })
     expect(world.time).toBe(0)
-    const initialPopulation = Math.min(config.spawn.maxPopulation, world.patrolAreas.length * 2)
-    expect(world.enemies).toHaveLength(initialPopulation)
+    const initialPopulation = world.enemies.length
+    expect(initialPopulation).toBeLessThanOrEqual(config.spawn.maxPopulation)
     expect(initialPopulation).toBeGreaterThan(0)
     for (const area of world.patrolAreas) {
       expect(world.enemies.filter(enemy => enemy.areaId === area.id).length).toBeLessThanOrEqual(2)

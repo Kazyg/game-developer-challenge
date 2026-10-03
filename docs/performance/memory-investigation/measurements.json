@@ -1,0 +1,1197 @@
+{
+  "date": "2026-10-02T21:37:55.555Z",
+  "environment": {
+    "platform": "win32",
+    "release": "10.0.26200",
+    "cpu": "12th Gen Intel(R) Core(TM) i3-12100F",
+    "logicalCpus": 8,
+    "memoryBytes": 17010458624,
+    "browser": "153.0.8010.12",
+    "gpu": {
+      "devices": [
+        {
+          "vendorId": 65535,
+          "deviceId": 65535,
+          "subSysId": 0,
+          "revision": 0,
+          "vendorString": "Google Inc. (Google)",
+          "deviceString": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver-5.0.0)",
+          "driverVendor": "SwANGLE",
+          "driverVersion": "5.0.0"
+        }
+      ],
+      "auxAttributes": {
+        "amdSwitchable": false,
+        "bgra8OverlaySupport": "NONE",
+        "canSupportThreadedTextureMailbox": false,
+        "directComposition": false,
+        "directMLFeatureLevel": "Not supported",
+        "directRenderingVersion": "",
+        "displayType": "ANGLE_SWIFTSHADER",
+        "dx12FeatureLevel": "Not supported",
+        "glExtensions": "GL_AMD_performance_monitor GL_ANGLE_base_vertex_base_instance_shader_builtin GL_ANGLE_blob_cache GL_ANGLE_client_arrays GL_ANGLE_clip_cull_distance GL_ANGLE_compressed_texture_etc GL_ANGLE_copy_texture_3d GL_ANGLE_depth_texture GL_ANGLE_framebuffer_blit GL_ANGLE_framebuffer_multisample GL_ANGLE_get_image GL_ANGLE_get_serialized_context_string GL_ANGLE_get_tex_level_parameter GL_ANGLE_instanced_arrays GL_ANGLE_memory_object_flags GL_ANGLE_memory_size GL_ANGLE_multi_draw GL_ANGLE_pack_reverse_row_order GL_ANGLE_polygon_mode GL_ANGLE_program_binary_readiness_query GL_ANGLE_program_cache_control GL_ANGLE_read_only_depth_stencil_feedback_loops GL_ANGLE_relaxed_vertex_attribute_type GL_ANGLE_renderability_validation GL_ANGLE_request_extension GL_ANGLE_rgbx_internal_format GL_ANGLE_robust_client_memory GL_ANGLE_robust_fragment_shader_output GL_ANGLE_robust_resource_initialization GL_ANGLE_shader_pixel_local_storage GL_ANGLE_shader_pixel_local_storage_coherent GL_ANGLE_stencil_texturing GL_ANGLE_texture_compression_dxt3 GL_ANGLE_texture_compression_dxt5 GL_ANGLE_texture_multisample GL_ANGLE_texture_usage GL_ANGLE_translated_shader_source GL_ANGLE_vulkan_image GL_ANGLE_yuv_internal_format GL_APPLE_clip_distance GL_ARM_rgba8 GL_ARM_shader_framebuffer_fetch GL_CHROMIUM_bind_generates_resource GL_CHROMIUM_bind_uniform_location GL_CHROMIUM_copy_compressed_texture GL_CHROMIUM_copy_texture GL_CHROMIUM_lose_context GL_EXT_EGL_image_array GL_EXT_EGL_image_external_wrap_modes GL_EXT_EGL_image_storage GL_EXT_base_instance GL_EXT_blend_minmax GL_EXT_buffer_storage GL_EXT_clear_texture GL_EXT_clip_control GL_EXT_clip_cull_distance GL_EXT_color_buffer_float GL_EXT_color_buffer_half_float GL_EXT_compressed_ETC1_RGB8_sub_texture GL_EXT_conservative_depth GL_EXT_copy_image GL_EXT_debug_label GL_EXT_debug_marker GL_EXT_depth_clamp GL_EXT_discard_framebuffer GL_EXT_disjoint_timer_query GL_EXT_draw_buffers GL_EXT_draw_buffers_indexed GL_EXT_draw_elements_base_vertex GL_EXT_float_blend GL_EXT_frag_depth GL_EXT_instanced_arrays GL_EXT_map_buffer_range GL_EXT_memory_object GL_EXT_occlusion_query_boolean GL_EXT_polygon_offset_clamp GL_EXT_read_format_bgra GL_EXT_robustness GL_EXT_sRGB GL_EXT_sRGB_write_control GL_EXT_semaphore GL_EXT_separate_shader_objects GL_EXT_shader_framebuffer_fetch GL_EXT_shader_framebuffer_fetch_non_coherent GL_EXT_shader_non_constant_global_initializers GL_EXT_shader_texture_lod GL_EXT_shadow_samplers GL_EXT_texture_border_clamp GL_EXT_texture_compression_bptc GL_EXT_texture_compression_dxt1 GL_EXT_texture_compression_rgtc GL_EXT_texture_compression_s3tc_srgb GL_EXT_texture_filter_anisotropic GL_EXT_texture_format_BGRA8888 GL_EXT_texture_lod_bias GL_EXT_texture_mirror_clamp_to_edge GL_EXT_texture_rg GL_EXT_texture_sRGB_R8 GL_EXT_texture_sRGB_RG8 GL_EXT_texture_sRGB_decode GL_EXT_texture_shadow_lod GL_EXT_texture_storage GL_EXT_texture_type_2_10_10_10_REV GL_EXT_unpack_subimage GL_KHR_blend_equation_advanced GL_KHR_debug GL_KHR_robust_buffer_access_behavior GL_KHR_robustness GL_KHR_texture_compression_astc_ldr GL_NV_fence GL_NV_framebuffer_blit GL_NV_pack_subimage GL_NV_pixel_buffer_object GL_NV_polygon_mode GL_NV_read_depth GL_NV_read_depth_stencil GL_NV_read_stencil GL_NV_shader_noperspective_interpolation GL_OES_EGL_image GL_OES_EGL_image_external GL_OES_EGL_image_external_essl3 GL_OES_EGL_sync GL_OES_compressed_ETC1_RGB8_texture GL_OES_compressed_paletted_texture GL_OES_copy_image GL_OES_depth24 GL_OES_depth32 GL_OES_depth_texture GL_OES_depth_texture_cube_map GL_OES_draw_buffers_indexed GL_OES_draw_elements_base_vertex GL_OES_element_index_uint GL_OES_fbo_render_mipmap GL_OES_get_program_binary GL_OES_mapbuffer GL_OES_packed_depth_stencil GL_OES_required_internalformat GL_OES_rgb8_rgba8 GL_OES_sample_shading GL_OES_sample_variables GL_OES_shader_multisample_interpolation GL_OES_standard_derivatives GL_OES_surfaceless_context GL_OES_texture_3D GL_OES_texture_border_clamp GL_OES_texture_float GL_OES_texture_float_linear GL_OES_texture_half_float GL_OES_texture_half_float_linear GL_OES_texture_npot GL_OES_texture_stencil8 GL_OES_texture_storage_multisample_2d_array GL_OES_vertex_array_object GL_OES_vertex_half_float GL_OES_vertex_type_10_10_10_2 GL_OVR_multiview GL_OVR_multiview2 GL_QCOM_texture_lod_bias ",
+        "glImplementationParts": "(gl=egl-angle,angle=swiftshader)",
+        "glRenderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver-5.0.0)",
+        "glResetNotificationStrategy": 33362,
+        "glVendor": "Google Inc. (Google)",
+        "glVersion": "OpenGL ES 3.0 (ANGLE 2.1.28646 git hash: a6bc9eff8444)",
+        "glWsExtensions": "EGL_EXT_create_context_robustness EGL_ANGLE_surface_orientation EGL_KHR_create_context EGL_KHR_image EGL_KHR_image_base EGL_EXT_image_gl_colorspace EGL_KHR_gl_colorspace EGL_KHR_gl_texture_2D_image EGL_KHR_gl_texture_cubemap_image EGL_KHR_gl_renderbuffer_image EGL_KHR_get_all_proc_addresses EGL_KHR_fence_sync EGL_KHR_wait_sync EGL_ANGLE_create_context_webgl_compatibility EGL_CHROMIUM_create_context_bind_generates_resource EGL_KHR_swap_buffers_with_damage EGL_EXT_pixel_format_float EGL_KHR_surfaceless_context EGL_ANGLE_display_texture_share_group EGL_ANGLE_display_semaphore_share_group EGL_ANGLE_create_context_client_arrays EGL_ANGLE_program_cache_control EGL_ANGLE_robust_resource_initialization EGL_ANGLE_create_context_extensions_enabled EGL_ANDROID_blob_cache EGL_ANDROID_recordable EGL_ANGLE_create_context_backwards_compatible EGL_KHR_no_config_context EGL_IMG_context_priority EGL_KHR_create_context_no_error EGL_KHR_reusable_sync EGL_EXT_buffer_age EGL_ANGLE_create_surface_swap_interval EGL_ANGLE_vulkan_image EGL_KHR_partial_update EGL_ANGLE_global_fence_sync EGL_ANGLE_memory_usage_report ",
+        "glWsVendor": "Google Inc. (Google)",
+        "glWsVersion": "1.5 (ANGLE 2.1.28646 git hash: a6bc9eff8444)",
+        "inProcessGpu": false,
+        "initializationTime": 0.091767,
+        "isAsan": false,
+        "isClangCoverage": false,
+        "jpegDecodeAcceleratorSupported": false,
+        "maxMsaaSamples": "4",
+        "nv12OverlaySupport": "NONE",
+        "optimus": false,
+        "p010OverlaySupport": "NONE",
+        "passthroughCmdDecoder": true,
+        "pixelShaderVersion": "3.00",
+        "processCrashCount": 0,
+        "rgb10a2OverlaySupport": "NONE",
+        "sandboxed": false,
+        "skiaBackendType": "None",
+        "subpixelFontRendering": true,
+        "supportsD3dSharedImages": false,
+        "supportsDirectML": false,
+        "supportsDx12": false,
+        "supportsOverlays": false,
+        "supportsVulkan": false,
+        "targetCpuBits": 64,
+        "vertexShaderVersion": "3.00",
+        "visibilityCallbackCallCount": 0,
+        "vulkanVersion": "Not supported",
+        "yuy2OverlaySupport": "NONE"
+      },
+      "featureStatus": {
+        "2d_canvas": "unavailable_software",
+        "direct_rendering_display_compositor": "disabled_off_ok",
+        "gpu_compositing": "disabled_software",
+        "multiple_raster_threads": "enabled_on",
+        "opengl": "disabled_off",
+        "rasterization": "disabled_software",
+        "raw_draw": "disabled_off_ok",
+        "skia_graphite": "disabled_off",
+        "trees_in_viz": "disabled_off",
+        "video_decode": "disabled_software",
+        "video_encode": "disabled_software",
+        "webgl": "unavailable_software",
+        "webgpu": "unavailable_software",
+        "webnn": "unavailable_software"
+      },
+      "driverBugWorkarounds": [],
+      "videoDecoding": [],
+      "videoEncoding": []
+    },
+    "headless": true,
+    "viewport": {
+      "width": 1280,
+      "height": 720
+    },
+    "dpr": 1
+  },
+  "config": {
+    "seed": 42,
+    "duration": 180,
+    "spawnTime": 5,
+    "muted": true,
+    "controls": [
+      "Space",
+      "KeyQ",
+      "KeyE"
+    ]
+  },
+  "measurement": {
+    "requestedSeconds": 15,
+    "fps": 26.134378708481673,
+    "p95FrameMs": 50.099999999998545,
+    "frameCount": 392,
+    "peakEntities": 76
+  },
+  "frames": {
+    "intervals": [
+      50,
+      49.899999999999636,
+      50,
+      50.100000000000364,
+      49.899999999999636,
+      33.400000000000546,
+      50,
+      33.399999999999636,
+      33.30000000000018,
+      50,
+      33.19999999999982,
+      50.100000000000364,
+      50,
+      33.29999999999927,
+      33.30000000000018,
+      33.400000000000546,
+      50,
+      33.29999999999927,
+      33.30000000000018,
+      50,
+      33.400000000000546,
+      49.899999999999636,
+      50,
+      33.399999999999636,
+      50,
+      33.400000000000546,
+      50,
+      33.19999999999982,
+      33.399999999999636,
+      33.30000000000018,
+      50,
+      33.30000000000018,
+      33.399999999999636,
+      33.400000000000546,
+      49.899999999999636,
+      33.30000000000018,
+      50,
+      33.399999999999636,
+      33.30000000000018,
+      33.30000000000018,
+      33.30000000000018,
+      50.099999999999454,
+      33.20000000000073,
+      33.5,
+      33.29999999999927,
+      50,
+      33.20000000000073,
+      33.399999999999636,
+      50.100000000000364,
+      33.29999999999927,
+      33.30000000000018,
+      33.30000000000018,
+      50,
+      33.399999999999636,
+      33.30000000000018,
+      50,
+      33.30000000000018,
+      50,
+      33.399999999999636,
+      33.20000000000073,
+      33.399999999999636,
+      33.399999999999636,
+      33.30000000000018,
+      50,
+      33.30000000000018,
+      33.30000000000018,
+      50,
+      33.399999999999636,
+      33.30000000000018,
+      33.30000000000018,
+      50,
+      33.399999999999636,
+      33.30000000000018,
+      33.30000000000018,
+      50,
+      33.30000000000018,
+      33.399999999999636,
+      33.30000000000018,
+      33.399999999999636,
+      33.30000000000018,
+      49.899999999999636,
+      33.400000000000546,
+      50,
+      50,
+      33.399999999999636,
+      33.30000000000018,
+      49.899999999999636,
+      33.400000000000546,
+      33.30000000000018,
+      33.399999999999636,
+      50,
+      33.30000000000018,
+      50,
+      33.30000000000018,
+      33.399999999999636,
+      33.29999999999927,
+      33.30000000000109,
+      50,
+      33.29999999999927,
+      33.399999999999636,
+      33.30000000000109,
+      50,
+      33.29999999999927,
+      33.399999999999636,
+      33.30000000000109,
+      50,
+      33.29999999999927,
+      33.30000000000109,
+      50.099999999998545,
+      33.30000000000109,
+      33.29999999999927,
+      33.399999999999636,
+      49.900000000001455,
+      33.399999999999636,
+      50,
+      33.29999999999927,
+      33.399999999999636,
+      33.30000000000109,
+      50,
+      33.29999999999927,
+      33.30000000000109,
+      50,
+      33.399999999999636,
+      33.29999999999927,
+      33.30000000000109,
+      33.399999999999636,
+      49.899999999999636,
+      33.399999999999636,
+      33.399999999999636,
+      33.30000000000109,
+      33.29999999999927,
+      50,
+      33.30000000000109,
+      33.29999999999927,
+      33.399999999999636,
+      50,
+      33.30000000000109,
+      33.399999999999636,
+      49.899999999999636,
+      33.29999999999927,
+      33.5,
+      33.20000000000073,
+      33.29999999999927,
+      33.5,
+      49.900000000001455,
+      33.399999999999636,
+      49.899999999999636,
+      33.29999999999927,
+      50.100000000000364,
+      33.30000000000109,
+      33.29999999999927,
+      50,
+      33.399999999999636,
+      33.30000000000109,
+      33.399999999999636,
+      49.899999999999636,
+      33.29999999999927,
+      33.400000000001455,
+      33.29999999999927,
+      33.399999999999636,
+      33.30000000000109,
+      50,
+      33.29999999999927,
+      33.399999999999636,
+      33.30000000000109,
+      33.29999999999927,
+      33.29999999999927,
+      33.30000000000109,
+      50.100000000000364,
+      33.29999999999927,
+      33.399999999999636,
+      33.30000000000109,
+      33.29999999999927,
+      33.399999999999636,
+      50,
+      33.30000000000109,
+      50,
+      33.29999999999927,
+      33.29999999999927,
+      50.100000000000364,
+      33.30000000000109,
+      33.29999999999927,
+      49.899999999999636,
+      33.399999999999636,
+      33.30000000000109,
+      33.399999999999636,
+      33.399999999999636,
+      33.30000000000109,
+      33.29999999999927,
+      49.899999999999636,
+      33.399999999999636,
+      33.30000000000109,
+      33.399999999999636,
+      49.899999999999636,
+      33.399999999999636,
+      33.30000000000109,
+      33.399999999999636,
+      33.29999999999927,
+      33.30000000000109,
+      33.399999999999636,
+      49.899999999999636,
+      33.399999999999636,
+      33.30000000000109,
+      50,
+      33.399999999999636,
+      33.20000000000073,
+      33.399999999999636,
+      50,
+      33.399999999999636,
+      33.29999999999927,
+      33.30000000000109,
+      50,
+      33.399999999999636,
+      33.29999999999927,
+      33.30000000000109,
+      33.29999999999927,
+      50.100000000000364,
+      33.29999999999927,
+      33.30000000000109,
+      50,
+      33.399999999999636,
+      33.29999999999927,
+      33.30000000000109,
+      33.399999999999636,
+      49.899999999999636,
+      33.30000000000109,
+      33.399999999999636,
+      33.399999999999636,
+      33.29999999999927,
+      33.30000000000109,
+      33.29999999999927,
+      33.30000000000109,
+      33.29999999999927,
+      50.100000000000364,
+      33.29999999999927,
+      33.399999999999636,
+      33.30000000000109,
+      50,
+      33.29999999999927,
+      33.30000000000109,
+      33.29999999999927,
+      33.399999999999636,
+      50,
+      33.399999999999636,
+      33.20000000000073,
+      33.399999999999636,
+      33.399999999999636,
+      49.900000000001455,
+      33.399999999999636,
+      33.29999999999927,
+      50,
+      33.30000000000109,
+      33.399999999999636,
+      50,
+      33.19999999999891,
+      33.400000000001455,
+      33.29999999999927,
+      33.399999999999636,
+      50,
+      33.30000000000109,
+      33.29999999999927,
+      33.29999999999927,
+      50.100000000000364,
+      33.30000000000109,
+      33.399999999999636,
+      49.899999999999636,
+      33.399999999999636,
+      33.30000000000109,
+      33.29999999999927,
+      50.100000000000364,
+      33.29999999999927,
+      33.30000000000109,
+      50,
+      33.29999999999927,
+      50,
+      33.29999999999927,
+      50.100000000000364,
+      33.20000000000073,
+      33.399999999999636,
+      33.29999999999927,
+      50.100000000000364,
+      33.30000000000109,
+      33.29999999999927,
+      50,
+      33.29999999999927,
+      33.30000000000109,
+      33.399999999999636,
+      33.399999999999636,
+      49.899999999999636,
+      33.400000000001455,
+      33.29999999999927,
+      33.399999999999636,
+      33.20000000000073,
+      50.100000000000364,
+      33.19999999999891,
+      33.5,
+      49.899999999999636,
+      33.400000000001455,
+      33.29999999999927,
+      33.29999999999927,
+      33.400000000001455,
+      33.29999999999927,
+      33.29999999999927,
+      50,
+      33.30000000000109,
+      33.399999999999636,
+      50,
+      33.29999999999927,
+      50,
+      33.30000000000109,
+      50.100000000000364,
+      33.29999999999927,
+      50,
+      33.29999999999927,
+      50,
+      33.29999999999927,
+      33.30000000000291,
+      50,
+      33.39999999999782,
+      33.29999999999927,
+      33.400000000001455,
+      49.900000000001455,
+      33.39999999999782,
+      33.29999999999927,
+      33.30000000000291,
+      33.39999999999782,
+      49.900000000001455,
+      33.39999999999782,
+      50,
+      33.30000000000291,
+      33.39999999999782,
+      49.900000000001455,
+      33.29999999999927,
+      50.099999999998545,
+      50,
+      33.30000000000291,
+      50,
+      33.39999999999782,
+      33.29999999999927,
+      33.30000000000291,
+      50,
+      33.29999999999927,
+      50.099999999998545,
+      33.20000000000073,
+      33.400000000001455,
+      50,
+      33.39999999999782,
+      33.29999999999927,
+      50,
+      33.30000000000291,
+      50,
+      33.39999999999782,
+      49.900000000001455,
+      33.29999999999927,
+      33.400000000001455,
+      33.29999999999927,
+      33.39999999999782,
+      50,
+      33.30000000000291,
+      33.29999999999927,
+      33.39999999999782,
+      33.20000000000073,
+      50.10000000000218,
+      33.29999999999927,
+      33.29999999999927,
+      50.099999999998545,
+      33.20000000000073,
+      33.400000000001455,
+      50,
+      33.29999999999927,
+      50.099999999998545,
+      49.900000000001455,
+      33.29999999999927,
+      50.10000000000218,
+      33.29999999999927,
+      33.39999999999782,
+      49.900000000001455,
+      33.29999999999927,
+      33.400000000001455,
+      33.29999999999927,
+      33.29999999999927,
+      33.400000000001455,
+      50,
+      33.29999999999927,
+      50,
+      50,
+      33.400000000001455,
+      33.19999999999709,
+      50.10000000000218,
+      33.29999999999927,
+      33.29999999999927,
+      33.400000000001455
+    ],
+    "samples": [
+      {
+        "wallMs": -17.299999904632386,
+        "seed": 42,
+        "time": 2.3999999999999964,
+        "paused": false,
+        "gameOver": false,
+        "hp": 100,
+        "score": 0,
+        "islands": 37,
+        "ships": 29,
+        "projectiles": 3,
+        "effects": 4,
+        "wrecks": 0
+      },
+      {
+        "wallMs": 182.7000000953676,
+        "seed": 42,
+        "time": 3.0833333333333273,
+        "paused": false,
+        "gameOver": false,
+        "hp": 100,
+        "score": 0,
+        "islands": 37,
+        "ships": 29,
+        "projectiles": 1,
+        "effects": 0,
+        "wrecks": 0
+      },
+      {
+        "wallMs": 1132.7000000953676,
+        "seed": 42,
+        "time": 4.016666666666658,
+        "paused": false,
+        "gameOver": false,
+        "hp": 100,
+        "score": 0,
+        "islands": 37,
+        "ships": 29,
+        "projectiles": 4,
+        "effects": 3,
+        "wrecks": 0
+      },
+      {
+        "wallMs": 2149.300000095367,
+        "seed": 42,
+        "time": 5.033333333333321,
+        "paused": false,
+        "gameOver": false,
+        "hp": 100,
+        "score": 0,
+        "islands": 37,
+        "ships": 29,
+        "projectiles": 7,
+        "effects": 3,
+        "wrecks": 0
+      },
+      {
+        "wallMs": 3115.9000000953674,
+        "seed": 42,
+        "time": 6.016666666666651,
+        "paused": false,
+        "gameOver": false,
+        "hp": 100,
+        "score": 0,
+        "islands": 37,
+        "ships": 29,
+        "projectiles": 1,
+        "effects": 3,
+        "wrecks": 0
+      },
+      {
+        "wallMs": 4132.500000095368,
+        "seed": 42,
+        "time": 7.016666666666647,
+        "paused": false,
+        "gameOver": false,
+        "hp": 100,
+        "score": 0,
+        "islands": 37,
+        "ships": 29,
+        "projectiles": 4,
+        "effects": 3,
+        "wrecks": 0
+      },
+      {
+        "wallMs": 5149.100000095368,
+        "seed": 42,
+        "time": 8.04999999999998,
+        "paused": false,
+        "gameOver": false,
+        "hp": 100,
+        "score": 0,
+        "islands": 37,
+        "ships": 29,
+        "projectiles": 7,
+        "effects": 3,
+        "wrecks": 0
+      },
+      {
+        "wallMs": 6132.400000095367,
+        "seed": 42,
+        "time": 9.016666666666694,
+        "paused": false,
+        "gameOver": false,
+        "hp": 100,
+        "score": 0,
+        "islands": 37,
+        "ships": 29,
+        "projectiles": 1,
+        "effects": 3,
+        "wrecks": 0
+      },
+      {
+        "wallMs": 7132.400000095367,
+        "seed": 42,
+        "time": 10.016666666666744,
+        "paused": false,
+        "gameOver": false,
+        "hp": 100,
+        "score": 0,
+        "islands": 37,
+        "ships": 29,
+        "projectiles": 4,
+        "effects": 3,
+        "wrecks": 0
+      },
+      {
+        "wallMs": 8132.400000095367,
+        "seed": 42,
+        "time": 11.016666666666794,
+        "paused": false,
+        "gameOver": false,
+        "hp": 100,
+        "score": 0,
+        "islands": 37,
+        "ships": 29,
+        "projectiles": 7,
+        "effects": 3,
+        "wrecks": 0
+      },
+      {
+        "wallMs": 9115.600000095368,
+        "seed": 42,
+        "time": 12.000000000000176,
+        "paused": false,
+        "gameOver": false,
+        "hp": 100,
+        "score": 0,
+        "islands": 37,
+        "ships": 29,
+        "projectiles": 1,
+        "effects": 3,
+        "wrecks": 0
+      },
+      {
+        "wallMs": 10132.300000095367,
+        "seed": 42,
+        "time": 13.016666666666893,
+        "paused": false,
+        "gameOver": false,
+        "hp": 100,
+        "score": 0,
+        "islands": 37,
+        "ships": 29,
+        "projectiles": 4,
+        "effects": 3,
+        "wrecks": 0
+      },
+      {
+        "wallMs": 11115.500000095368,
+        "seed": 42,
+        "time": 14.016666666666943,
+        "paused": false,
+        "gameOver": false,
+        "hp": 100,
+        "score": 0,
+        "islands": 37,
+        "ships": 29,
+        "projectiles": 7,
+        "effects": 3,
+        "wrecks": 0
+      },
+      {
+        "wallMs": 12132.200000095367,
+        "seed": 42,
+        "time": 15.016666666666993,
+        "paused": false,
+        "gameOver": false,
+        "hp": 100,
+        "score": 0,
+        "islands": 37,
+        "ships": 29,
+        "projectiles": 1,
+        "effects": 3,
+        "wrecks": 0
+      },
+      {
+        "wallMs": 13115.400000095367,
+        "seed": 42,
+        "time": 16.000000000000373,
+        "paused": false,
+        "gameOver": false,
+        "hp": 100,
+        "score": 0,
+        "islands": 37,
+        "ships": 29,
+        "projectiles": 4,
+        "effects": 3,
+        "wrecks": 0
+      },
+      {
+        "wallMs": 14115.400000095367,
+        "seed": 42,
+        "time": 17.016666666666982,
+        "paused": false,
+        "gameOver": false,
+        "hp": 100,
+        "score": 0,
+        "islands": 37,
+        "ships": 29,
+        "projectiles": 7,
+        "effects": 3,
+        "wrecks": 0
+      }
+    ],
+    "wallMs": 15029.800000071526,
+    "final": {
+      "seed": 42,
+      "time": 17.91666666666693,
+      "paused": false,
+      "gameOver": false,
+      "hp": 100,
+      "score": 0,
+      "islands": 37,
+      "ships": 29,
+      "projectiles": 1,
+      "effects": 3,
+      "wrecks": 0
+    }
+  },
+  "completed": null,
+  "cycles": [
+    {
+      "cycle": 0,
+      "usedSize": 8795256,
+      "totalSize": 9592832,
+      "embedderHeapUsedSize": 1384472,
+      "backingStorageSize": 1705587,
+      "documents": 1,
+      "nodes": 103,
+      "jsEventListeners": 212,
+      "canvases": 0
+    },
+    {
+      "cycle": 1,
+      "usedSize": 9132960,
+      "totalSize": 10641408,
+      "embedderHeapUsedSize": 1328880,
+      "backingStorageSize": 1710958,
+      "documents": 1,
+      "nodes": 164,
+      "jsEventListeners": 212,
+      "canvases": 0
+    },
+    {
+      "cycle": 2,
+      "usedSize": 9345192,
+      "totalSize": 10379264,
+      "embedderHeapUsedSize": 1187800,
+      "backingStorageSize": 1710958,
+      "documents": 1,
+      "nodes": 164,
+      "jsEventListeners": 212,
+      "canvases": 0
+    },
+    {
+      "cycle": 3,
+      "usedSize": 9563740,
+      "totalSize": 10641408,
+      "embedderHeapUsedSize": 1411152,
+      "backingStorageSize": 1710958,
+      "documents": 1,
+      "nodes": 164,
+      "jsEventListeners": 212,
+      "canvases": 0
+    },
+    {
+      "cycle": 4,
+      "usedSize": 9769956,
+      "totalSize": 10903552,
+      "embedderHeapUsedSize": 1405432,
+      "backingStorageSize": 1710958,
+      "documents": 1,
+      "nodes": 164,
+      "jsEventListeners": 212,
+      "canvases": 0
+    },
+    {
+      "cycle": 5,
+      "usedSize": 9857584,
+      "totalSize": 10903552,
+      "embedderHeapUsedSize": 1509152,
+      "backingStorageSize": 1710958,
+      "documents": 1,
+      "nodes": 164,
+      "jsEventListeners": 212,
+      "canvases": 0
+    }
+  ],
+  "errors": [],
+  "memoryInvestigation": {
+    "constructors": {
+      "game": "vc",
+      "world": "di"
+    },
+    "instancesByPrototype": {
+      "before": {
+        "game": 0,
+        "world": 0
+      },
+      "after": {
+        "game": 0,
+        "world": 0
+      }
+    },
+    "topChanges": [
+      {
+        "name": "code:system / InstructionStream",
+        "before": {
+          "count": 1644,
+          "bytes": 2018752
+        },
+        "after": {
+          "count": 2287,
+          "bytes": 2687488
+        },
+        "byteDelta": 668736
+      },
+      {
+        "name": "code:system / TrustedByteArray",
+        "before": {
+          "count": 6155,
+          "bytes": 499752
+        },
+        "after": {
+          "count": 7436,
+          "bytes": 616156
+        },
+        "byteDelta": 116404
+      },
+      {
+        "name": "code:system / FeedbackVector",
+        "before": {
+          "count": 1492,
+          "bytes": 209860
+        },
+        "after": {
+          "count": 1967,
+          "bytes": 269992
+        },
+        "byteDelta": 60132
+      },
+      {
+        "name": "native:system / WeakArrayList",
+        "before": {
+          "count": 621,
+          "bytes": 56612
+        },
+        "after": {
+          "count": 974,
+          "bytes": 106184
+        },
+        "byteDelta": 49572
+      },
+      {
+        "name": "code:system / LoadHandler",
+        "before": {
+          "count": 93,
+          "bytes": 1488
+        },
+        "after": {
+          "count": 3092,
+          "bytes": 50504
+        },
+        "byteDelta": 49016
+      },
+      {
+        "name": "code:system / Code",
+        "before": {
+          "count": 1644,
+          "bytes": 118368
+        },
+        "after": {
+          "count": 2287,
+          "bytes": 164664
+        },
+        "byteDelta": 46296
+      },
+      {
+        "name": "code:system / WeakFixedArray",
+        "before": {
+          "count": 27,
+          "bytes": 29788
+        },
+        "after": {
+          "count": 1811,
+          "bytes": 74124
+        },
+        "byteDelta": 44336
+      },
+      {
+        "name": "native:PerformanceEventTiming",
+        "before": {
+          "count": 26,
+          "bytes": 6656
+        },
+        "after": {
+          "count": 158,
+          "bytes": 40448
+        },
+        "byteDelta": 33792
+      },
+      {
+        "name": "code:system / ProtectedFixedArray",
+        "before": {
+          "count": 134,
+          "bytes": 26920
+        },
+        "after": {
+          "count": 276,
+          "bytes": 59868
+        },
+        "byteDelta": 32948
+      },
+      {
+        "name": "object shape:system / Map",
+        "before": {
+          "count": 6439,
+          "bytes": 261192
+        },
+        "after": {
+          "count": 7169,
+          "bytes": 290696
+        },
+        "byteDelta": 29504
+      },
+      {
+        "name": "native:MessageEvent",
+        "before": {
+          "count": 124,
+          "bytes": 37696
+        },
+        "after": {
+          "count": 188,
+          "bytes": 57240
+        },
+        "byteDelta": 19544
+      },
+      {
+        "name": "object shape:system / DescriptorArray",
+        "before": {
+          "count": 2428,
+          "bytes": 295112
+        },
+        "after": {
+          "count": 2635,
+          "bytes": 312668
+        },
+        "byteDelta": 17556
+      },
+      {
+        "name": "code:system / AllocationSite",
+        "before": {
+          "count": 0,
+          "bytes": 0
+        },
+        "after": {
+          "count": 587,
+          "bytes": 16396
+        },
+        "byteDelta": 16396
+      },
+      {
+        "name": "object:Object",
+        "before": {
+          "count": 3411,
+          "bytes": 86452
+        },
+        "after": {
+          "count": 4028,
+          "bytes": 102320
+        },
+        "byteDelta": 15868
+      },
+      {
+        "name": "array:(object elements)",
+        "before": {
+          "count": 854,
+          "bytes": 56156
+        },
+        "after": {
+          "count": 986,
+          "bytes": 70620
+        },
+        "byteDelta": 14464
+      },
+      {
+        "name": "array:",
+        "before": {
+          "count": 875,
+          "bytes": 157436
+        },
+        "after": {
+          "count": 1013,
+          "bytes": 171476
+        },
+        "byteDelta": 14040
+      },
+      {
+        "name": "native:MessagePort",
+        "before": {
+          "count": 185,
+          "bytes": 30576
+        },
+        "after": {
+          "count": 269,
+          "bytes": 44400
+        },
+        "byteDelta": 13824
+      },
+      {
+        "name": "native:blink::HeapHashTableBacking<blink::HashTable<cppgc::internal::BasicMember<blink::ContextLifecycleObserver, cppgc::internal::WeakMemberTag, cppgc::internal::DijkstraWriteBarrierPolicy>, blink::KeyValuePair<cppgc::internal::BasicMember<blink::ContextLifecycleObserver, cppgc::internal::WeakMemberTag, cppgc::internal::DijkstraWriteBarrierPolicy>, unsigned int>, blink::KeyValuePairExtractor, blink::HashMapValueTraits<blink::HashTraits<cppgc::internal::BasicMember<blink::ContextLifecycleObserver, cppgc::internal::WeakMemberTag, cppgc::internal::DijkstraWriteBarrierPolicy>>, blink::HashTraits<unsigned int>>, blink::HashTraits<cppgc::internal::BasicMember<blink::ContextLifecycleObserver, cppgc::internal::WeakMemberTag, cppgc::internal::DijkstraWriteBarrierPolicy>>, blink::HeapAllocator>>",
+        "before": {
+          "count": 1,
+          "bytes": 8200
+        },
+        "after": {
+          "count": 1,
+          "bytes": 16392
+        },
+        "byteDelta": 8192
+      },
+      {
+        "name": "native:blink::HashTrieNode<blink::CSSVariableData>",
+        "before": {
+          "count": 74,
+          "bytes": 20128
+        },
+        "after": {
+          "count": 102,
+          "bytes": 27744
+        },
+        "byteDelta": 7616
+      },
+      {
+        "name": "closure:",
+        "before": {
+          "count": 1042,
+          "bytes": 30096
+        },
+        "after": {
+          "count": 1311,
+          "bytes": 37668
+        },
+        "byteDelta": 7572
+      },
+      {
+        "name": "native:blink::NetworkResourcesData::ResourceData",
+        "before": {
+          "count": 50,
+          "bytes": 14400
+        },
+        "after": {
+          "count": 76,
+          "bytes": 21888
+        },
+        "byteDelta": 7488
+      },
+      {
+        "name": "native:system / PropertyArray",
+        "before": {
+          "count": 1966,
+          "bytes": 64260
+        },
+        "after": {
+          "count": 2186,
+          "bytes": 71060
+        },
+        "byteDelta": 6800
+      },
+      {
+        "name": "string:Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/153.0.8010.12 Safari/537.36",
+        "before": {
+          "count": 118,
+          "bytes": 16048
+        },
+        "after": {
+          "count": 168,
+          "bytes": 22848
+        },
+        "byteDelta": 6800
+      },
+      {
+        "name": "code:system / WeakArrayList",
+        "before": {
+          "count": 0,
+          "bytes": 0
+        },
+        "after": {
+          "count": 137,
+          "bytes": 6380
+        },
+        "byteDelta": 6380
+      },
+      {
+        "name": "native:system / FunctionTemplateInfo",
+        "before": {
+          "count": 4896,
+          "bytes": 313216
+        },
+        "after": {
+          "count": 4993,
+          "bytes": 319424
+        },
+        "byteDelta": 6208
+      },
+      {
+        "name": "native:blink::RawResource",
+        "before": {
+          "count": 0,
+          "bytes": 0
+        },
+        "after": {
+          "count": 2,
+          "bytes": 5856
+        },
+        "byteDelta": 5856
+      },
+      {
+        "name": "string:#define SHADER_NAME graphics-vertex-5\n\n\n        #ifdef GL_ES // This checks if it is WebGL1\n        #define in attribute\n        #define out varying\n        #endif\n        precision highp float;\n\n    in vec2 aPosition;\n    in vec2 aUV;\n\n    out vec4 vColor;\n    out vec2 vUV;\n\n    //-----header START-----//\n//----global-uniforms-bit----//\n\n          uniform mat3 uProjectionMatrix;\n          uniform mat3 uWorldTransformMatrix;\n          uniform vec4 uWorldColorAlpha;\n          uniform vec2 uResolution;\n        \n//----color-bit----//\n\n            in vec4 aColor;\n        \n//----texture-batch-bit----//\n\n                in vec2 aTextureIdAndRound;\n                out float vTextureId;\n\n            \n//----local-uniform-bit----//\n\n\n            uniform mat3 uTransformMatrix;\n            uniform vec4 uColor;\n            uniform float uRound;\n        \n//----round-pixels-bit----//\n\n            vec2 roundPixels(vec2 position, vec2 targetSize)\n            {\n                return (floor(((position * 0.5 + 0.5) * targetSize",
+        "before": {
+          "count": 0,
+          "bytes": 0
+        },
+        "after": {
+          "count": 1,
+          "bytes": 5460
+        },
+        "byteDelta": 5460
+      },
+      {
+        "name": "string:#define SHADER_NAME graphics-vertex-3\n\n\n        #ifdef GL_ES // This checks if it is WebGL1\n        #define in attribute\n        #define out varying\n        #endif\n        precision highp float;\n\n    in vec2 aPosition;\n    in vec2 aUV;\n\n    out vec4 vColor;\n    out vec2 vUV;\n\n    //-----header START-----//\n//----global-uniforms-bit----//\n\n          uniform mat3 uProjectionMatrix;\n          uniform mat3 uWorldTransformMatrix;\n          uniform vec4 uWorldColorAlpha;\n          uniform vec2 uResolution;\n        \n//----color-bit----//\n\n            in vec4 aColor;\n        \n//----texture-batch-bit----//\n\n                in vec2 aTextureIdAndRound;\n                out float vTextureId;\n\n            \n//----local-uniform-bit----//\n\n\n            uniform mat3 uTransformMatrix;\n            uniform vec4 uColor;\n            uniform float uRound;\n        \n//----round-pixels-bit----//\n\n            vec2 roundPixels(vec2 position, vec2 targetSize)\n            {\n                return (floor(((position * 0.5 + 0.5) * targetSize",
+        "before": {
+          "count": 0,
+          "bytes": 0
+        },
+        "after": {
+          "count": 1,
+          "bytes": 5460
+        },
+        "byteDelta": 5460
+      },
+      {
+        "name": "string:#define SHADER_NAME graphics-vertex-4\n\n\n        #ifdef GL_ES // This checks if it is WebGL1\n        #define in attribute\n        #define out varying\n        #endif\n        precision highp float;\n\n    in vec2 aPosition;\n    in vec2 aUV;\n\n    out vec4 vColor;\n    out vec2 vUV;\n\n    //-----header START-----//\n//----global-uniforms-bit----//\n\n          uniform mat3 uProjectionMatrix;\n          uniform mat3 uWorldTransformMatrix;\n          uniform vec4 uWorldColorAlpha;\n          uniform vec2 uResolution;\n        \n//----color-bit----//\n\n            in vec4 aColor;\n        \n//----texture-batch-bit----//\n\n                in vec2 aTextureIdAndRound;\n                out float vTextureId;\n\n            \n//----local-uniform-bit----//\n\n\n            uniform mat3 uTransformMatrix;\n            uniform vec4 uColor;\n            uniform float uRound;\n        \n//----round-pixels-bit----//\n\n            vec2 roundPixels(vec2 position, vec2 targetSize)\n            {\n                return (floor(((position * 0.5 + 0.5) * targetSize",
+        "before": {
+          "count": 0,
+          "bytes": 0
+        },
+        "after": {
+          "count": 1,
+          "bytes": 5460
+        },
+        "byteDelta": 5460
+      },
+      {
+        "name": "string:#define SHADER_NAME graphics-vertex-6\n\n\n        #ifdef GL_ES // This checks if it is WebGL1\n        #define in attribute\n        #define out varying\n        #endif\n        precision highp float;\n\n    in vec2 aPosition;\n    in vec2 aUV;\n\n    out vec4 vColor;\n    out vec2 vUV;\n\n    //-----header START-----//\n//----global-uniforms-bit----//\n\n          uniform mat3 uProjectionMatrix;\n          uniform mat3 uWorldTransformMatrix;\n          uniform vec4 uWorldColorAlpha;\n          uniform vec2 uResolution;\n        \n//----color-bit----//\n\n            in vec4 aColor;\n        \n//----texture-batch-bit----//\n\n                in vec2 aTextureIdAndRound;\n                out float vTextureId;\n\n            \n//----local-uniform-bit----//\n\n\n            uniform mat3 uTransformMatrix;\n            uniform vec4 uColor;\n            uniform float uRound;\n        \n//----round-pixels-bit----//\n\n            vec2 roundPixels(vec2 position, vec2 targetSize)\n            {\n                return (floor(((position * 0.5 + 0.5) * targetSize",
+        "before": {
+          "count": 0,
+          "bytes": 0
+        },
+        "after": {
+          "count": 1,
+          "bytes": 5460
+        },
+        "byteDelta": 5460
+      }
+    ]
+  }
+}

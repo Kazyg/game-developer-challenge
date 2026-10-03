@@ -1,0 +1,77 @@
+{
+  "mode": "baseline",
+  "runs": [
+    {
+      "complete": false,
+      "activeSeconds": 13.133333333333566,
+      "wallSeconds": 13.299,
+      "collectionSeconds": 13.1119,
+      "startupMs": 518.1000000238419,
+      "rafIntervals": 774,
+      "fps": 59.03034647915253,
+      "p95Ms": 16.80000000000109,
+      "over16_67": 692,
+      "over33_33": 1,
+      "over50": 1,
+      "renderCalls": 774,
+      "renderCallsPerSecond": 59.03034647915253,
+      "simulationSteps": 787,
+      "stepsPerFrame": 1.016795865633075,
+      "maxStepsPerFrame": 12,
+      "maxBacklogSeconds": 0.016633333285649653,
+      "meanSimulationMs": 2.5961240303608797,
+      "p95SimulationMs": 3.200000047683716,
+      "meanRendererSubmissionMs": 0.23811369395071222,
+      "p95RendererSubmissionMs": 0.3999999761581421,
+      "minHp": 15.687521176459612,
+      "maxScore": 2,
+      "entityStats": {
+        "chasers": {
+          "mean": 19.214285714285715,
+          "max": 20
+        },
+        "shooters": {
+          "mean": 19.642857142857142,
+          "max": 20
+        },
+        "ships": {
+          "mean": 39.857142857142854,
+          "max": 41
+        },
+        "projectiles": {
+          "mean": 1.8571428571428572,
+          "max": 6
+        },
+        "effects": {
+          "mean": 2.2142857142857144,
+          "max": 7
+        },
+        "wrecks": {
+          "mean": 0.6428571428571429,
+          "max": 2
+        },
+        "islands": {
+          "mean": 37,
+          "max": 37
+        },
+        "engaged": {
+          "mean": 1.5,
+          "max": 4
+        }
+      },
+      "intervals": [
+        {
+          "from": 0,
+          "fps": 59.792678651910464,
+          "p95Ms": 16.80000000000109
+        },
+        {
+          "from": 10,
+          "fps": 56.596533861994,
+          "p95Ms": 16.80000000000109
+        }
+      ]
+    }
+  ],
+  "cycles": []
+}

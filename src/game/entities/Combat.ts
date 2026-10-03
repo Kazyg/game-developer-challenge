@@ -42,7 +42,7 @@ export interface Projectile {
 
 export interface VisualEffect {
   id: string
-  kind: 'shot' | 'impact' | 'explosion'
+  kind: 'shot' | 'impact' | 'explosion' | 'splash'
   position: Vector2
   rotation: number
   age: number

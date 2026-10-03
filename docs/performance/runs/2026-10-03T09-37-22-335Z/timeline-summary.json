@@ -1,0 +1,1020 @@
+{
+  "warning": "Durations overlap/nest and span different threads/processes; never sum as total CPU/GPU busy time.",
+  "events": {
+    "v8.callFunction": {
+      "count": 7741,
+      "durationUs": 5293810,
+      "maxUs": 214412
+    },
+    "FunctionCall": {
+      "count": 7741,
+      "durationUs": 5164607,
+      "maxUs": 214411
+    },
+    "FireAnimationFrame": {
+      "count": 5382,
+      "durationUs": 5127213,
+      "maxUs": 214419
+    },
+    "Scheduler::RunTask": {
+      "count": 21810,
+      "durationUs": 1437011,
+      "maxUs": 16294
+    },
+    "V8.GC_SCAVENGER_BACKGROUND_SCAVENGE_PARALLEL": {
+      "count": 2497,
+      "durationUs": 1132449,
+      "maxUs": 1358
+    },
+    "GpuChannel::ExecuteDeferredRequest": {
+      "count": 3675,
+      "durationUs": 736405,
+      "maxUs": 16288
+    },
+    "CommandBuffer::Flush": {
+      "count": 10953,
+      "durationUs": 666854,
+      "maxUs": 16258
+    },
+    "CommandBufferStub::OnAsyncFlush": {
+      "count": 3651,
+      "durationUs": 662957,
+      "maxUs": 16257
+    },
+    "CommandBufferService:PutChanged": {
+      "count": 3651,
+      "durationUs": 640310,
+      "maxUs": 16250
+    },
+    "WebGL": {
+      "count": 3037,
+      "durationUs": 419949,
+      "maxUs": 912
+    },
+    "MinorGC": {
+      "count": 331,
+      "durationUs": 344500,
+      "maxUs": 5034
+    },
+    "V8.GCScavenger": {
+      "count": 331,
+      "durationUs": 334133,
+      "maxUs": 4989
+    },
+    "V8.GC_SCAVENGER": {
+      "count": 331,
+      "durationUs": 329230,
+      "maxUs": 4982
+    },
+    "V8.GC_SCAVENGER_SCAVENGE": {
+      "count": 331,
+      "durationUs": 325316,
+      "maxUs": 4968
+    },
+    "RendererRasterWorker": {
+      "count": 611,
+      "durationUs": 250391,
+      "maxUs": 16260
+    },
+    "V8.GC_SCAVENGER_SCAVENGE_PARALLEL_PHASE": {
+      "count": 331,
+      "durationUs": 239683,
+      "maxUs": 4557
+    },
+    "DXGISwapChainImageBacking::Present": {
+      "count": 1795,
+      "durationUs": 232601,
+      "maxUs": 354
+    },
+    "V8.GC_SCAVENGER_SCAVENGE_PARALLEL": {
+      "count": 479,
+      "durationUs": 204955,
+      "maxUs": 4514
+    },
+    "V8.GC_MC_BACKGROUND_MARKING": {
+      "count": 205,
+      "durationUs": 161547,
+      "maxUs": 2862
+    },
+    "RasterDecoderImpl::DoEndRasterCHROMIUM": {
+      "count": 333,
+      "durationUs": 149252,
+      "maxUs": 15381
+    },
+    "RasterDecoderImpl::DoEndRasterCHROMIUM::Flush": {
+      "count": 333,
+      "durationUs": 145870,
+      "maxUs": 15372
+    },
+    "RasterDecoderImpl::DoRasterCHROMIUM": {
+      "count": 333,
+      "durationUs": 85370,
+      "maxUs": 819
+    },
+    "RasterDecoderImpl::DoRasterCHROMIUM::Deserializing": {
+      "count": 333,
+      "durationUs": 84108,
+      "maxUs": 815
+    },
+    "PrePaint": {
+      "count": 1944,
+      "durationUs": 80450,
+      "maxUs": 229
+    },
+    "WinVSyncProvider::GetVSyncIntervalIfAvailable": {
+      "count": 1808,
+      "durationUs": 74855,
+      "maxUs": 754
+    },
+    "Paint": {
+      "count": 1022,
+      "durationUs": 45828,
+      "maxUs": 376
+    },
+    "V8.GC_MC_BACKGROUND_SWEEPING": {
+      "count": 125,
+      "durationUs": 42077,
+      "maxUs": 1023
+    },
+    "UpdateLayoutTree": {
+      "count": 300,
+      "durationUs": 41605,
+      "maxUs": 431
+    },
+    "GpuChannelMessageFilter::FlushDeferredRequests": {
+      "count": 3650,
+      "durationUs": 39708,
+      "maxUs": 250
+    },
+    "DCompPresenter::Present": {
+      "count": 1795,
+      "durationUs": 39616,
+      "maxUs": 114
+    },
+    "GLContextEGL::MakeCurrent": {
+      "count": 3590,
+      "durationUs": 37662,
+      "maxUs": 334
+    },
+    "CommandBufferHelper::Flush": {
+      "count": 3213,
+      "durationUs": 36854,
+      "maxUs": 130
+    },
+    "RasterImplementation::RasterCHROMIUM": {
+      "count": 330,
+      "durationUs": 36213,
+      "maxUs": 763
+    },
+    "GpuChannelHost::VerifyFlush": {
+      "count": 302,
+      "durationUs": 31371,
+      "maxUs": 838
+    },
+    "Scheduler::ScheduleTask": {
+      "count": 21810,
+      "durationUs": 30177,
+      "maxUs": 232
+    },
+    "V8.GC_SCAVENGER_SCAVENGE_FINALIZE": {
+      "count": 331,
+      "durationUs": 27962,
+      "maxUs": 202
+    },
+    "CommandBufferProxyImpl::Flush": {
+      "count": 3207,
+      "durationUs": 27481,
+      "maxUs": 78
+    },
+    "DCLayerTree::CommitAndClearPendingOverlays": {
+      "count": 1795,
+      "durationUs": 24882,
+      "maxUs": 33
+    },
+    "MajorGC": {
+      "count": 12,
+      "durationUs": 23663,
+      "maxUs": 3321
+    },
+    "V8.GCIncrementalMarking": {
+      "count": 481,
+      "durationUs": 23449,
+      "maxUs": 516
+    },
+    "V8.GC_MARK_COMPACTOR": {
+      "count": 12,
+      "durationUs": 23098,
+      "maxUs": 3284
+    },
+    "V8.GC_MC_INCREMENTAL": {
+      "count": 1443,
+      "durationUs": 22899,
+      "maxUs": 515
+    },
+    "V8.GCFinalizeMC": {
+      "count": 11,
+      "durationUs": 19978,
+      "maxUs": 2633
+    },
+    "V8.GC_BACKGROUND_SAFEPOINT": {
+      "count": 24,
+      "durationUs": 18641,
+      "maxUs": 1484
+    },
+    "DCompPresenter::CheckPendingFrames": {
+      "count": 1794,
+      "durationUs": 18122,
+      "maxUs": 90
+    },
+    "Layout": {
+      "count": 150,
+      "durationUs": 17361,
+      "maxUs": 521
+    },
+    "Layerize": {
+      "count": 1794,
+      "durationUs": 16986,
+      "maxUs": 201
+    },
+    "EventDispatch": {
+      "count": 2886,
+      "durationUs": 16889,
+      "maxUs": 284
+    },
+    "CommandBuffer::OrderingBarrier": {
+      "count": 22079,
+      "durationUs": 11247,
+      "maxUs": 42
+    },
+    "V8.GC_BACKGROUND_UNPARK": {
+      "count": 12,
+      "durationUs": 10424,
+      "maxUs": 1700
+    },
+    "WidgetBase::WillBeginMainFrame": {
+      "count": 1794,
+      "durationUs": 10320,
+      "maxUs": 72
+    },
+    "V8.GC_MC_EVACUATE": {
+      "count": 24,
+      "durationUs": 8379,
+      "maxUs": 1014
+    },
+    "V8.GC_SCAVENGER_SCAVENGE_COLLECT_OLD_TO_NEW_PAGES": {
+      "count": 331,
+      "durationUs": 8232,
+      "maxUs": 103
+    },
+    "V8.GC_SCAVENGER_SCAVENGE_ROOTS": {
+      "count": 331,
+      "durationUs": 7736,
+      "maxUs": 243
+    },
+    "HitTest": {
+      "count": 210,
+      "durationUs": 7272,
+      "maxUs": 219
+    },
+    "V8.GC_MC_EVACUATE_UPDATE_POINTERS": {
+      "count": 12,
+      "durationUs": 6200,
+      "maxUs": 805
+    },
+    "V8.GC_SCAVENGER_SCAVENGE_WEAK_GLOBAL_HANDLES_IDENTIFY": {
+      "count": 331,
+      "durationUs": 5788,
+      "maxUs": 88
+    },
+    "V8.GC_SCAVENGER_FREE_REMEMBERED_SET": {
+      "count": 331,
+      "durationUs": 5689,
+      "maxUs": 184
+    },
+    "CommandBufferProxyImpl::OrderingBarrier": {
+      "count": 2131,
+      "durationUs": 5204,
+      "maxUs": 122
+    },
+    "V8.GC_MC_INCREMENTAL_EMBEDDER_TRACING": {
+      "count": 481,
+      "durationUs": 5186,
+      "maxUs": 507
+    },
+    "V8.GC_MC_CLEAR": {
+      "count": 12,
+      "durationUs": 5111,
+      "maxUs": 842
+    },
+    "V8.GC_SCAVENGER_SCAVENGE_WEAK_GLOBAL_HANDLES_PROCESS": {
+      "count": 331,
+      "durationUs": 5037,
+      "maxUs": 78
+    },
+    "V8.GC_SCAVENGER_SCAVENGE_RESTORE_AND_QUARANTINE_PINNED": {
+      "count": 331,
+      "durationUs": 4794,
+      "maxUs": 76
+    },
+    "Scheduler::FinishTask": {
+      "count": 7270,
+      "durationUs": 4772,
+      "maxUs": 22
+    },
+    "V8.GCIncrementalMarkingStart": {
+      "count": 12,
+      "durationUs": 4198,
+      "maxUs": 503
+    },
+    "IntersectionObserverController::computeIntersections": {
+      "count": 3588,
+      "durationUs": 4124,
+      "maxUs": 33
+    },
+    "V8.GC_MC_INCREMENTAL_START": {
+      "count": 36,
+      "durationUs": 3985,
+      "maxUs": 477
+    },
+    "V8.GC_MC_CLEAR_JOIN_JOB": {
+      "count": 12,
+      "durationUs": 3864,
+      "maxUs": 707
+    },
+    "V8.GC_MC_MARK": {
+      "count": 12,
+      "durationUs": 3310,
+      "maxUs": 727
+    },
+    "V8.GCFinalizeMCReduceMemory": {
+      "count": 1,
+      "durationUs": 3288,
+      "maxUs": 3288
+    },
+    "RasterDecoderImpl::DoBeginRasterCHROMIUM": {
+      "count": 333,
+      "durationUs": 3266,
+      "maxUs": 42
+    },
+    "V8.GC_MC_EVACUATE_UPDATE_POINTERS_TO_NEW_ROOTS": {
+      "count": 12,
+      "durationUs": 3262,
+      "maxUs": 389
+    },
+    "CommandBuffer::FlushComplete": {
+      "count": 3651,
+      "durationUs": 2783,
+      "maxUs": 67
+    },
+    "V8.GC_MC_CLEAR_STRING_TABLE": {
+      "count": 96,
+      "durationUs": 2478,
+      "maxUs": 64
+    },
+    "V8.GC_HEAP_EMBEDDER_TRACING_EPILOGUE": {
+      "count": 12,
+      "durationUs": 2262,
+      "maxUs": 1099
+    },
+    "V8.GC_HEAP_ENSURE_SWEEPING_COMPLETED": {
+      "count": 23,
+      "durationUs": 2134,
+      "maxUs": 445
+    },
+    "V8.GC_SCAVENGER_TRACED_HANDLES_COMPUTE_WEAKNESS_PARALLEL": {
+      "count": 316,
+      "durationUs": 1994,
+      "maxUs": 71
+    },
+    "V8.GC_SCAVENGER_TRACED_HANDLES_RESET_PARALLEL": {
+      "count": 316,
+      "durationUs": 1771,
+      "maxUs": 57
+    },
+    "V8.GC_MC_CLEAR_WEAK_REFERENCES_TRIVIAL": {
+      "count": 12,
+      "durationUs": 1697,
+      "maxUs": 336
+    },
+    "V8.GC_MC_MARK_FULL_CLOSURE_PARALLEL": {
+      "count": 12,
+      "durationUs": 1684,
+      "maxUs": 685
+    },
+    "V8.DeoptimizeCode": {
+      "count": 108,
+      "durationUs": 1674,
+      "maxUs": 42
+    },
+    "V8.GC_MC_EVACUATE_UPDATE_POINTERS_POINTER_TABLES": {
+      "count": 12,
+      "durationUs": 1636,
+      "maxUs": 192
+    },
+    "V8.GC_MC_EVACUATE_COPY": {
+      "count": 12,
+      "durationUs": 1630,
+      "maxUs": 456
+    },
+    "GpuChannel::Flush": {
+      "count": 10953,
+      "durationUs": 1524,
+      "maxUs": 16
+    },
+    "WidgetBase::DidCommitAndDrawCompositorFrame": {
+      "count": 1794,
+      "durationUs": 1515,
+      "maxUs": 120
+    },
+    "V8.GC_HEAP_EXTERNAL_PROLOGUE": {
+      "count": 343,
+      "durationUs": 1495,
+      "maxUs": 103
+    },
+    "V8.GC_MC_BACKGROUND_EVACUATE_COPY": {
+      "count": 20,
+      "durationUs": 1493,
+      "maxUs": 351
+    },
+    "V8.GC_MC_BACKGROUND_EVACUATE_UPDATE_POINTERS": {
+      "count": 50,
+      "durationUs": 1457,
+      "maxUs": 131
+    },
+    "V8.GC_MC_MARK_WEAK_CLOSURE_EPHEMERON_MARKING": {
+      "count": 223,
+      "durationUs": 1421,
+      "maxUs": 672
+    },
+    "BrowserRasterWorker": {
+      "count": 5,
+      "durationUs": 1374,
+      "maxUs": 1207
+    },
+    "SyncToken::Release": {
+      "count": 301,
+      "durationUs": 1251,
+      "maxUs": 24
+    },
+    "V8.GC_MC_EVACUATE_UPDATE_POINTERS_SLOTS_MAIN": {
+      "count": 12,
+      "durationUs": 1131,
+      "maxUs": 207
+    },
+    "V8.GC_MC_EVACUATE_COPY_PARALLEL": {
+      "count": 12,
+      "durationUs": 1121,
+      "maxUs": 421
+    },
+    "V8.GC_HEAP_EPILOGUE_SAFEPOINT": {
+      "count": 343,
+      "durationUs": 1058,
+      "maxUs": 241
+    },
+    "V8.GC_MC_MARK_ROOTS": {
+      "count": 36,
+      "durationUs": 1004,
+      "maxUs": 69
+    },
+    "V8.GC_HEAP_EPILOGUE": {
+      "count": 343,
+      "durationUs": 900,
+      "maxUs": 25
+    },
+    "V8.GC_MC_CLEAR_SWEEP_EXTERNAL_POINTER_TABLE": {
+      "count": 12,
+      "durationUs": 871,
+      "maxUs": 154
+    },
+    "SharedImageStub::OnDestroySharedImage": {
+      "count": 15,
+      "durationUs": 854,
+      "maxUs": 128
+    },
+    "V8.GC_MC_MARK_EMBEDDER_TRACING": {
+      "count": 236,
+      "durationUs": 823,
+      "maxUs": 264
+    },
+    "V8.GC_MC_CLEAR_WEAK_GLOBAL_HANDLES": {
+      "count": 12,
+      "durationUs": 779,
+      "maxUs": 97
+    },
+    "V8.GC_MC_MARK_EMBEDDER_PROLOGUE": {
+      "count": 24,
+      "durationUs": 771,
+      "maxUs": 99
+    },
+    "V8.GC_TIME_TO_SAFEPOINT": {
+      "count": 355,
+      "durationUs": 744,
+      "maxUs": 58
+    },
+    "SyncToken::Wait": {
+      "count": 903,
+      "durationUs": 734,
+      "maxUs": 11
+    },
+    "V8.GC_HEAP_EXTERNAL_EPILOGUE": {
+      "count": 343,
+      "durationUs": 733,
+      "maxUs": 54
+    },
+    "V8.GC_MC_INCREMENTAL_EXTERNAL_PROLOGUE": {
+      "count": 12,
+      "durationUs": 616,
+      "maxUs": 222
+    },
+    "V8.GC_MC_CLEAR_SWEEP_JS_DISPATCH_TABLE": {
+      "count": 12,
+      "durationUs": 557,
+      "maxUs": 62
+    },
+    "V8.GC_MC_EVACUATE_UPDATE_POINTERS_PARALLEL": {
+      "count": 12,
+      "durationUs": 539,
+      "maxUs": 80
+    },
+    "V8.GC_MC_SWEEP": {
+      "count": 120,
+      "durationUs": 538,
+      "maxUs": 65
+    },
+    "Responsiveness.Renderer.UserInteraction": {
+      "count": 132,
+      "durationUs": 536,
+      "maxUs": 13
+    },
+    "TimerFire": {
+      "count": 6,
+      "durationUs": 512,
+      "maxUs": 172
+    },
+    "V8.GC_MC_CLEAR_SWEEP_TRUSTED_POINTER_TABLE": {
+      "count": 12,
+      "durationUs": 452,
+      "maxUs": 51
+    },
+    "V8.GC_MC_FINISH": {
+      "count": 12,
+      "durationUs": 361,
+      "maxUs": 49
+    },
+    "ClearWeaknessProcessor start": {
+      "count": 967,
+      "durationUs": 359,
+      "maxUs": 9
+    },
+    "V8.GC_MC_MARK_FULL_CLOSURE_SERIAL": {
+      "count": 12,
+      "durationUs": 346,
+      "maxUs": 96
+    },
+    "Major concurrent marking rescheduled": {
+      "count": 1475,
+      "durationUs": 329,
+      "maxUs": 8
+    },
+    "V8.GC_MC_EVACUATE_PROLOGUE": {
+      "count": 12,
+      "durationUs": 316,
+      "maxUs": 40
+    },
+    "Scheduler::SequenceUnblocked": {
+      "count": 894,
+      "durationUs": 305,
+      "maxUs": 20
+    },
+    "V8.GC_SCAVENGER_RESIZE_NEW_SPACE": {
+      "count": 331,
+      "durationUs": 303,
+      "maxUs": 62
+    },
+    "V8.GC_MC_CLEAR_WEAK_REFERENCES_NON_TRIVIAL": {
+      "count": 12,
+      "durationUs": 297,
+      "maxUs": 34
+    },
+    "V8.GC_HEAP_PROLOGUE": {
+      "count": 343,
+      "durationUs": 287,
+      "maxUs": 4
+    },
+    "ConcurrentMarking::RunMajor Finished": {
+      "count": 156,
+      "durationUs": 287,
+      "maxUs": 15
+    },
+    "Sweeper::ConcurrentMajorSweeper Finished": {
+      "count": 295,
+      "durationUs": 261,
+      "maxUs": 9
+    },
+    "ComputeWeaknessProcessor start": {
+      "count": 967,
+      "durationUs": 254,
+      "maxUs": 12
+    },
+    "V8.GC_MC_CLEAR_MAPS": {
+      "count": 12,
+      "durationUs": 251,
+      "maxUs": 41
+    },
+    "V8.GC_BACKGROUND_YOUNG_ARRAY_BUFFER_SWEEP": {
+      "count": 8,
+      "durationUs": 240,
+      "maxUs": 133
+    },
+    "V8.GC_MC_CLEAR_EXTERNAL_STRING_TABLE": {
+      "count": 12,
+      "durationUs": 230,
+      "maxUs": 58
+    },
+    "V8.GC_HEAP_PROLOGUE_SAFEPOINT": {
+      "count": 343,
+      "durationUs": 218,
+      "maxUs": 10
+    },
+    "V8.GC_SCAVENGER_BACKGROUND_TRACED_HANDLES_COMPUTE_WEAKNESS_PARALLEL": {
+      "count": 6,
+      "durationUs": 215,
+      "maxUs": 52
+    },
+    "Parallel scavenge started": {
+      "count": 993,
+      "durationUs": 213,
+      "maxUs": 12
+    },
+    "V8.GC_MC_MARK_RETAIN_MAPS": {
+      "count": 12,
+      "durationUs": 209,
+      "maxUs": 24
+    },
+    "CommandBufferStub::OnDestroyTransferBuffer": {
+      "count": 5,
+      "durationUs": 209,
+      "maxUs": 79
+    },
+    "V8.GC_MC_CLEAR_WEAK_LISTS": {
+      "count": 12,
+      "durationUs": 186,
+      "maxUs": 24
+    },
+    "RasterImplementation::SetAggressivelyFreeResources": {
+      "count": 2,
+      "durationUs": 181,
+      "maxUs": 180
+    },
+    "V8.GC_MC_CLEAR_WEAK_COLLECTIONS": {
+      "count": 12,
+      "durationUs": 169,
+      "maxUs": 26
+    },
+    "V8.GC_MC_EVACUATE_EPILOGUE": {
+      "count": 12,
+      "durationUs": 155,
+      "maxUs": 36
+    },
+    "V8.GC_SCAVENGER_BACKGROUND_TRACED_HANDLES_RESET_PARALLEL": {
+      "count": 6,
+      "durationUs": 141,
+      "maxUs": 56
+    },
+    "ConcurrentMarking::RunMajor Preempted": {
+      "count": 49,
+      "durationUs": 102,
+      "maxUs": 8
+    },
+    "TransferBuffer::Free": {
+      "count": 3,
+      "durationUs": 99,
+      "maxUs": 44
+    },
+    "V8.GC_MC_PROLOGUE": {
+      "count": 12,
+      "durationUs": 94,
+      "maxUs": 16
+    },
+    "V8.GC_HEAP_EXTERNAL_WEAK_GLOBAL_HANDLES": {
+      "count": 12,
+      "durationUs": 94,
+      "maxUs": 37
+    },
+    "V8.GCPhantomHandleProcessingCallback": {
+      "count": 12,
+      "durationUs": 82,
+      "maxUs": 19
+    },
+    "V8.GC_MC_SWEEP_START_JOBS": {
+      "count": 36,
+      "durationUs": 81,
+      "maxUs": 17
+    },
+    "V8.GC_MC_FINISH_SWEEP_ARRAY_BUFFERS": {
+      "count": 36,
+      "durationUs": 80,
+      "maxUs": 38
+    },
+    "V8.GC_MC_COMPLETE_SWEEP_ARRAY_BUFFERS": {
+      "count": 11,
+      "durationUs": 79,
+      "maxUs": 22
+    },
+    "V8.GC_BACKGROUND_FULL_ARRAY_BUFFER_SWEEP": {
+      "count": 11,
+      "durationUs": 70,
+      "maxUs": 26
+    },
+    "V8.GC_MC_MARK_WEAK_CLOSURE_EPHEMERON_LINEAR": {
+      "count": 11,
+      "durationUs": 69,
+      "maxUs": 26
+    },
+    "SharedImageStub::OnCreateSharedImage": {
+      "count": 1,
+      "durationUs": 58,
+      "maxUs": 58
+    },
+    "V8.GC_HEAP_EXTERNAL_SECOND_PASS_CALLBACKS": {
+      "count": 12,
+      "durationUs": 52,
+      "maxUs": 16
+    },
+    "V8.GC_MC_EVACUATE_UPDATE_POINTERS_WEAK": {
+      "count": 12,
+      "durationUs": 49,
+      "maxUs": 8
+    },
+    "V8.GC_MC_COMPLETE_SWEEPING": {
+      "count": 33,
+      "durationUs": 43,
+      "maxUs": 5
+    },
+    "V8.GC_SCAVENGER_COMPLETE_SWEEP_ARRAY_BUFFERS": {
+      "count": 6,
+      "durationUs": 43,
+      "maxUs": 8
+    },
+    "ClearStringTableJob started": {
+      "count": 288,
+      "durationUs": 40,
+      "maxUs": 7
+    },
+    "V8.GC_MC_MARK_FINISH_INCREMENTAL": {
+      "count": 12,
+      "durationUs": 39,
+      "maxUs": 6
+    },
+    "V8.GC_MC_INCREMENTAL_EXTERNAL_EPILOGUE": {
+      "count": 12,
+      "durationUs": 38,
+      "maxUs": 11
+    },
+    "V8.GC_FULL_ARRAY_BUFFER_SWEEP": {
+      "count": 1,
+      "durationUs": 33,
+      "maxUs": 33
+    },
+    "CommandBufferStub::OnRegisterTransferBuffer": {
+      "count": 2,
+      "durationUs": 31,
+      "maxUs": 21
+    },
+    "V8.GC_SCAVENGER_SWEEP_ARRAY_BUFFERS": {
+      "count": 24,
+      "durationUs": 30,
+      "maxUs": 4
+    },
+    "RendererMainThread": {
+      "count": 3,
+      "durationUs": 29,
+      "maxUs": 20
+    },
+    "V8.GC_MC_CLEAR_FLUSHED_JS_FUNCTIONS": {
+      "count": 12,
+      "durationUs": 24,
+      "maxUs": 7
+    },
+    "V8.GC_MINOR_MS_BACKGROUND_SWEEPING": {
+      "count": 22,
+      "durationUs": 23,
+      "maxUs": 5
+    },
+    "V8.GC_MC_CLEAR_WEAK_REFERENCES_TRUSTED": {
+      "count": 12,
+      "durationUs": 19,
+      "maxUs": 2
+    },
+    "GrShaderCache::store": {
+      "count": 2,
+      "durationUs": 19,
+      "maxUs": 12
+    },
+    "ArrayBufferSweeper Finished": {
+      "count": 20,
+      "durationUs": 18,
+      "maxUs": 2
+    },
+    "V8.GC_MC_CLEAR_SWEEP_WASM_CODE_POINTER_TABLE": {
+      "count": 12,
+      "durationUs": 17,
+      "maxUs": 2
+    },
+    "PageEvacuationJob started": {
+      "count": 36,
+      "durationUs": 17,
+      "maxUs": 2
+    },
+    "ClearTrustedWeakRefJob started": {
+      "count": 36,
+      "durationUs": 16,
+      "maxUs": 6
+    },
+    "V8.GC_MC_CLEAR_JS_WEAK_REFERENCES": {
+      "count": 12,
+      "durationUs": 16,
+      "maxUs": 2
+    },
+    "V8.GC_MC_EVACUATE_UPDATE_POINTERS_CLIENT_HEAPS": {
+      "count": 12,
+      "durationUs": 16,
+      "maxUs": 2
+    },
+    "V8.GC_MC_EVACUATE_CLEAN_UP": {
+      "count": 12,
+      "durationUs": 15,
+      "maxUs": 2
+    },
+    "SharedImageStub::OnDestroySharedImagePool": {
+      "count": 3,
+      "durationUs": 15,
+      "maxUs": 9
+    },
+    "CommandBufferStub::SetGetBuffer": {
+      "count": 1,
+      "durationUs": 15,
+      "maxUs": 15
+    },
+    "V8.GC_MC_CLEAR_FLUSHABLE_BYTECODE": {
+      "count": 12,
+      "durationUs": 14,
+      "maxUs": 2
+    },
+    "V8.GC_MC_SWEEP_NEW_LO": {
+      "count": 12,
+      "durationUs": 13,
+      "maxUs": 2
+    },
+    "V8.GC_MC_EVACUATE_REBALANCE": {
+      "count": 12,
+      "durationUs": 13,
+      "maxUs": 4
+    },
+    "V8.GC_MC_EPILOGUE": {
+      "count": 12,
+      "durationUs": 13,
+      "maxUs": 2
+    },
+    "Major concurrent marking started": {
+      "count": 36,
+      "durationUs": 12,
+      "maxUs": 2
+    },
+    "V8.GC_MC_MARK_CLIENT_HEAPS": {
+      "count": 12,
+      "durationUs": 12,
+      "maxUs": 3
+    },
+    "V8.GC_CONSERVATIVE_STACK_SCANNING": {
+      "count": 12,
+      "durationUs": 12,
+      "maxUs": 2
+    },
+    "PointersUpdatingJob started": {
+      "count": 36,
+      "durationUs": 12,
+      "maxUs": 1
+    },
+    "ClearTrivialWeakRefJob started": {
+      "count": 36,
+      "durationUs": 11,
+      "maxUs": 1
+    },
+    "auto blink::WebGLRenderingContextBase::Dispose()::(lambda)::operator()()::(lambda)::operator()(uint32_t) const": {
+      "count": 1,
+      "durationUs": 8,
+      "maxUs": 8
+    },
+    "GrShaderCache::load": {
+      "count": 2,
+      "durationUs": 7,
+      "maxUs": 5
+    },
+    "v8.newInstance": {
+      "count": 1,
+      "durationUs": 6,
+      "maxUs": 6
+    },
+    "ResourceChangePriority": {
+      "count": 1,
+      "durationUs": 6,
+      "maxUs": 6
+    },
+    "ClearNonTrivialWeakRefs started": {
+      "count": 36,
+      "durationUs": 5,
+      "maxUs": 1
+    },
+    "thread_name": {
+      "count": 18,
+      "durationUs": 0,
+      "maxUs": 0
+    },
+    "process_name": {
+      "count": 3,
+      "durationUs": 0,
+      "maxUs": 0
+    },
+    "process_uptime_seconds": {
+      "count": 3,
+      "durationUs": 0,
+      "maxUs": 0
+    },
+    "firstMeaningfulPaint": {
+      "count": 2,
+      "durationUs": 0,
+      "maxUs": 0
+    },
+    "RequestAnimationFrame": {
+      "count": 5382,
+      "durationUs": 0,
+      "maxUs": 0
+    },
+    "ResourceSendRequest": {
+      "count": 244,
+      "durationUs": 0,
+      "maxUs": 0
+    },
+    "ResourceReceiveResponse": {
+      "count": 244,
+      "durationUs": 0,
+      "maxUs": 0
+    },
+    "ResourceReceivedData": {
+      "count": 383,
+      "durationUs": 0,
+      "maxUs": 0
+    },
+    "ResourceFinish": {
+      "count": 244,
+      "durationUs": 0,
+      "maxUs": 0
+    },
+    "AnimationFrame": {
+      "count": 7170,
+      "durationUs": 0,
+      "maxUs": 0
+    },
+    "AnimationFrame::FirstUIEvent": {
+      "count": 3,
+      "durationUs": 0,
+      "maxUs": 0
+    },
+    "CommandBufferService::Paused": {
+      "count": 592,
+      "durationUs": 0,
+      "maxUs": 0
+    },
+    "Scheduler::Running": {
+      "count": 9106,
+      "durationUs": 0,
+      "maxUs": 0
+    },
+    "AnimationFrame::Render": {
+      "count": 3588,
+      "durationUs": 0,
+      "maxUs": 0
+    },
+    "AnimationFrame::StyleAndLayout": {
+      "count": 3588,
+      "durationUs": 0,
+      "maxUs": 0
+    },
+    "EventTiming": {
+      "count": 264,
+      "durationUs": 0,
+      "maxUs": 0
+    },
+    "AnimationFrame::Presentation": {
+      "count": 1791,
+      "durationUs": 0,
+      "maxUs": 0
+    },
+    "AnimationFrame::Script::Execute": {
+      "count": 30,
+      "durationUs": 0,
+      "maxUs": 0
+    }
+  }
+}

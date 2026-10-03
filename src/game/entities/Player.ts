@@ -21,7 +21,7 @@ const hullCache = new WeakMap<object, { x: number; y: number; rotation: number; 
 export const SHIP_RADIUS = Math.max(...GAME_CONFIG.playerHullCircles.map(circle =>
   (Math.hypot(circle.x, circle.y) + circle.radius) * GAME_CONFIG.playerSpriteScale))
 
-export function getPlayerColliders(player: Pick<Player, 'position' | 'rotation'>, position = player.position,
+export function getPlayerColliders(player: Pick<Player, 'position' | 'rotation'> & { team?: string }, position = player.position,
   rotation = player.rotation): CircleCollider[] {
   const cacheable = position === player.position && rotation === player.rotation
   const cached = cacheable ? hullCache.get(player) : undefined
@@ -29,7 +29,7 @@ export function getPlayerColliders(player: Pick<Player, 'position' | 'rotation'>
   const angle = rotation + GAME_CONFIG.spriteRotationOffset
   const cos = Math.cos(angle)
   const sin = Math.sin(angle)
-  const scale = GAME_CONFIG.playerSpriteScale
+  const scale = player.team === 'enemy' ? GAME_CONFIG.enemySpriteScale : GAME_CONFIG.playerSpriteScale
   const circles: CircleCollider[] = GAME_CONFIG.playerHullCircles.map((circle) => ({
     type: 'circle',
     position: {

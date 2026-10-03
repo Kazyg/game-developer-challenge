@@ -167,3 +167,75 @@ th, td { padding: 12px 6px; border-bottom: 1px solid #64748b; overflow-wrap: any
   .pagination { font-size: 13px; }
   .pagination button { padding: 8px; }
 }
+
+/* Shared instructions and scroll surfaces keep keyboard/touch scrolling native. */
+.how-to-play { text-align: left; }
+.instruction-groups { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.instruction-groups section { padding: 12px; border: 1px solid #64748b; border-radius: 8px; background: #0f172a88; }
+.instruction-groups section:last-child { grid-column: 1 / -1; }
+.instruction-groups h3 { margin: 0 0 12px; color: #ffd166; font-size: 17px; }
+.instruction-groups dl { margin: 0; display: grid; gap: 8px; }
+.instruction-groups dl > div { display: flex; align-items: center; gap: 12px; min-height: 44px; }
+.instruction-groups dt { display: flex; justify-content: center; width: 50px; flex-shrink: 0; }
+.instruction-groups dd { margin: 0; font-size: 14px; line-height: 1.4; }
+.key-icon { width: 44px; height: 44px; object-fit: contain; background: #f9e8bc; border-radius: 6px; }
+kbd { padding: 6px; border: 1px solid #ffd166; border-radius: 4px; }
+.how-to-play, .game-modal, .screen:has(form) { scrollbar-width: thin; scrollbar-color: #d4a24e #182c38; }
+:is(.how-to-play, .game-modal, .screen:has(form))::-webkit-scrollbar { width: 10px; }
+:is(.how-to-play, .game-modal, .screen:has(form))::-webkit-scrollbar-track { background: #182c38; border-radius: 8px; }
+:is(.how-to-play, .game-modal, .screen:has(form))::-webkit-scrollbar-thumb { background: #d4a24e; border: 2px solid #182c38; border-radius: 8px; }
+
+@media (max-width: 480px) { .instruction-groups { grid-template-columns: 1fr; } }
+
+.key-artwork { display: grid; justify-items: center; gap: 2px; }
+.key-artwork small { font-size: 10px; color: #f9e8bc; }
+
+/* A stationary frame surrounds a separate, clipped scrolling content box. */
+.app:not(.app-game):has(.screen-scroll) {
+  position: fixed; inset: 0;
+  height: 100dvh; min-height: 0; overflow: clip;
+  padding: max(12px, env(safe-area-inset-top)) max(12px, env(safe-area-inset-right))
+    max(12px, env(safe-area-inset-bottom)) max(12px, env(safe-area-inset-left));
+}
+html:has(.screen-scroll), body:has(.screen-scroll) { overflow: clip; }
+.screen-scroll {
+  --frame-inset: 40px;
+  display: flex; flex-direction: column; min-height: 0;
+  height: min(760px, calc(100dvh - max(12px, env(safe-area-inset-top)) - max(12px, env(safe-area-inset-bottom)))); max-height: 100%;
+  padding: var(--frame-inset); overflow: hidden;
+}
+.screen-scroll > h1 { flex-shrink: 0; }
+.screen-content {
+  min-height: 0; min-width: 0; flex: 1; overflow-y: auto; overflow-x: hidden;
+  padding: 8px 12px 16px; scroll-padding: 12px;
+  overscroll-behavior: contain; touch-action: pan-y;
+  scrollbar-width: thin; scrollbar-color: #d4a24e #182c38;
+}
+.screen-content::-webkit-scrollbar { width: 10px; }
+.screen-content::-webkit-scrollbar-track { background: #182c38; border-radius: 8px; }
+.screen-content::-webkit-scrollbar-thumb { background: #d4a24e; border: 2px solid #182c38; border-radius: 8px; }
+.screen-content .how-to-play { max-height: none; overflow: visible; padding-bottom: 12px; }
+.screen-content .setting-field { min-width: 0; }
+.screen-footer { flex-shrink: 0; padding: 8px; }
+.screen-footer .screen-actions { margin-top: 12px; }
+.menu-actions > button { min-width: 0; padding: 16px 12px; font-weight: 600; }
+@media (max-width: 480px) {
+  .screen-scroll { --frame-inset: 28px; }
+  .screen-content { padding-left: 8px; padding-right: 10px; }
+  .screen-scroll > h1 { font-size: 26px; margin-bottom: 8px; }
+}
+
+@media (max-height: 500px) {
+  .screen-scroll { --frame-inset: 28px; border-image-width: 18px; }
+  .screen-scroll > h1 { font-size: 24px; margin-bottom: 8px; }
+  .screen-footer { padding: 8px; }
+  .screen-footer .screen-actions { flex-direction: row; align-items: center; gap: 12px; }
+  .screen-footer .screen-actions > button { flex: 1; min-height: 48px; padding: 10px 16px; font-size: 14px; }
+}
+
+@media (max-height: 320px) {
+  .screen-scroll { --frame-inset: 24px; }
+  .screen-scroll > h1 { font-size: 22px; margin-bottom: 4px; }
+  .screen-footer { padding: 0; }
+  .screen-footer .screen-actions { margin-top: 4px; }
+}

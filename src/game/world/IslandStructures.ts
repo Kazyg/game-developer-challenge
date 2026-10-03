@@ -52,6 +52,21 @@ export const STRUCTURE_PRESETS: readonly StructurePreset[] = [
   { name: 'u-fort', kind: 'fort', width: 7, height: 5, scale: 0.55,
     pieces: fortPerimeter([{ x: -3, y: -2 }, { x: -1, y: -2 }, { x: -1, y: 0 },
       { x: 1, y: 0 }, { x: 1, y: -2 }, { x: 3, y: -2 }, { x: 3, y: 2 }, { x: -3, y: 2 }]) },
+  { name: 'm-fort', kind: 'fort', width: 9, height: 5, scale: 0.55,
+    pieces: fortPerimeter([{ x: -4, y: -2 }, { x: -2, y: -2 }, { x: -2, y: 0 }, { x: -1, y: 0 },
+      { x: -1, y: -2 }, { x: 1, y: -2 }, { x: 1, y: 0 }, { x: 2, y: 0 }, { x: 2, y: -2 },
+      { x: 4, y: -2 }, { x: 4, y: 2 }, { x: -4, y: 2 }]) },
+  { name: 'c-fort', kind: 'fort', width: 5, height: 7, scale: 0.55,
+    pieces: fortPerimeter([{ x: -2, y: -3 }, { x: 2, y: -3 }, { x: 2, y: -1 }, { x: 0, y: -1 },
+      { x: 0, y: 1 }, { x: 2, y: 1 }, { x: 2, y: 3 }, { x: -2, y: 3 }]) },
+  { name: 'p-fort', kind: 'fort', width: 5, height: 7, scale: 0.55,
+    pieces: fortPerimeter([{ x: -2, y: -3 }, { x: 2, y: -3 }, { x: 2, y: 1 }, { x: 0, y: 1 },
+      { x: 0, y: 3 }, { x: -2, y: 3 }]) },
+  // Two complete square courtyards are joined by an enclosed passage.
+  { name: 'connected-squares', kind: 'fort', width: 11, height: 5, scale: 0.55,
+    pieces: fortPerimeter([{ x: -5, y: -2 }, { x: -1, y: -2 }, { x: -1, y: -1 }, { x: 1, y: -1 },
+      { x: 1, y: -2 }, { x: 5, y: -2 }, { x: 5, y: 2 }, { x: 1, y: 2 }, { x: 1, y: 1 },
+      { x: -1, y: 1 }, { x: -1, y: 2 }, { x: -5, y: 2 }]) },
   { name: 'l-fort', kind: 'fort', width: 5, height: 5, scale: 0.55,
     pieces: fortPerimeter([{ x: -2, y: -2 }, { x: 0, y: -2 }, { x: 0, y: 0 },
       { x: 2, y: 0 }, { x: 2, y: 2 }, { x: -2, y: 2 }]) },
@@ -137,7 +152,6 @@ export function generateIslandStructures(shape: IslandShape, seed: number, islan
   const category = shape.sizeCategory ?? islandSizeCategory(islandSize)
   const profile = ISLAND_SIZE_PROFILES[category]
   const landArea = polygonArea(shape.outline) * islandSize * islandSize
-  const shallow = shape.outline.map(p => ({ x: p.x * 1.12, y: p.y * 1.12 }))
   const grass = shape.outline.map(p => ({ x: p.x * GAME_CONFIG.islandVegetationInset, y: p.y * GAME_CONFIG.islandVegetationInset }))
   // Narrow sandbars have less useful land than round islands in the same class.
   const capacity = Math.min(profile.maxInterests, Math.max(1, Math.floor(landArea / 24000)))
@@ -151,8 +165,8 @@ export function generateIslandStructures(shape: IslandShape, seed: number, islan
         : (random.next() < (result.some(s => s.preset.kind === 'wreck') ? 0.15 : 0.4) ? 'wreck' : 'fort')
       const primary = !result.some(s => s.preset.kind === 'fort')
       const names = kind === 'wreck' ? ['stranded-boat', 'overgrown-wreck']
-        : primary && category === 'HUGE' ? ['u-fort', 'l-fort', 'citadel', 'large-fort']
-        : primary && category === 'LARGE' ? ['u-fort', 'l-fort', 'large-fort', 'horseshoe-fort', 'coastal-fort']
+        : primary && category === 'HUGE' ? ['u-fort', 'm-fort', 'c-fort', 'p-fort', 'connected-squares', 'l-fort', 'citadel', 'large-fort']
+        : primary && category === 'LARGE' ? ['u-fort', 'm-fort', 'c-fort', 'p-fort', 'connected-squares', 'l-fort', 'large-fort', 'horseshoe-fort', 'coastal-fort']
         : ['horseshoe-fort', 'coastal-fort', 'ruined-fort']
       const variants = STRUCTURE_PRESETS.filter(p => names.includes(p.name))
       const base = variants[variantAttempt === 1 ? variants.length - 1 : random.integer(0, variants.length - 1)]!
@@ -192,7 +206,7 @@ export function generateIslandStructures(shape: IslandShape, seed: number, islan
         footprint: for (let y = -preset.height / 2; y <= preset.height / 2 + 0.001; y += preset.height / 8) {
           for (let x = -preset.width / 2; x <= preset.width / 2 + 0.001; x += preset.width / 8) {
             const p = structurePoint(structure, x, y)
-            if (!pointInPolygon(p, kind === 'fort' ? shape.outline : shallow)
+            if (!pointInPolygon(p, shape.outline)
               || (kind === 'fort' && shoreDistance(p, shape.outline) < 16 / islandSize)) {
               valid = false
               break footprint
